@@ -1,11 +1,11 @@
 
-import React from 'react';
-import {View,StyleSheet,Text,TouchableOpacity} from 'react-native';
+import React,{useState} from 'react';
+import {View,StyleSheet,Text,TouchableOpacity,Image} from 'react-native';
 import HeaderIcon from '../../HOC/HeaderIcon.js';
 import ImagePicker from 'react-native-image-picker';
 
 const UploadScreen = (props) => {
-
+    const [filePath, setFilePath] = useState({});
     const chooseFile = () => {
         let options = {
             title: 'Video Picker', 
@@ -42,13 +42,52 @@ const UploadScreen = (props) => {
     return(
         <View style={{flex:1,justifyContent:'center'}}>
             <Text style={{textAlign:'center'}}>Upload UploadScreen</Text>
+            <Image
+          source={{
+            uri: 'data:image/jpeg;base64,' + filePath.data,
+          }}
+            style={styles.imageStyle}
+            />
+            <Image
+            source={{uri: filePath.uri}}
+            style={styles.imageStyle}
+            />
+            <Text style={styles.textStyle}>
+            {filePath.uri}
+            </Text>
             <TouchableOpacity onPress={chooseFile}><Text>upload</Text></TouchableOpacity>
         </View>
     )
 }
 
 const styles  = StyleSheet.create ({
-
+    container: {
+        flex: 1,
+        padding: 10,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+      },
+      titleText: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        paddingVertical: 20,
+      },
+      textStyle: {
+        padding: 10,
+        color: 'black',
+      },
+      buttonStyle: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#DDDDDD',
+        padding: 5,
+      },
+      imageStyle: {
+        width: 200,
+        height: 200,
+        margin: 5,
+      },
 })
 
 export default HeaderIcon(UploadScreen);
