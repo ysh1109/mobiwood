@@ -63,11 +63,10 @@ const UploadScreen = (props) => {
                 thumbnail={{uri: 'data:image/jpeg;base64,' + filePath.data,}}
               /> */}
               <Video source={{uri: `${filePath.uri}`}}   // Can be a URL or a local file.
-                  // ref={(ref) => {
-                  //   this.player = ref
-                  // }}                                      // Store reference
-                              // Callback when video cannot be loaded
-                style={styles.backgroundVideo} />
+              shouldPlay={true}
+              controls={true}
+              resizeMode="cover"
+              style={{height:300 }} />
               <Text style={styles.textStyle}>
                 {filePath.uri}
               </Text>
