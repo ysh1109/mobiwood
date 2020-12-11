@@ -1,22 +1,26 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions} from 'react-native';
 import HeaderIcon from '../../HOC/HeaderIcon.js';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-picker';
 import VideoPlayer from 'react-native-video-player';
 
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
     const [filePath, setFilePath] = useState({});
     const chooseFile = () => {
         let options = {
             title: 'Video Picker', 
             mediaType: 'video', 
+          
             storageOptions:{
               skipBackup:true,
               path:'images'
-            }
+            },
+            
         };
         ImagePicker.showImagePicker(options, (response) => {
           console.log('Response = ', response);
@@ -43,8 +47,8 @@ const UploadScreen = (props) => {
       };
 
     return(
-        <View style={{flex:1,justifyContent:'center'}}>
-            <Text style={{textAlign:'center'}}>Upload Screen</Text>
+        <View style={{flex:1}}>
+            <Text style={{textAlign:'center',fontSize:24,padding:20}}>Upload Screen</Text>
             {/* <Image
           source={{
             uri: 'data:image/jpeg;base64,' + filePath.data,
@@ -63,34 +67,30 @@ const UploadScreen = (props) => {
                 thumbnail={{uri: 'data:image/jpeg;base64,' + filePath.data,}}
               /> */}
               <Video source={{uri: `${filePath.uri}`}}   // Can be a URL or a local file.
-              shouldPlay={true}
+              shouldPlay={false}
               controls={true}
               resizeMode="cover"
-              style={{height:300 }} />
-              <Text style={styles.textStyle}>
+              style={{height:300,width:windowWidth-50,alignSelf:'center'}} />
+              {/* <Text style={styles.textStyle}>
                 {filePath.uri}
-              </Text>
+              </Text> */}
               </>
             }
+            <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+              <TouchableOpacity style={{backgroundColor:'black',width:100,alignSelf:'center',borderRadius:10,marginTop:20}} onPress={chooseFile}>
+                <Text style={{color:'white',textAlign:'center',padding:20}}>Upload</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{backgroundColor:'black',width:100,alignSelf:'center',borderRadius:10,marginTop:20}}>
+                <Text style={{color:'white',textAlign:'center',padding:20}}>Submit</Text>
+                </TouchableOpacity>
+            </View>
             
-            <TouchableOpacity onPress={chooseFile}><Text>Upload</Text></TouchableOpacity>
         </View>
     )
 }
 
 const styles  = StyleSheet.create ({
-    container: {
-        flex: 1,
-        padding: 10,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-      },
-      titleText: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        paddingVertical: 20,
-      },
+   
       textStyle: {
         padding: 10,
         color: 'black',
@@ -100,18 +100,6 @@ const styles  = StyleSheet.create ({
         flexDirection: 'row',
         backgroundColor: '#DDDDDD',
         padding: 5,
-      },
-      imageStyle: {
-        width: 200,
-        height: 200,
-        margin: 5,
-      },
-      backgroundVideo: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
       },
     
 })
