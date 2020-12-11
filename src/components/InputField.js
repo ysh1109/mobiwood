@@ -35,7 +35,7 @@ const InputField = ({leftIcon, floatingInput = true, ...props}) => {
   }, [props.value]);
 
   return (
-    <View style={{...Styles.container, ...props.inputContainerStyles}}>
+    <View>
       {/* {leftIcon && <Image style={props.iconStyles} source={leftIcon} />} */}
       {floatingInput ? (
         <FloatingLabelInput

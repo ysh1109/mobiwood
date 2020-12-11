@@ -3,6 +3,8 @@ import React,{useState} from 'react';
 import {View,StyleSheet,Text,TouchableOpacity,Image} from 'react-native';
 import HeaderIcon from '../../HOC/HeaderIcon.js';
 import ImagePicker from 'react-native-image-picker';
+import VideoPlayer from 'react-native-video-player';
+
 
 const UploadScreen = (props) => {
     const [filePath, setFilePath] = useState({});
@@ -41,21 +43,31 @@ const UploadScreen = (props) => {
 
     return(
         <View style={{flex:1,justifyContent:'center'}}>
-            <Text style={{textAlign:'center'}}>Upload UploadScreen</Text>
-            <Image
+            <Text style={{textAlign:'center'}}>Upload Screen</Text>
+            {/* <Image
           source={{
             uri: 'data:image/jpeg;base64,' + filePath.data,
           }}
             style={styles.imageStyle}
-            />
-            <Image
+            /> */}
+            {/* <Image
             source={{uri: filePath.uri}}
             style={styles.imageStyle}
-            />
-            <Text style={styles.textStyle}>
-            {filePath.uri}
-            </Text>
-            <TouchableOpacity onPress={chooseFile}><Text>upload</Text></TouchableOpacity>
+            /> */}
+            
+            {filePath.uri&&
+              <>
+              <VideoPlayer
+                source={{url:`${filePath.uri}`}}
+                thumbnail={{uri: 'data:image/jpeg;base64,' + filePath.data,}}
+              />
+              <Text style={styles.textStyle}>
+                {filePath.uri}
+              </Text>
+              </>
+            }
+            
+            <TouchableOpacity onPress={chooseFile}><Text>Upload</Text></TouchableOpacity>
         </View>
     )
 }

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import HomeScreen from './screens/Home/HomeScreen'
-import UploadScreen from './screens/Upload/Upload'
+import UploadScreen from './screens/Upload/UploadScreen.js'
 import style from './screens/onboarding/style';
 import React, {useEffect, Fragment} from 'react';
 import {StatusBar} from 'react-native';

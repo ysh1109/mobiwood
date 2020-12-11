@@ -48,6 +48,7 @@ export default HeaderIcon(function HomeScreen(){
                 //  onChangeText={handleChange('username')}
                 //  onBlur={handleBlur('username')}
                 //  value={values.username}
+                inputContainerStyles={{}}
                   containerStyles = {styles.containerStyles}
             />
             <TouchableOpacity  style={styles.icon}>
