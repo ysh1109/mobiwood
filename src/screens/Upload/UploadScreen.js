@@ -2,6 +2,7 @@
 import React,{useState} from 'react';
 import {View,StyleSheet,Text,TouchableOpacity,Image} from 'react-native';
 import HeaderIcon from '../../HOC/HeaderIcon.js';
+import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-picker';
 import VideoPlayer from 'react-native-video-player';
 
@@ -57,10 +58,16 @@ const UploadScreen = (props) => {
             
             {filePath.uri&&
               <>
-              <VideoPlayer
+              {/* <VideoPlayer
                 source={{url:`${filePath.uri}`}}
                 thumbnail={{uri: 'data:image/jpeg;base64,' + filePath.data,}}
-              />
+              /> */}
+              <Video source={{uri: `${filePath.uri}`}}   // Can be a URL or a local file.
+                  // ref={(ref) => {
+                  //   this.player = ref
+                  // }}                                      // Store reference
+                              // Callback when video cannot be loaded
+                style={styles.backgroundVideo} />
               <Text style={styles.textStyle}>
                 {filePath.uri}
               </Text>
@@ -100,6 +107,14 @@ const styles  = StyleSheet.create ({
         height: 200,
         margin: 5,
       },
+      backgroundVideo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      },
+    
 })
 
 export default HeaderIcon(UploadScreen);
