@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import InputField from '../../components/InputField';
+import { InputField } from '../../components/InputField';
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import styles from './style'

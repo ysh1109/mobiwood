@@ -10,7 +10,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {  TouchableOpacity } from 'react-native-gesture-handler';
-import InputField from '../../components/InputField';
+import { InputField } from '../../components/InputField';
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import DateTimePicker from '@react-native-community/datetimepicker';
