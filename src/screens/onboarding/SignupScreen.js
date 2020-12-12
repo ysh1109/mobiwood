@@ -16,7 +16,7 @@ import {
   statusCodes
 } from '@react-native-community/google-signin';
 import Separator from '../../components/Separator'
-import InputField  from '../../components/InputField';
+import { InputField } from '../../components/InputField';
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import styles from './style'

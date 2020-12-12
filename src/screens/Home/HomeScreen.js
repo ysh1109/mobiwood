@@ -39,76 +39,11 @@ export default HeaderIcon(function HomeScreen(){
         //getData()
     }
     return(
-        <ScrollView  showsVerticalScrollIndicator={false}>
-           <View style={styles.container}>
-            <View style={styles.searchContainer}>
-            <InputField 
-                placeholder="Search"
-                placeholderTextColor = "#1a202c"
-                //  onChangeText={handleChange('username')}
-                //  onBlur={handleBlur('username')}
-                //  value={values.username}
-                inputContainerStyles={{}}
-                  containerStyles = {styles.containerStyles}
-            />
-            <TouchableOpacity  style={styles.icon}>
-                <Icon name="search-outline" size={22} color="#1a202c"/>
-            </TouchableOpacity>
-            </View>
-            <View style={styles.trendingSearch}>
-                <Icon name="trending-up" size={18}/>
-                 <Text style={styles.trendingName}> Trending Searches: </Text>
-                <TrendingName name = "Shushant Singh Rajput, "/>
-                <TrendingName name = "Sidharth Shukla, "/>
-                <TrendingName name="Rashmi Desai, "/>
-                <TrendingName name="Asim Riaz, "/>
-                <TrendingName name="Himanshi Khurana, "/>
-            </View>
-            <TouchableOpacity style={styles.btn} onPress={() => toggleModal(true)}>
-                <Icon name="menu-outline" size={18} color="#f7fafc"/>
-                <Text style={styles.btnText}>All Categories</Text>
-            </TouchableOpacity>
-
-            <Modal  animationType="slide" transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() =>  toggleModal(false) }
-                    
-            >
-                <View style={styles.modalContent}>
-                    <View style={styles.modalHeading}>
-                            <Text style={styles.heading}>Categories</Text>
-                            <Icon.Button
-                              name="close-outline"
-                              size={25}
-                              color="black"
-                              backgroundColor="white"
-                              onPress={() => toggleModal(false)}
-                            />
-                    </View>  
-                    <View style={styles.categoryCont}>
-                        <Category name="Acting" />
-                        <Category name="Singing"/>
-                        <Category name="Dancing"/>
-                        <Category name="Comedy"/>
-                        <Category name="Music"/>
-                        <Category name="Magic"/>
-                        <Category name="Acrobatics"/>
-                        <Category name="Others"/>
-                    </View>                    
-                </View>
-            </Modal>
-            </View>
-           
-           <Slider />
+        <ScrollView  showsVerticalScrollIndicator={false} >
+           {/* <Slider /> */}
            <View style={styles.releaseCont}>
-            <View style={styles.gridContainer}>
-                <Text style={styles.heading}>New Releases</Text>
-                <ImageGrid/>
-            </View>
-            <View style={styles.gridContainer}>
-                <Text style={styles.heading}>Discover</Text>
-                <ImageGrid/>
-            </View>
+           <ImageGrid/>
+            
             <Text style={{marginBottom:18}}></Text>
             </View>
         </ScrollView>

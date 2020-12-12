@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 import HomeScreen from './screens/Home/HomeScreen'
-import UploadScreen from './screens/Upload/UploadScreen.js'
 import style from './screens/onboarding/style';
 import React, {useEffect, Fragment} from 'react';
 import {StatusBar} from 'react-native';
@@ -84,7 +83,7 @@ const App = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={SettingsScreen} />
-      <Tab.Screen name="Upload" component={UploadScreen} />
+      <Tab.Screen name="Upload" component={SettingsScreen} />
       <Tab.Screen name="Notification" component={SettingsScreen} />
       <Tab.Screen name="Profile" component={isSignedIn?DrawerStack:UnauthorizedStack} />
     </Tab.Navigator>
