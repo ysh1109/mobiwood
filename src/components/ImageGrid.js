@@ -78,7 +78,7 @@ const blogPosts = [
   ];
 
   let codeBlock = "@abhishekgill"
-export default function ImageGrid(){
+export default function ImageGrid(props){
     return(
         <View style={styles.imageGrid}>
             {blogPosts.map((post,index) => (
@@ -90,11 +90,17 @@ export default function ImageGrid(){
                 <Text style={{position:'absolute', top:-27, left:62, fontSize:12, color:'grey'}}>{codeBlock}</Text>
                 <Text style={{padding:10}}>Phasellus viverra ipsum dictum ipsum consectetur euismod... <Text style={{color: '#6b6b6b', fontWeight:'800'}} onPress={() => Linking.openURL('http://google.com')}> more </Text> {"\n"}{"\n"}#Mobiwood #Entertainment</Text>
                 </View>
-                <FeatherIcon name='more-horizontal' size={24} color='black' style={{position:'absolute', right:25, marginTop:20 }} />
+                <FeatherIcon
+               
+                name='more-horizontal'
+                 size={24} color='black' 
+                style={{position:'absolute', right:25, marginTop:20 }} />
                 </View>
                 <Image source ={post.imageSrc} style={styles.img}/>
                 <View style={{paddingLeft:20, marginTop:12, marginBottom:20, display:'flex', flexDirection:'row'}}>
-                <Text style={{fontSize:20}}><FeatherIcon name='thumbs-up' size={24} color='black' /> 223 </Text><Text style={{marginLeft:20, fontSize:20}} ><FeatherIcon name='share-2' size={24} color='black' /> 5 </Text><Text style={{marginLeft:20, fontSize:20,}}><FeatherIcon name='eye' size={24} color='black' /> 235 </Text> 
+                <Text style={{fontSize:20}}><FeatherIcon name='thumbs-up' size={24} color='black' /> 223 </Text>
+                <Text style={{marginLeft:20, fontSize:20}} ><FeatherIcon  onPress={props.shareModal}  name='share-2' size={24} color='black' /> 5 </Text>
+                <Text style={{marginLeft:20, fontSize:20,}}><FeatherIcon name='eye' size={24} color='black' /> 235 </Text> 
                 </View> 
                 </View>
             ))}
