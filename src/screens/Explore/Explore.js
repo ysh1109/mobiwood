@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ExploreVideoTop from '../../components/ExploreVideoTop';
 import ExploreVideoBottom from '../../components/ExploreVideoBottom';
 import VideoPlayer from 'react-native-video-player';
+import VideosContext from '../../contexts/VideosContext.js';
 import video from '../../assets/videos/video.mp4';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -77,14 +78,13 @@ const blogPosts = [
 const ExploreScreen = (props) => {
  
   const [modalVisible, setModalVisible] = useState(false);
-  
-  const HandleClick=(e)=> {
-    console.warn(
-        e
-    )
-    setModalVisible(true)
-}
+  const [videoUrl, setVideoUrl] = useState('');
+  const HandleClick = e => {
+    setVideoUrl(e);
+    setModalVisible(true);
+  }
     return(
+        <VideosContext>
         <View style={{flex:1}}>
           <Modal
             animationType="slide"
@@ -92,12 +92,13 @@ const ExploreScreen = (props) => {
             visible={modalVisible}
             onRequestClose={() => {
               setModalVisible(false)
+              setVideoUrl('');
             }}
           >
             <View style={{justifyContent:'center',flex:1}}>
                 <View style={styles.centeredView}>
                 <VideoPlayer
-                    video={video}
+                    video={{uri:videoUrl}}
                     style={{height:windowHeight/1.4,width:windowWidth-50}}
                     thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
                   />
@@ -138,6 +139,7 @@ const ExploreScreen = (props) => {
       
             
         </View>
+        </VideosContext>
     )
 }
 
