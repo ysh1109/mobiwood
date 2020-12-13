@@ -1,16 +1,19 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,Modal,TouchableHighlight,Alert} from 'react-native';
 import HeaderIcon from '../../HOC/HeaderIcon.js';
 import InputField from '../../components/InputField';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ExploreVideoTop from '../../components/ExploreVideoTop';
 import ExploreVideoBottom from '../../components/ExploreVideoBottom';
+import VideoPlayer from 'react-native-video-player';
+import video from '../../assets/videos/video.mp4';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 import Image3 from "../../assets/images/image3.jpeg";
 import Image4 from "../../assets/images/image4.jpeg";
+import { FlatList } from 'react-native-gesture-handler';
 const blogPosts = [
     {
       postId: "1",
@@ -70,17 +73,48 @@ const blogPosts = [
     },
   ];
 
-const HandleClick=(e)=> {
+
+const ExploreScreen = (props) => {
+ 
+  const [modalVisible, setModalVisible] = useState(false);
+  
+  const HandleClick=(e)=> {
     console.warn(
         e
     )
+    setModalVisible(true)
 }
-const ExploreScreen = (props) => {
- 
-
     return(
         <View style={{flex:1}}>
-            
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false)
+            }}
+          >
+            <View style={{justifyContent:'center',flex:1}}>
+                <View style={styles.centeredView}>
+                <VideoPlayer
+                    video={video}
+                    style={{height:windowHeight/1.4,width:windowWidth-50}}
+                    thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+                  />
+                {/* <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}
+                >
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </TouchableHighlight>
+               */}
+                </View>
+
+            </View>
+          </Modal>
+  
             <View style={styles.searchContainer}>
             <InputField 
                 placeholder="Search"
@@ -123,6 +157,41 @@ const styles  = StyleSheet.create ({
     },
     icon:{
         justifyContent:'center'
+    },
+    centeredView: {
+      height:windowHeight/1.4,
+      width:windowWidth-50,
+      justifyContent:'center',
+      alignSelf:'center',
+      alignItems: "center",
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5
+    },
+    
+    openButton: {
+      backgroundColor: "#F194FF",
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2
+    },
+    textStyle: {
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center"
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center"
     }
 })
 
