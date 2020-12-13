@@ -75,7 +75,7 @@ const UploadScreen = (props) => {
             <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e)}}                  //onBlur={handleBlur('email')}
-                  value={desc}
+                  // value={desc}
                  containerStyles={styles.containerStyles}
                 />
             </View>    
