@@ -1,6 +1,6 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,Modal,TouchableHighlight,Alert} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,Modal,ActivityIndicator,Alert} from 'react-native';
 import HeaderIcon from '../../HOC/HeaderIcon.js';
 import InputField from '../../components/InputField';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -83,6 +83,11 @@ const ExploreScreen = (props) => {
     setVideoUrl(e);
     setModalVisible(true);
   }
+  const setLoading=(e)=> {
+    return(
+      <ActivityIndicator size="large" color="black"/>
+    )
+  }
     return(
         <VideosContext>
         <View style={{flex:1}}>
@@ -98,6 +103,7 @@ const ExploreScreen = (props) => {
             <View style={{justifyContent:'center',flex:1}}>
                 <View style={styles.centeredView}>
                 <VideoPlayer
+                    onLoad={()=><ActivityIndicator size="large" color="black"/>}
                     video={{uri:videoUrl}}
                     style={{height:windowHeight/1.4,width:windowWidth-50}}
                     thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
