@@ -3,6 +3,8 @@ import {View,Text,Image}from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters';
 import Image3 from "../assets/images/image3.jpeg"
 import Image4 from "../assets/images/image4.jpeg";
+import Video from 'react-native-video-player';
+import {VideosContext} from '../contexts/VideosContext.js';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -79,9 +81,10 @@ const blogPosts = [
 
   let codeBlock = "@abhishekgill"
 export default function ImageGrid(props){
+    let videoContext = React.useContext(VideosContext);
     return(
         <View style={styles.imageGrid}>
-            {blogPosts.map((post,index) => (
+            {videoContext.videos.map((post,index) => (
                 <View key={index} style={styles.imgContainer}> 
                 <View style={{paddingTop:5}}>
                 <Image source={require('../assets/images/usericon.jpg')} style={{width:40, height:40, marginLeft:10, marginTop:8, marginBottom:8, borderRadius:60, borderWidth:1, borderColor:'#bbb',}} />
@@ -91,16 +94,15 @@ export default function ImageGrid(props){
                 <Text style={{padding:10}}>Phasellus viverra ipsum dictum ipsum consectetur euismod... <Text style={{color: '#6b6b6b', fontWeight:'800'}} onPress={() => Linking.openURL('http://google.com')}> more </Text> {"\n"}{"\n"}#Mobiwood #Entertainment</Text>
                 </View>
                 <FeatherIcon
-               
-                name='more-horizontal'
-                 size={24} color='black' 
-                style={{position:'absolute', right:25, marginTop:20 }} />
+                  name='more-horizontal'
+                  size={24} color='black' 
+                  style={{position:'absolute', right:25, marginTop:20 }} />
                 </View>
-                <Image source ={post.imageSrc} style={styles.img}/>
+                <Video video={{uri:post.videoUrl}} style={styles.img}/>
                 <View style={{paddingLeft:20, marginTop:12, marginBottom:20, display:'flex', flexDirection:'row'}}>
-                <Text style={{fontSize:20}}><FeatherIcon name='thumbs-up' size={24} color='black' /> 223 </Text>
-                <Text style={{marginLeft:20, fontSize:20}} ><FeatherIcon  onPress={props.shareModal}  name='share-2' size={24} color='black' /> 5 </Text>
-                <Text style={{marginLeft:20, fontSize:20,}}><FeatherIcon name='eye' size={24} color='black' /> 235 </Text> 
+                <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color='black' /> 223 </Text>
+                <Text style={{marginLeft:20, fontSize:17}} ><FeatherIcon  onPress={props.shareModal}  name='share-2' size={20} color='black' /> 5 </Text>
+                <Text style={{marginLeft:20, fontSize:17,}}><FeatherIcon name='eye' size={20} color='black' /> 235 </Text> 
                 </View> 
                 </View>
             ))}
