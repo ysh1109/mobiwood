@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputField from '../../components/InputField';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderIcon from '../../HOC/HeaderIcon.js';
+import VideosContext from '../../contexts/VideosContext.js';
+
 
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { ScaledSheet } from 'react-native-size-matters';
@@ -58,14 +60,14 @@ export default HeaderIcon(function HomeScreen(){
         //getData()
     }
     return(
+      <VideosContext>
         <ScrollView  showsVerticalScrollIndicator={false} >
-           {/* <Slider /> */}
-           <View style={styles.releaseCont}>
-           <ImageGrid shareModal={onShare} />
-            
+          <View style={styles.releaseCont}>
+            <ImageGrid shareModal={onShare} />
             <Text style={{marginBottom:18}}></Text>
-            </View>
+          </View>
         </ScrollView>
+      </VideosContext>
     )
 })
 

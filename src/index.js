@@ -9,11 +9,11 @@ import {AuthProvider} from './contexts/AuthContext';
 import {AppNavigator} from './navigations';
 import { Text, View } from 'react-native';
 import auth from '@react-native-firebase/auth';
-
+import {VideosContext} from './contexts/VideosContext.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {UnauthorizedStack} from './navigations/UnauthorizedStack';
-import VideosContext from './contexts/VideosContext.js';
+// import VideosContext from './contexts/VideosContext.js';
 import DrawerStack from './navigations/DrawerStack';
 import { FONT_BOLD } from './constants/typography';
 import Ionicons from 'react-native-vector-icons/Ionicons';
