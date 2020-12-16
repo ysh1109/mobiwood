@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, Dimensions, TouchableOpacity, Image} from 'react-native'
+import {View, StyleSheet, Dimensions, TouchableOpacity, Image, FlatList} from 'react-native'
 import {VideosContext} from '../contexts/VideosContext.js';
 import Video from 'react-native-video-player';
 
@@ -8,21 +8,23 @@ const windowHeight = Dimensions.get('window').height;
 const ExplorVideoBottom = props => {
     let vidContext = React.useContext(VideosContext);
     return (
-        <View style={{flexDirection:'row',flexWrap:'wrap'}}>
-            {vidContext.videos.map((val,index)=>{
-                return (
-                    // <View style={{height:150,width:windowWidth/3,index==0?backgroundColor:'pink':backgroundColor:'red'}}>
+        <View style={{flexDirection:'row',flexWrap:'wrap', flex:1}}>
+            <FlatList 
+                data={vidContext.videos}
+                numColumns={3}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item, index})=>(
                     <View key={index}  style={index%2==0? styles.layoutA:styles.layoutB}>
-                        <TouchableOpacity onPress={()=>props.clicked(val.videoUrl)} >
+                        <TouchableOpacity onPress={()=>props.clicked(item.videoUrl)} >
                         <Image
-                            source={val.videoUrl}
+                            source={{uri:item.thumbnail}}
                             style={{height:"100%",width:"100%"}}
                         />
                         </TouchableOpacity>
                         
-                    </View>
-                )
-            })}
+                    </View>)
+                }
+            />
         </View>
     )
 }

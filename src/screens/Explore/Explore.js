@@ -84,7 +84,6 @@ const ExploreScreen = (props) => {
     setModalVisible(true);
   }
     return(
-        <VideosContext>
         <View style={{flex:1}}>
           <Modal
             animationType="slide"
@@ -131,15 +130,14 @@ const ExploreScreen = (props) => {
             </TouchableOpacity>
             </View>
 
-                <ScrollView style={{flex:1,marginTop:10}}>
-                   <ExploreVideoTop video={blogPosts}/>
+                <View style={{flex:1,marginTop:10}}>
+                   {/* <ExploreVideoTop video={blogPosts}/> */}
                    <ExploreVideoBottom  clicked={HandleClick}  video={blogPosts}/>
                     
-                </ScrollView>
+                </View>
       
             
         </View>
-        </VideosContext>
     )
 }
 

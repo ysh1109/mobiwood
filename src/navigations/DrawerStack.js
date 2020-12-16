@@ -7,6 +7,7 @@ import image from '../assets/images/logo1.png';
 import {AppHeader} from '../components';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Profile from '../screens/Profile/Profile.js';
 import {ScaledSheet} from 'react-native-size-matters';
 import {Colors, Typography} from '../constants';
 import {
@@ -17,6 +18,7 @@ import auth from '@react-native-firebase/auth';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import DrawerContent from '../screens/DrawerContent';
 import Home from '../screens/Home/HomeScreen';
+import UserContext from '../contexts/UserContext.js';
 import ContestRegistration from '../screens/Contests/ContestRegistration';
 import Upload from '../screens/Contests/Upload';
 import UnderAge from '../screens/Contests/UnderAge';
@@ -53,16 +55,19 @@ const logout = () => {
 
 export default function DrawerStack() {
   return (
+    <UserContext>
     <Drawer.Navigator
-      initialRouteName="Home"
+      initialRouteName="Profile"
       drawerContent={(props) => <DrawerContent {...props} />}
       drawerStyle={{
         backgroundColor: '#000000',
       }}
       sceneContainerStyle={{backgroundColor: 'black'}}>
+      <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Contest" component={ContestStack} />
     </Drawer.Navigator>
+    </UserContext>
   );
 }
 
@@ -97,7 +102,7 @@ function HomeStack() {
         ),
 		
       })}>
-      <Stack.Screen name="Home" component={SettingsScreen} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 }

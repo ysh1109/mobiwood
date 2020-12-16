@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Text,View,Modal,Share} from 'react-native'
+import {Text,View,Modal,Share, FlatList} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InputField from '../../components/InputField';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -60,22 +60,17 @@ export default HeaderIcon(function HomeScreen(){
         //getData()
     }
     return(
-      <VideosContext>
-        <ScrollView  showsVerticalScrollIndicator={false} >
           <View style={styles.releaseCont}>
             <ImageGrid shareModal={onShare} />
             <Text style={{marginBottom:18}}></Text>
           </View>
-        </ScrollView>
-      </VideosContext>
     )
 })
 
 const styles = ScaledSheet.create({
     container:{
-        padding:"20@ms",
     },
-    releaseCont:{paddingHorizontal:"20@ms"},
+    releaseCont:{flex:1},
     searchContainer:{
         flexDirection:"row",
         backgroundColor:"#edf2f7",
