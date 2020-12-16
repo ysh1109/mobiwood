@@ -27,9 +27,9 @@ const VideosContextProvider = ({ children }) => {
       let ids = [];
       firestore().collection("contest").orderBy("uploadTime").get().then(async resp => {
             // console.log(resp.docs.for)
-            resp.docs.forEach(data => {
-                console.log(data.data())
-            })
+            // resp.docs.forEach(data => {
+            //     console.log(data.data())
+            // })
             if (1==1 || count >= 3 || !initialCount || !timestamp || difference > 0) {
                 // console.log("Query Made from context");
                 // const activeref = await vidRef.get();

@@ -1,14 +1,15 @@
 import React, {useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 
-const AuthContext = React.createContext({});
+export const AuthContext = React.createContext({});
 
-export const AuthProvider = (props) => {
+export default props => {
   const [user, setUser] = React.useState({});
   const [uid, setUid] = React.useState('');
 
   const onAuthStateChanged = (u) => {
     if (u && u.uid) {
+
       setUser(u);
       setUid(u.uid);
     }
@@ -22,7 +23,7 @@ export const AuthProvider = (props) => {
   return (
     <AuthContext.Provider
       value={{
-        user,
+        userDetails:user,
         setUser,
         uid,
         setUid,
@@ -31,5 +32,3 @@ export const AuthProvider = (props) => {
     </AuthContext.Provider>
   );
 };
-
-export default AuthContext;

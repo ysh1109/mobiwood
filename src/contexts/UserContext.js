@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import AuthContext from "./AuthContext";
+import {AuthContext} from "./AuthContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { firestore } from "../firebase.config";
 import firestore from '@react-native-firebase/firestore';
@@ -18,6 +18,7 @@ const UserContextProvider = ({ children }) => {
   // const { videos } = useContext(VideosContext);
 
   useEffect(() => {
+    // alert(`a : ${JSON.stringify(userDetails)}`)
     if (userDetails) {
       setLikedVideos(userDetails.likedVideos || []);
       setFollowers(userDetails.followers || []);
@@ -27,22 +28,29 @@ const UserContextProvider = ({ children }) => {
 
   useEffect(() => {
     // const videosFromSession = JSON.parse(sessionStorage.getItem("videos"));
-    const fetchMyVideos = async () => {
-    //   const db = firestore();
-      const collectionRef = firestore().collection("user").doc(uid).collection("videos");
-      const vids = await collectionRef.get();
-      vids.forEach((vid) => {
-        if (vid.data().videoUrl) {
-          const temp = videosFromSession.filter(
-            (currVid) => currVid.videoUrl === vid.data().videoUrl
-          );
-          setMyVideos(temp);
-        }
-      });
-    };
-    if (uid && videosFromSession) {
-      fetchMyVideos();
-    }
+    // AsyncStorage.getItem("videos").then(resp => {
+      // alert(`${uid}`)
+      const fetchMyVideos = async () => {
+        //   const db = firestore();
+          const collectionRef = firestore().collection("user").doc(uid).collection("videos");
+          const vids = await collectionRef.get();
+          vids.forEach((vid) => {
+            if (vid.data().videoUrl) {
+              // alert(`vid : ${JSON.stringify(vid)}`)
+              // const temp = resp.filter(
+              //   (currVid) => currVid.videoUrl === vid.data().videoUrl
+              // );
+              setMyVideos(vid);
+            }
+          });
+        };
+        // if (uid && videosFromSession) {
+          fetchMyVideos();
+        // }
+    // });
+    // (sessionStorage.getItem("videos"));
+
+    
   }, [uid]);
 
   const updateLikes = async (videoId, action) => {

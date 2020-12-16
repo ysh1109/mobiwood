@@ -55,7 +55,6 @@ const logout = () => {
 
 export default function DrawerStack() {
   return (
-    <UserContext>
     <Drawer.Navigator
       initialRouteName="Profile"
       drawerContent={(props) => <DrawerContent {...props} />}
@@ -63,14 +62,44 @@ export default function DrawerStack() {
         backgroundColor: '#000000',
       }}
       sceneContainerStyle={{backgroundColor: 'black'}}>
-      <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Contest" component={ContestStack} />
     </Drawer.Navigator>
-    </UserContext>
   );
 }
-
+function ProfileStack() {
+  return (<Stack.Navigator
+      headerMode="screen"
+      screenOptions={({navigation}) => ({					
+        //title: 'hello',
+    headerTitle: (<Image source={image} style={{width:142, height:41}} />),
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      alignSelf:'center',
+      height:70,
+    },
+        headerStyle: {
+        backgroundColor: 'black',
+        },
+        headerRight: () => (
+          <TouchableOpacity style={[styles.btn],{display:'none'}} onPress={() => logout()}>
+            <Text style={styles.txt}>Logout</Text>
+          </TouchableOpacity>
+        ),
+        headerLeft: () => (
+          <TouchableOpacity
+            style={[styles.menu]}
+            onPress={() => navigation.openDrawer()}>
+            <Icon name="ellipsis-horizontal-circle" size={32} color='grey' />
+			
+          </TouchableOpacity>
+        ),
+		
+      })}>
+      <Stack.Screen name="Profile" component={Profile} />
+    </Stack.Navigator>)
+}
 function HomeStack() {
   return (
 		 
@@ -102,7 +131,7 @@ function HomeStack() {
         ),
 		
       })}>
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
   );
 }

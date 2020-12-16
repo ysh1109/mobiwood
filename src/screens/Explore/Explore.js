@@ -130,11 +130,11 @@ const ExploreScreen = (props) => {
             </TouchableOpacity>
             </View>
 
-                <View style={{flex:1,marginTop:10}}>
-                   {/* <ExploreVideoTop video={blogPosts}/> */}
-                   <ExploreVideoBottom  clicked={HandleClick}  video={blogPosts}/>
-                    
-                </View>
+            <View style={{flex:1,marginTop:10}}>
+                {/* <ExploreVideoTop video={blogPosts}/> */}
+                <ExploreVideoBottom  clicked={HandleClick}  video={blogPosts}/>
+                
+            </View>
       
             
         </View>
