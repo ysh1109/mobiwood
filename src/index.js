@@ -44,11 +44,11 @@ const App = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
   return (
-    isSignedIn?<AuthContext>
+    <AuthContext>
       <UserContext>
         <VideosContext>
           <NavigationContainer>
-          <Tab.Navigator 
+          {!isSignedIn?UnauthorizedStack:<Tab.Navigator 
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
@@ -88,18 +88,16 @@ const App = () => {
             }
           }}
           >
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Search" component={ExploreScreen} />
-            <Tab.Screen name="Upload" component={UploadScreen} />
-            <Tab.Screen name="Notification" component={SettingsScreen} />
-            <Tab.Screen name="Profile" component={DrawerStack} />
-          </Tab.Navigator>
+            <Tab.Screen name="Home" component={!isSignedIn?UnauthorizedStack:HomeScreen} />
+            <Tab.Screen name="Search" component={!isSignedIn?UnauthorizedStack:ExploreScreen} />
+            <Tab.Screen name="Upload" component={!isSignedIn?UnauthorizedStack:UploadScreen} />
+            <Tab.Screen name="Notification" component={!isSignedIn?UnauthorizedStack:SettingsScreen} />
+            <Tab.Screen name="Profile" component={!isSignedIn?UnauthorizedStack:DrawerStack} />
+          </Tab.Navigator>}
           </NavigationContainer>
         </VideosContext>
       </UserContext>
     </AuthContext>
-    :<UnauthorizedStack />
-    
   );
 };
 

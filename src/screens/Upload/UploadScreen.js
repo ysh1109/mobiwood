@@ -7,14 +7,22 @@ import ImagePicker from 'react-native-image-picker';
 import VideoPlayer from 'react-native-video-player';
 import InputField from '../../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
+
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
     const [filePath, setFilePath] = useState({});
     const [talent,setTalent] = useState("Acting");
+    const [title, setTitle] = useState('');
     const [socialMedia,setSocialMedia] = useState("")
     const [follower,setFollower] = useState("")
-    const [desc,setDesc] = useState("")
+    const [desc,setDesc] = useState("");
+    const [uploadPercent, setUploadPercent] = useState(0);
     const chooseFile = () => {
         let options = {
             title: 'Video Picker', 
@@ -51,6 +59,10 @@ const UploadScreen = (props) => {
       };
     const handleTextChange =(e,type) => {
       switch(type) {
+        case 'title':{
+          setTitle(e)
+          break;
+        }
         case 'desc' : {
           setDesc(e)
           break;
@@ -71,14 +83,82 @@ const UploadScreen = (props) => {
      const removeFile = () => {
        setFilePath({})
      }
-     const uploadVideo = () => {
-        if(desc== "" || follower==""||socialMedia=="") {
-         
-        }
-     }
+
+    const validations = () => {
+      return true;
+    }
+
+    const uploadVideo = () => {
+      // if(desc== "" || follower==""||socialMedia=="") {
+        
+      // }
+      if(validations())
+      {
+        // if (!auth.currentUser) {
+        //   alert("You need to login first");
+        //   navigate("/contest");
+        // }
+        // var vid = localStorage.getItem("");
+        let vid = new Date().getTime()+"_"+parseInt(Math.random()*10000)
+        let metadata = {
+          contentType: "video/quicktime",
+        };
+        alert(`filePath : ${filePath}`)
+        let uploadTask = storage()
+          .ref()
+          .child("users/" + vid)
+          .put(filePath.uri, metadata);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            let progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setUploadPercent(progress);
+            console.log("Upload is " + progress + "% done");
+          },
+          (err) => {
+            console.log(err);
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              var data = {
+                videoUrl: downloadURL,
+                talent: talent,
+                description: desc,
+                title: title,
+                socialMedia: socialMedia,
+                followerCount: follower,
+                // groupCheck: "yes",
+                otherTalent: talent === "others" ? otherTalent : "none",
+                uploadTime: new Date(),
+                thumbnail: null,
+              };
+              firestore()
+                .collection("user")
+                .doc(auth.currentUser.uid)
+                .collection("videos")
+                .doc(vid)
+                .set(data, { merge: true })
+                .then(() => {
+                  data.userid = auth.currentUser.uid;
+                  firestore()
+                    .collection("contest")
+                    .doc(vid)
+                    .set(data)
+                    .then(() => {
+                      // navigate("/");
+                      alert(`uploading done`)
+                    });
+                });
+            });
+          }
+        );
+      }
+    }
 
     return(
         <ScrollView style={{flex:1}}>
+            
             
             <View style={styles.uploadView}>
             <Text style={{textAlign:'center',fontSize:24,padding:20}}>Upload A Video</Text>
@@ -131,7 +211,14 @@ const UploadScreen = (props) => {
                     }}
                   />
               </View>
-          
+
+            <Text style={[styles.label,{marginTop:20}]}>Title</Text>
+            <InputField
+                  placeholderTextColor="#a0aec0"
+                  onChangeText= {e=>{handleTextChange(e,"title")}}                  //onBlur={handleBlur('email')}
+                  value={title}
+                 containerStyles={styles.containerStyles}
+            />
               
             <Text style={[styles.label,{marginTop:20}]}>Write Something About The Video</Text>
             <InputField
@@ -163,7 +250,7 @@ const UploadScreen = (props) => {
                
             </View>
 
-            </View>    
+            </View>
             
             
         </ScrollView>
