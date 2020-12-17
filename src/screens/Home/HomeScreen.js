@@ -62,7 +62,6 @@ export default HeaderIcon(function HomeScreen(){
     return(
           <View style={styles.releaseCont}>
             <ImageGrid shareModal={onShare} />
-            <Text style={{marginBottom:18}}></Text>
           </View>
     )
 })

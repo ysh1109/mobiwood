@@ -8,16 +8,16 @@ const windowHeight = Dimensions.get('window').height;
 const ExplorVideoBottom = props => {
     let vidContext = React.useContext(VideosContext);
     return (
-        <View style={{flexDirection:'row',flexWrap:'wrap', flex:1}}>
+       
             <FlatList 
-                data={vidContext.videos}
+                data={vidContext.videos.reverse()}
                 numColumns={3}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item, index})=>(
-                    <View key={index}  style={index%2==0? styles.layoutA:styles.layoutB}>
-                        <TouchableOpacity onPress={()=>props.clicked(item.videoUrl)} >
+                    <View key={index}  style={styles.layoutB}>
+                        <TouchableOpacity onPress={()=>props.clicked(item.videoUrl,item.thumbnail)} >
                         <Image
-                            source={{uri:item.thumbnail}}
+                            source={item.thumbnail?{uri:item.thumbnail}:(require('../assets/images/play.png'))}
                             style={{height:"100%",width:"100%"}}
                         />
                         </TouchableOpacity>
@@ -25,7 +25,6 @@ const ExplorVideoBottom = props => {
                     </View>)
                 }
             />
-        </View>
     )
 }
 

@@ -79,8 +79,10 @@ const ExploreScreen = (props) => {
  
   const [modalVisible, setModalVisible] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
-  const HandleClick = e => {
+  const [thumbnail,setThumbnail] = useState('');
+  const HandleClick = (e,t) => {
     setVideoUrl(e);
+    setThumbnail(t)
     setModalVisible(true);
   }
     return(
@@ -99,7 +101,7 @@ const ExploreScreen = (props) => {
                 <VideoPlayer
                     video={{uri:videoUrl}}
                     style={{height:windowHeight/1.4,width:windowWidth-50}}
-                    thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
+                    thumbnail={{uri: thumbnail}}
                   />
                 {/* <TouchableHighlight
                   style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
