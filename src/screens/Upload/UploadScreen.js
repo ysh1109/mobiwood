@@ -86,13 +86,17 @@ const UploadScreen = (props) => {
      }
 
     const validations = () => {
-      return true;
+       if(desc== "" || follower==""||socialMedia=="") {
+        return false;
+      }
+      else {
+        return true;
+      }
+     
     }
 
     const uploadVideo = () => {
-      // if(desc== "" || follower==""||socialMedia=="") {
-        
-      // }
+     
       if(validations())
       {
         // if (!auth.currentUser) {
