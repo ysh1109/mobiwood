@@ -7,7 +7,7 @@ import ImagePicker from 'react-native-image-picker';
 import VideoPlayer from 'react-native-video-player';
 import InputField from '../../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import Checkbox from '@react-native-community/checkbox';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
@@ -22,6 +22,7 @@ const UploadScreen = (props) => {
     const [socialMedia,setSocialMedia] = useState("")
     const [follower,setFollower] = useState("")
     const [desc,setDesc] = useState("");
+    const [isSelected, setSelection] = useState(false);
     const [uploadPercent, setUploadPercent] = useState(0);
     const chooseFile = () => {
         let options = {
@@ -128,7 +129,7 @@ const UploadScreen = (props) => {
                 title: title,
                 socialMedia: socialMedia,
                 followerCount: follower,
-                // groupCheck: "yes",
+                 groupCheck: Selection?"yes":"no",
                 otherTalent: talent === "others" ? otherTalent : "none",
                 uploadTime: new Date(),
                 thumbnail: null,
@@ -242,6 +243,15 @@ const UploadScreen = (props) => {
                   value={follower}
                  containerStyles={styles.containerStyles}
                 />
+
+              <View style={styles.checkboxContainer}>
+              <Checkbox
+                value={isSelected}
+                onValueChange={setSelection}
+                style={styles.checkbox}
+              />
+              <Text style={{marginTop:28}}>Are you participating as a group?</Text>
+      </View>
             <View style={{flexDirection:'row',justifyContent:'space-around'}}>
             
                 <TouchableOpacity style={styles.buttons} onPress={()=>uploadVideo()}>
@@ -300,7 +310,18 @@ const styles  = StyleSheet.create ({
       backgroundColor: 'white',
       borderColor:"#edf2f7",
       borderRadius:3,
-    }
+    },
+    checkboxContainer: {
+      flexDirection: "row",
+      marginBottom: 20,
+    },
+    checkbox: {
+      alignSelf: "center",
+      marginTop:20
+    },
+    label: {
+      margin: 8,
+    },
       
     
 })

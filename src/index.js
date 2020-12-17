@@ -48,7 +48,7 @@ const App = () => {
       <UserContext>
         <VideosContext>
           <NavigationContainer>
-          {!isSignedIn?UnauthorizedStack:<Tab.Navigator 
+          <Tab.Navigator 
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
@@ -93,7 +93,7 @@ const App = () => {
             <Tab.Screen name="Upload" component={!isSignedIn?UnauthorizedStack:UploadScreen} />
             <Tab.Screen name="Notification" component={!isSignedIn?UnauthorizedStack:SettingsScreen} />
             <Tab.Screen name="Profile" component={!isSignedIn?UnauthorizedStack:DrawerStack} />
-          </Tab.Navigator>}
+          </Tab.Navigator>
           </NavigationContainer>
         </VideosContext>
       </UserContext>
