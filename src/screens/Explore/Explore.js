@@ -1,7 +1,7 @@
 
 import React,{useState} from 'react';
 import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,Modal,TouchableHighlight,Alert} from 'react-native';
-import HeaderIcon from '../../HOC/HeaderIcon.js';
+//import HeaderIcon from '../../HOC/HeaderIcon.js';
 import InputField from '../../components/InputField';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ExploreVideoTop from '../../components/ExploreVideoTop';
@@ -117,17 +117,17 @@ const ExploreScreen = (props) => {
             </View>
           </Modal>
   
-            <View style={styles.searchContainer}>
-            <InputField 
+          <View style={styles.searchContainer}>
+            <Icon name="search-outline" size={25} color="#1a202c" style={{position:'absolute',zIndex:9999, left:13, top:12}}/>
+            <InputField  
                 placeholder="Search"
                 placeholderTextColor = "#1a202c"
                 //  onChangeText={handleChange('username')}
                 //  onBlur={handleBlur('username')}
                 //  value={values.username}
-                inputContainerStyles={{}}
                   containerStyles = {styles.containerStyles}
             />
-            <TouchableOpacity  style={styles.icon}>
+            <TouchableOpacity style={[styles.icon], {display:'none'}}>
                 <Icon name="search-outline" size={25} color="#1a202c"/>
             </TouchableOpacity>
             </View>
@@ -147,15 +147,16 @@ const styles  = StyleSheet.create ({
    
     searchContainer:{
         marginTop:10,
-        flexDirection:'row',
         width:'95%',
-        alignSelf:'center'
+        marginLeft:10,
     },
      
     containerStyles:{
-        backgroundColor:"#edf2f7",
-        borderColor:"black",
-        borderWidth:1
+        backgroundColor:"#ddd",
+        borderColor:"#fff",
+        borderRadius:6,
+        paddingLeft:40,
+        width:'100%',
     },
     icon:{
         justifyContent:'center'
@@ -197,4 +198,5 @@ const styles  = StyleSheet.create ({
     }
 })
 
-export default HeaderIcon(ExploreScreen);
+
+export default ExploreScreen;

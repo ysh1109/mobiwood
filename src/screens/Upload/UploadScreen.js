@@ -1,7 +1,7 @@
 
 import React,{useState} from 'react';
 import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView} from 'react-native';
-import HeaderIcon from '../../HOC/HeaderIcon.js';
+//import HeaderIcon from '../../HOC/HeaderIcon.js';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-picker';
 import VideoPlayer from 'react-native-video-player';
@@ -11,13 +11,13 @@ import Checkbox from '@react-native-community/checkbox';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import RNFetchBlob from 'react-native-fetch-blob';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
     const [filePath, setFilePath] = useState({});
-    const [talent,setTalent] = useState("Acting");
+    const [talent,setTalent] = useState(" ");
     const [title, setTitle] = useState('');
     const [socialMedia,setSocialMedia] = useState("")
     const [follower,setFollower] = useState("")
@@ -86,13 +86,17 @@ const UploadScreen = (props) => {
      }
 
     const validations = () => {
-      return true;
+       if(desc== "" || follower==""||socialMedia=="") {
+        return false;
+      }
+      else {
+        return true;
+      }
+     
     }
 
     const uploadVideo = () => {
-      // if(desc== "" || follower==""||socialMedia=="") {
-        
-      // }
+     
       if(validations())
       {
         // let vid = new Date().getTime()+"_"+parseInt(Math.random()*10000);
@@ -169,26 +173,34 @@ const UploadScreen = (props) => {
             
             
             <View style={styles.uploadView}>
-            <Text style={{textAlign:'center',fontSize:24,padding:20}}>Upload A Video</Text>
+            <Text style={{textAlign:'center',fontSize:24,padding:20, display:'none'}}>Upload A Video</Text>
               {filePath.uri&&
                 <>
                 <Video source={{uri: `${filePath.uri}`}}   // Can be a URL or a local file.
                 shouldPlay={false}
                 controls={true}
                 resizeMode="cover"
-                style={{height:windowHeight/2.5,width:windowWidth-50,alignSelf:'center'}} />
+                style={{height:windowHeight/2,width:windowWidth-0,alignSelf:'center'}} />
                 </>
                 }
             </View>
 
             <View style={{flexDirection:'row',justifyContent:'space-around'}}>
-              <TouchableOpacity style={styles.buttons} onPress={chooseFile}>
-                <Text style={styles.btnText}>Upload</Text>
+            {!filePath.uri ? ( 
+              <TouchableOpacity style={{position:'absolute',zIndex:99999, top:-220, left:0, width:"100%"}} onPress={chooseFile}>
+              <Text style={{width:200, height:100, color:'grey', width:'100%', textAlign:'center'}}>
+                <FeatherIcon name="film" size={40} color="grey" style={{marginBottom:100}} />
+                </Text>
+                <Text style={{color:'grey',fontWeight:'400',position:'absolute', width:'100%', textAlign:'center', marginTop:28}}>{'\n'}Click to Select Video</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={removeFile}>
+                <Text style={{backgroundColor:'rgba(0,0,0,0.8)', color:'white', padding:10, borderRadius:5, marginTop:10 }}><FeatherIcon name="x" size={13} color="white" style={{marginTop:20, position:'absolute', top:3}} /> Remove</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttons}
-                  onPress={removeFile}>
-                <Text style={styles.btnText}>Remove</Text>
-                </TouchableOpacity>
+            )}
+              
+                
+                
             </View>
 
             <View style={{alignSelf:'center',marginTop:15}}>
@@ -198,6 +210,7 @@ const UploadScreen = (props) => {
               <View style={{height:50}}>
                 <DropDownPicker
                     items={[
+                      {value: ' ', label: '-Select-'},
                       {value: 'Acting', label: 'Acting'},
                       {value: 'Singing', label: 'Singing'},
                       {value: 'Dancing', label: 'Dancing'},
@@ -262,7 +275,7 @@ const UploadScreen = (props) => {
             <View style={{flexDirection:'row',justifyContent:'space-around'}}>
             
                 <TouchableOpacity style={styles.buttons} onPress={()=>uploadVideo()}>
-                <Text style={styles.btnText}>Submit</Text>
+                <Text style={styles.btnText}>Upload Video</Text>
                 </TouchableOpacity>
                
             </View>
@@ -287,21 +300,22 @@ const styles  = StyleSheet.create ({
         padding: 5,
       },
       uploadView: {
-        marginTop:50,
-        height:windowHeight/2.5,
-        width:windowWidth-50,
-        backgroundColor:'white',
+        marginTop:0,
+        height:windowHeight/2,
+        width:windowWidth-0,
+        backgroundColor:'black',
         alignSelf:'center',
-        borderWidth:1,
-        borderColor:'black',
-        elevation:10
+        borderWidth:0,
+        borderColor:'#efefef',
+        elevation:0,
       },
       buttons: {
         backgroundColor:'black',
-        width:100,
         alignSelf:'center',
         borderRadius:10,
-        marginTop:20
+        marginBottom:30,
+        zIndex:9999,
+        width:350
       },
       btnText :{
         color:'white',
@@ -333,4 +347,4 @@ const styles  = StyleSheet.create ({
     
 })
 
-export default HeaderIcon(UploadScreen);
+export default UploadScreen;
