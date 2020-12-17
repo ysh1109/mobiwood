@@ -11,7 +11,7 @@ import Checkbox from '@react-native-community/checkbox';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-
+import RNFetchBlob from 'react-native-fetch-blob';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -95,20 +95,27 @@ const UploadScreen = (props) => {
       // }
       if(validations())
       {
-        // if (!auth.currentUser) {
-        //   alert("You need to login first");
-        //   navigate("/contest");
-        // }
+        // let vid = new Date().getTime()+"_"+parseInt(Math.random()*10000);
+        // const ref = storage().ref().child("users/"+vid)
+        // let uploadBlob = null;
+        // ref.putFile(filePath.path, {contentType:"image/jpg"})
+        // .then((resp)=>{
+        //   console.log(`UPLOADED!`)
+        // })
+        if (!auth.currentUser) {
+          alert("You need to login first");
+          // navigate("/contest");
+        }
         // var vid = localStorage.getItem("");
         let vid = new Date().getTime()+"_"+parseInt(Math.random()*10000)
         let metadata = {
           contentType: "video/quicktime",
         };
-        alert(`filePath : ${filePath}`)
+        // alert(`filePath : ${filePath}`)
         let uploadTask = storage()
           .ref()
           .child("users/" + vid)
-          .put(filePath.uri, metadata);
+          .putFile(filePath.path, metadata);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -129,7 +136,7 @@ const UploadScreen = (props) => {
                 title: title,
                 socialMedia: socialMedia,
                 followerCount: follower,
-                 groupCheck: Selection?"yes":"no",
+                //  groupCheck: Selection?"yes":"no",
                 otherTalent: talent === "others" ? otherTalent : "none",
                 uploadTime: new Date(),
                 thumbnail: null,
