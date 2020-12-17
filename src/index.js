@@ -77,6 +77,7 @@ const App = () => {
           tabBarOptions={{
             showLabel: false,
             activeTintColor: 'white',
+            keyboardHidesTabBar: true,
             inactiveTintColor: 'white',
             labelStyle: {
                 margin:4
