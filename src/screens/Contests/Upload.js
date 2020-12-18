@@ -19,7 +19,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {InputField} from '../../components/InputField';
+import InputField from '../../components/InputField';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -289,7 +289,7 @@ export default function Upload({navigation}) {
               {talentVal === 'Others' && (
                 <View>
                   <Text style={styles.label}>What's Your Talent</Text>
-                  <InputField
+                  <InputField  type="text"
                     placeholderTextColor="#a0aec0"
                     onChangeText={handleChange('other')}
                     onBlur={handleBlur('other')}
@@ -305,7 +305,7 @@ export default function Upload({navigation}) {
               )}
 
               <Text style={styles.label}>Title</Text>
-              <InputField
+              <InputField  type="text"
                 placeholderTextColor="#a0aec0"
                 onChangeText={handleChange('title')}
                 onBlur={handleBlur('title')}
@@ -315,7 +315,7 @@ export default function Upload({navigation}) {
               {errors.title && <Text style={styles.error}>{errors.title}</Text>}
 
               <Text style={styles.label}>Write Something About the Video</Text>
-              <InputField
+              <InputField  type="text"
                 placeholderTextColor="#a0aec0"
                 onChangeText={handleChange('about')}
                 onBlur={handleBlur('about')}
@@ -340,7 +340,7 @@ export default function Upload({navigation}) {
               <Text style={styles.label}>
                 Social Media With Highest Followers
               </Text>
-              <InputField
+              <InputField  type="text"
                 placeholderTextColor="#a0aec0"
                 onChangeText={handleChange('social')}
                 onBlur={handleBlur('social')}
@@ -352,7 +352,7 @@ export default function Upload({navigation}) {
               )}
 
               <Text style={styles.label}>Followers Count on the Platform</Text>
-              <InputField
+              <InputField  type="text"
                 placeholderTextColor="#a0aec0"
                 onChangeText={handleChange('count')}
                 onBlur={handleBlur('count')}

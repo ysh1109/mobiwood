@@ -192,9 +192,9 @@ const UploadScreen = (props) => {
                 
             </View>
 
-            <View style={{alignSelf:'center',marginTop:15}}>
+            <View style={{alignSelf:'center',marginTop:15, paddingLeft:10, paddingRight:10}}>
 
-             <Text style={styles.label}>Talent</Text>
+            <Text style={[styles.label,{marginTop:0, marginLeft:1}]}>Talent</Text>
             
               <View style={{height:50}}>
                 <DropDownPicker
@@ -222,35 +222,35 @@ const UploadScreen = (props) => {
                   />
               </View>
 
-            <Text style={[styles.label,{marginTop:20}]}>Title</Text>
+            <Text style={[styles.label,{marginTop:20, marginLeft:1}]}>Title</Text>
             <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"title")}}                  //onBlur={handleBlur('email')}
                   value={title}
-                 containerStyles={styles.containerStyles}
+                 containerStyles={{width:'100%'}}
             />
               
-            <Text style={[styles.label,{marginTop:20}]}>Write Something About The Video</Text>
+            <Text style={[styles.label,{marginTop:20, marginLeft:1}]}>Write Something About The Video</Text>
             <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"desc")}}                  //onBlur={handleBlur('email')}
                   value={desc}
-                 containerStyles={styles.containerStyles}
+                 containerStyles={{width:'100%'}}
                 />
 
-            <Text style={[styles.label,{marginTop:20}]}>Social Media With Highest Followers</Text>
+            <Text style={[styles.label,{marginTop:20, marginLeft:1}]}>Social Media With Highest Followers</Text>
              <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"social")}}                  //onBlur={handleBlur('email')}
                    value={socialMedia}
-                 containerStyles={styles.containerStyles}
+                 containerStyles={{width:'100%'}}
                 />
-             <Text style={[styles.label,{marginTop:20}]}>Follower Count On The platform</Text>
+             <Text style={[styles.label,{marginTop:20, marginLeft:1}]}>Follower Count On The platform</Text>
               <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"follower")}}                  //onBlur={handleBlur('email')}
                   value={follower}
-                 containerStyles={styles.containerStyles}
+                 containerStyles={{width:'100%'}}
                 />
 
               <View style={styles.checkboxContainer}>
@@ -304,12 +304,12 @@ const styles  = StyleSheet.create ({
         borderRadius:10,
         marginBottom:30,
         zIndex:9999,
-        width:350
+        width:'100%'
       },
       btnText :{
         color:'white',
         textAlign:'center',
-        padding:20
+        padding:15,
       },
      label:{
        fontSize:18,

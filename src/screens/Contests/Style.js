@@ -30,7 +30,7 @@ export default ScaledSheet.create({
         ...Typography.FONT_BOLD,
     },
     containerStyles:{
-        marginBottom:"8@ms"
+        marginBottom:"8@ms",
     },
     error:{
         color:"#FF0000",

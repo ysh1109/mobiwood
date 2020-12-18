@@ -5942,6 +5942,11 @@ react-native-slick@^1.6.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-splash-screen@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.2.0.tgz#d47ec8557b1ba988ee3ea98d01463081b60fff45"
+  integrity sha512-Ls9qiNZzW/OLFoI25wfjjAcrf2DZ975hn2vr6U9gyuxi2nooVbzQeFoQS5vQcbCt9QX5NY8ASEEAtlLdIa6KVg==
+
 react-native-unordered-list@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-native-unordered-list/-/react-native-unordered-list-1.0.4.tgz#7ee48968e6da9ad0fcb8cfddfa2bea4c943ea57b"

@@ -3,7 +3,7 @@ import {Text,Image,View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/HomeScreen';
 const Stack = createStackNavigator();
-import image from '../assets/images/logo1.png';
+import image from '../assets/images/logo.png';
 import {AppHeader} from '../components';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -23,7 +23,7 @@ import ContestRegistration from '../screens/Contests/ContestRegistration';
 import Upload from '../screens/Contests/Upload';
 import UnderAge from '../screens/Contests/UnderAge';
 import { LoginScreen } from '../screens';
-
+import FeatherIcon from 'react-native-vector-icons/Feather';
 function SettingsScreen() {
   return (
     <View style={{flex: 1,  padding:50, justifyContent: 'center', alignItems: 'center' }}>
@@ -91,7 +91,7 @@ function ProfileStack() {
           <TouchableOpacity
             style={[styles.menu]}
             onPress={() => navigation.openDrawer()}>
-            <Icon name="ellipsis-horizontal-circle" size={32} color='grey' />
+            <FeatherIcon name="menu" size={25} color='white' />
 			
           </TouchableOpacity>
         ),

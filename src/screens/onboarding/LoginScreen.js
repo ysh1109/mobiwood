@@ -155,6 +155,7 @@ const LoginScreen = ({navigation}) => {
                     <Text style={styles.error}>{errors.username}</Text>
                   )}
                   <InputField
+                  type="text"
                     placeholder="Username"
                     placeholderTextColor="#656565"
                     onChangeText={handleChange('username')}
@@ -167,6 +168,7 @@ const LoginScreen = ({navigation}) => {
                   )}
                   
                   <InputField
+                  type="password" 
                     placeholder="Password"
                     secureTextEntry
                     placeholderTextColor="#656565"

@@ -17,8 +17,8 @@ const ExplorVideoBottom = props => {
                     <View key={index}  style={styles.layoutB}>
                         <TouchableOpacity onPress={()=>props.clicked(item.videoUrl,item.thumbnail)} >
                         <Image
-                            source={item.thumbnail?{uri:item.thumbnail}:(require('../assets/images/play.png'))}
-                            style={{height:"100%",width:"100%"}}
+                            source={item.thumbnail?{uri:item.thumbnail}:(require('../assets/images/loading.jpg'))}
+                            style={{height:"100%",width:"100%", margin:2}}
                         />
                         </TouchableOpacity>
                         

@@ -98,20 +98,22 @@ const ExploreScreen = (props) => {
           >
             <View style={{justifyContent:'center',flex:1}}>
                 <View style={styles.centeredView}>
-                <VideoPlayer
-                    video={{uri:videoUrl}}
-                    style={{height:windowHeight/1.4,width:windowWidth-50}}
-                    thumbnail={{uri: thumbnail}}
-                  />
-                {/* <TouchableHighlight
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3", display:'none'}}
                   onPress={() => {
                     setModalVisible(!modalVisible);
                   }}
                 >
                   <Text style={styles.textStyle}>Hide Modal</Text>
                 </TouchableHighlight>
-               */}
+                <VideoPlayer
+                    video={{uri:videoUrl}}
+                    style={{height:windowHeight/1,width:windowWidth-0, zIndex:1}}
+                    thumbnail={{uri: thumbnail}}
+                  />
+                  
+                {
+               }
                 </View>
 
             </View>
@@ -134,7 +136,7 @@ const ExploreScreen = (props) => {
 
             <View style={{flex:1,marginTop:10}}>
                 {/* <ExploreVideoTop video={blogPosts}/> */}
-                <ExploreVideoBottom  clicked={HandleClick}  video={blogPosts}/>
+                <ExploreVideoBottom  clicked={HandleClick}  video={blogPosts} style={{margin:10}} />
                 
             </View>
       

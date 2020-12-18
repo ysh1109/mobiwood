@@ -71,7 +71,7 @@ const App = () => {
                 iconName = focused ? 'search' : 'search';
               }
               // You can return any component that you like here!
-              return <FeatherIcon name={iconName} size={size} color={color} style={{marginBottom:-5}} />;
+              return <FeatherIcon name={iconName} size={20} color={color} style={{marginBottom:0}} />;
             },
           })}
           tabBarOptions={{
@@ -85,7 +85,8 @@ const App = () => {
             backgroundColor: 'black',
             style:{
               backgroundColor: 'black',
-              height:65
+              height:55,
+              borderTopWidth:0
             }
           }}
           >
