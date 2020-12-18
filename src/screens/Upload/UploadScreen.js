@@ -1,6 +1,6 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,ToastAndroid} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,ToastAndroid,ActivityIndicator} from 'react-native';
 //import HeaderIcon from '../../HOC/HeaderIcon.js';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-picker';
@@ -22,6 +22,7 @@ const UploadScreen = (props) => {
     const [follower,setFollower] = useState("")
     const [desc,setDesc] = useState("");
     const [isSelected, setSelection] = useState(false);
+    const [isUploading,setIsUploading]  = useState(false);
     const [uploadPercent, setUploadPercent] = useState(0);
     const chooseFile = () => {
         let options = {
@@ -94,7 +95,7 @@ const UploadScreen = (props) => {
       }
      
     }
-
+   
     const uploadVideo = () => {
      
       if(validations())
@@ -125,8 +126,13 @@ const UploadScreen = (props) => {
           (snapshot) => {
             let progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
             setUploadPercent(progress);
-            
+            if(progress!==100){
+              setIsUploading(true)
+            }else{
+              setIsUploading(false)
+            }
            
             console.log("Upload is " + progress + "% done");
           },
@@ -174,7 +180,9 @@ const UploadScreen = (props) => {
         <ScrollView style={{flex:1}}>
             
             
-            <View style={styles.uploadView}>
+            
+            {!isUploading?<View>
+              <View style={styles.uploadView}>
             <Text style={{textAlign:'center',fontSize:24,padding:20, display:'none'}}>Upload A Video</Text>
               {filePath.uri&&
                 <>
@@ -283,6 +291,13 @@ const UploadScreen = (props) => {
             </View>
 
             </View>
+            </View>:
+            <View style={{justifyContent:'center',flex:1,alignSelf:'center',marginTop:windowHeight/2.5}}>
+              <ActivityIndicator color="black" size="large"/>
+                <Text style={{ fontSize: 18,alignSelf:'center' }}>{uploadPercent} %</Text>
+                </View>
+               }
+          
             
             
         </ScrollView>
