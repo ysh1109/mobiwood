@@ -6,11 +6,11 @@ import {
   Modal,
   KeyboardAvoidingView,
   ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import Video from 'react-native-video';
 import VideoPlayer from 'react-native-video-player';
 import video from '../../assets/videos/video.mp4';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import InputField from '../../components/InputField';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -91,7 +91,7 @@ export default function Contestregistration({navigation}) {
             const isUnderAge = await AsyncStorage.getItem('underage');
             if (adult === 'minor' && isUnderAge != 'true')
               navigation.navigate('UnderAge');
-            else navigation.navigate('Upload');
+            //else navigation.navigate('Upload');
           }
         });
     }
