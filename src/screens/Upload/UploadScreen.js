@@ -1,6 +1,6 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,ToastAndroid} from 'react-native';
 //import HeaderIcon from '../../HOC/HeaderIcon.js';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-picker';
@@ -12,7 +12,6 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
@@ -87,6 +86,7 @@ const UploadScreen = (props) => {
 
     const validations = () => {
        if(desc== "" || follower==""||socialMedia=="") {
+        ToastAndroid.show("Fill all the details before Uploading", ToastAndroid.LONG);
         return false;
       }
       else {
@@ -106,10 +106,10 @@ const UploadScreen = (props) => {
         // .then((resp)=>{
         //   console.log(`UPLOADED!`)
         // })
-        if (!auth.currentUser) {
-          alert("You need to login first");
-          // navigate("/contest");
-        }
+        // if (!auth.currentUser) {
+        //   alert("You need to login first");
+        //   // navigate("/contest");
+        // }
         // var vid = localStorage.getItem("");
         let vid = new Date().getTime()+"_"+parseInt(Math.random()*10000)
         let metadata = {
@@ -126,6 +126,8 @@ const UploadScreen = (props) => {
             let progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             setUploadPercent(progress);
+            
+           
             console.log("Upload is " + progress + "% done");
           },
           (err) => {
