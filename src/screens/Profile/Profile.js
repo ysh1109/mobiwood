@@ -66,8 +66,8 @@ export default props => {
                         />
                         <Text style={{fontSize:24,fontWeight:'700',alignSelf:'center'}}>{userDetails.providerData[0].displayName}</Text>
                         <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:10}}>
-                                <Text style={{fontSize:24,fontWeight:'700'}}>Followers : {userCont.followers.length!=0?userCont.followers:0} </Text>
-                                <Text style={{fontSize:24,fontWeight:'700'}}>Following : {userCont.following.length!=0?userCont.followers:0} </Text>
+                                <Text style={{fontSize:24,fontWeight:'700'}}>Followers : {userCont.followers.length!=0?userCont.followers.length:0} </Text>
+                                <Text style={{fontSize:24,fontWeight:'700'}}>Following : {userCont.following.length!=0?userCont.following.length:0} </Text>
                         </View>
                     </View>
                     <View style={{width:'100%',height:1,backgroundColor:"black"}}></View>

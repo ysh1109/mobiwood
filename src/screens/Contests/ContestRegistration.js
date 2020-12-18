@@ -91,7 +91,7 @@ export default function Contestregistration({navigation}) {
             const isUnderAge = await AsyncStorage.getItem('underage');
             if (adult === 'minor' && isUnderAge != 'true')
               navigation.navigate('UnderAge');
-            //else navigation.navigate('Upload');
+            else navigation.navigate('Upload');
           }
         });
     }
