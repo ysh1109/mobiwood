@@ -17,7 +17,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
     const [filePath, setFilePath] = useState({});
-    const [talent,setTalent] = useState(" ");
+    const [talent,setTalent] = useState('Acting');
     const [title, setTitle] = useState('');
     const [socialMedia,setSocialMedia] = useState("")
     const [follower,setFollower] = useState("")
