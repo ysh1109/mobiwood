@@ -1,6 +1,6 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,ToastAndroid,ActivityIndicator} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity,Image, Dimensions,ScrollView,ToastAndroid,ActivityIndicator} from 'react-native';
 //import HeaderIcon from '../../HOC/HeaderIcon.js';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-picker';
@@ -12,6 +12,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
@@ -50,10 +51,6 @@ const UploadScreen = (props) => {
             alert(response.customButton);
           } else {
             let source = response;
-            // You can also display the image using data:
-            // let source = {
-            //   uri: 'data:image/jpeg;base64,' + response.data
-            // };
             setFilePath(source);
           }
         });
@@ -117,6 +114,7 @@ const UploadScreen = (props) => {
           contentType: "video/quicktime",
         };
         // alert(`filePath : ${filePath}`)
+        setIsUploading(true);
         let uploadTask = storage()
           .ref()
           .child("users/" + vid)
@@ -124,16 +122,8 @@ const UploadScreen = (props) => {
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            let progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
+            let progress = parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
             setUploadPercent(progress);
-            if(progress!==100){
-              setIsUploading(true)
-            }else{
-              setIsUploading(false)
-            }
-           
             console.log("Upload is " + progress + "% done");
           },
           (err) => {
@@ -141,33 +131,39 @@ const UploadScreen = (props) => {
           },
           () => {
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              var data = {
+              let uploadData = {
                 videoUrl: downloadURL,
                 talent: talent,
                 description: desc,
                 title: title,
                 socialMedia: socialMedia,
                 followerCount: follower,
-                //  groupCheck: Selection?"yes":"no",
+                groupCheck: isSelected?"yes":"no",
                 otherTalent: talent === "others" ? otherTalent : "none",
                 uploadTime: new Date(),
                 thumbnail: null,
               };
               firestore()
                 .collection("user")
-                .doc(auth.currentUser.uid)
+                .doc(auth().currentUser.uid)
                 .collection("videos")
                 .doc(vid)
-                .set(data, { merge: true })
+                .set(uploadData, { merge: true })
                 .then(() => {
-                  data.userid = auth.currentUser.uid;
+                  uploadData.userid = auth().currentUser.uid;
                   firestore()
                     .collection("contest")
                     .doc(vid)
-                    .set(data)
+                    .set(uploadData)
                     .then(() => {
-                      // navigate("/");
-                      alert(`uploading done`)
+                      ToastAndroid.show("Video Uploaded Successfully!", ToastAndroid.LONG);
+                      setIsUploading(false);
+                      // setTalent('');
+                      setTitle('');
+                      setSocialMedia('');
+                      setFollower('');
+                      setFilePath('');
+                      setDesc('');
                     });
                 });
             });
@@ -186,7 +182,7 @@ const UploadScreen = (props) => {
             <Text style={{textAlign:'center',fontSize:24,padding:20, display:'none'}}>Upload A Video</Text>
               {filePath.uri&&
                 <>
-                <Video source={{uri: `${filePath.uri}`}}   // Can be a URL or a local file.
+                <Video source={{uri: `${filePath?filePath.uri:''}`}}   // Can be a URL or a local file.
                 shouldPlay={false}
                 controls={true}
                 resizeMode="cover"
@@ -220,7 +216,6 @@ const UploadScreen = (props) => {
               <View style={{height:50}}>
                 <DropDownPicker
                     items={[
-                      {value: ' ', label: '-Select-'},
                       {value: 'Acting', label: 'Acting'},
                       {value: 'Singing', label: 'Singing'},
                       {value: 'Dancing', label: 'Dancing'},

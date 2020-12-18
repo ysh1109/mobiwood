@@ -15,6 +15,8 @@ import AuthContext from './contexts/AuthContext.js';
 import UserContext from './contexts/UserContext.js';
 
 import { NavigationContainer } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {UnauthorizedStack} from './navigations/UnauthorizedStack';
 // import VideosContext from './contexts/VideosContext.js';
@@ -30,6 +32,8 @@ function SettingsScreen() {
     </View>
   );
 }
+
+const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +52,7 @@ const App = () => {
       <UserContext>
         <VideosContext>
           <NavigationContainer>
-          <Tab.Navigator 
+          {isSignedIn?<Tab.Navigator 
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
@@ -94,7 +98,14 @@ const App = () => {
             <Tab.Screen name="Upload" component={!isSignedIn?UnauthorizedStack:UploadScreen} />
             <Tab.Screen name="Notification" component={!isSignedIn?UnauthorizedStack:SettingsScreen} />
             <Tab.Screen name="Profile" component={!isSignedIn?UnauthorizedStack:DrawerStack} />
+            
           </Tab.Navigator>
+          :
+          <Stack.Navigator>
+          <Stack.Screen name="Login" options={{headerShown:false}} component={UnauthorizedStack} />
+
+          </Stack.Navigator>
+          }
           </NavigationContainer>
         </VideosContext>
       </UserContext>
