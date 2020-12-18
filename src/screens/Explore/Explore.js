@@ -10,11 +10,15 @@ import VideoPlayer from 'react-native-video-player';
 import VideosContext from '../../contexts/VideosContext.js';
 import video from '../../assets/videos/video.mp4';
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
+const windowHeight = Dimensions.get('window').height;
+import {UserContext} from '../../contexts/UserContext.js';
+
+import firestore from '@react-native-firebase/firestore';
 import Image3 from "../../assets/images/image3.jpeg";
 import Image4 from "../../assets/images/image4.jpeg";
 import { FlatList } from 'react-native-gesture-handler';
+import { set } from 'react-native-reanimated';
 const blogPosts = [
     {
       postId: "1",
@@ -80,11 +84,24 @@ const ExploreScreen = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
   const [thumbnail,setThumbnail] = useState('');
-  const HandleClick = (e,t) => {
+  const [likes, setLikes] = useState(0);
+  const [views, setViews] = useState(0);
+  const [vidId, setVidId] = useState('');
+  const [shares, setShares] = useState(0);
+  const [vidLiked, setVidLiked] = useState(false);
+  const usrCntxt = React.useContext(UserContext);
+  const HandleClick = (e,t, l, v, s, id) => {
     setVideoUrl(e);
-    setThumbnail(t)
+    setThumbnail(t);
+    setLikes(l);
+    setViews(v);
+    setShares(s);
+    setVidId(id);
     setModalVisible(true);
   }
+  React.useEffect(()=>{
+    // alert(`likedVideos : ${usrCntxt.likedVideos}`)
+  },[])
     return(
         <View style={{flex:1}}>
           <Modal
@@ -112,9 +129,32 @@ const ExploreScreen = (props) => {
                   <Text style={styles.textStyle}>Hide Modal</Text>
                 </TouchableHighlight>
                */}
+                <View style={{flexDirection:'row'}}>
+                  <TouchableOpacity onPress={()=>{
+                    usrCntxt.updateLikes(vidId)
+                    firestore().collection("contest").doc(vidId).update({
+                      likes: likes+1,
+                    })
+                    .then(()=>{
+                      setVidLiked(true);
+                    })
+                  }}>
+                    <Text style={{color:!vidLiked?'black':'pink'}}>{likes} Likes </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Text style={{color:'black'}}>{shares} Shares </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={()=>{
+                    firestore().collection("contest").doc(vidId).update({
+                      views: views+1,
+                    });
+                  }}>
+                    <Text>{views} views</Text>
+                  </TouchableOpacity>
                 </View>
-
+                </View>
             </View>
+            
           </Modal>
   
           <View style={styles.searchContainer}>
@@ -162,7 +202,7 @@ const styles  = StyleSheet.create ({
         justifyContent:'center'
     },
     centeredView: {
-      height:windowHeight/1.4,
+      height:windowHeight/1.3,
       width:windowWidth-50,
       justifyContent:'center',
       alignSelf:'center',
