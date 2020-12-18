@@ -35,6 +35,7 @@ const InputField = ({leftIcon, floatingInput = true, ...props}) => {
   }, [props.value]);
 
   return (
+<<<<<<< HEAD
     <View style={{...Styles.container, ...props.inputContainerStyles}}>
       {/* {leftIcon && <Image style={props.iconStyles} source={leftIcon} />} */}
       <TextInput  keyboardType="decimal-pad"
@@ -67,14 +68,21 @@ const InputField = ({leftIcon, floatingInput = true, ...props}) => {
             <TextInput
               keyboardType="decimal-pad"
               style={Styles.numberInput}
+=======
+  
+        <View style={{width: '100%'}}>
+            <TextInput 
+              style={Styles.inputContainer}
+>>>>>>> 542108c1ded8e5f61d64021b4c5cbf4a0d624053
               underlineColorAndroid="transparent"
-              {...props}
-            />
-          </View>
-          <View style={Styles.underline} />
+              {...props}/>
         </View>
+<<<<<<< HEAD
       )} */}
     </View>
+=======
+   
+>>>>>>> 542108c1ded8e5f61d64021b4c5cbf4a0d624053
   );
 };
 
@@ -82,12 +90,15 @@ const Styles= ScaledSheet.create({
   inputContainer:{
     borderColor: '#edf2f7',
     borderWidth: 1,
-    padding:"18@ms",
     borderRadius:"3@ms",
+    paddingLeft:10,
     width:wp('90%'),
     backgroundColor:"white",
   },
-
+  numberInput : {
+    backgroundColor:'white',
+    width:'100%'
+  }
 })
 
 export default InputField;
