@@ -11,6 +11,7 @@ import VideosContext from '../../contexts/VideosContext.js';
 import video from '../../assets/videos/video.mp4';
 const windowWidth = Dimensions.get('window').width;
 
+import FeatherIcon from 'react-native-vector-icons/Feather';
 const windowHeight = Dimensions.get('window').height;
 import {UserContext} from '../../contexts/UserContext.js';
 
@@ -117,7 +118,7 @@ const ExploreScreen = (props) => {
                 <View style={styles.centeredView}>
                 <VideoPlayer
                     video={{uri:videoUrl}}
-                    style={{height:windowHeight/1.4,width:windowWidth-50}}
+                    style={{height:windowHeight/1.45,width:windowWidth-50}}
                     thumbnail={{uri: thumbnail}}
                   />
                 {/* <TouchableHighlight
@@ -139,17 +140,17 @@ const ExploreScreen = (props) => {
                       setVidLiked(true);
                     })
                   }}>
-                    <Text style={{color:!vidLiked?'black':'pink'}}>{likes} Likes </Text>
+                    <Text style={{color:!vidLiked?'black':'pink'}}> <FeatherIcon name='thumbs-up' size={30} color='black' />{likes}  </Text>
                   </TouchableOpacity>
                   <TouchableOpacity>
-                    <Text style={{color:'black'}}>{shares} Shares </Text>
+                    <Text style={{color:'black'}}> <FeatherIcon  name='share-2' size={30} color='black' />{shares}  </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={()=>{
                     firestore().collection("contest").doc(vidId).update({
                       views: views+1,
                     });
                   }}>
-                    <Text>{views} views</Text>
+                    <Text> <FeatherIcon  name='eye' size={30} color='black' /> {views}</Text>
                   </TouchableOpacity>
                 </View>
                 </View>
@@ -208,7 +209,6 @@ const styles  = StyleSheet.create ({
       alignSelf:'center',
       alignItems: "center",
       backgroundColor: "white",
-      borderRadius: 20,
       padding: 35,
       alignItems: "center",
       shadowColor: "#000",
