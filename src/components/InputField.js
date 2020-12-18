@@ -37,7 +37,11 @@ const InputField = ({leftIcon, floatingInput = true, ...props}) => {
   return (
     <View style={{...Styles.container, ...props.inputContainerStyles}}>
       {/* {leftIcon && <Image style={props.iconStyles} source={leftIcon} />} */}
-      {floatingInput ? (
+      <TextInput  keyboardType="decimal-pad"
+              style={Styles.numberInput}
+              underlineColorAndroid="transparent"
+              {...props}/>
+      {/* {floatingInput ? (
         <FloatingLabelInput
           {...props}
           onFocus={handleFocus}
@@ -69,7 +73,7 @@ const InputField = ({leftIcon, floatingInput = true, ...props}) => {
           </View>
           <View style={Styles.underline} />
         </View>
-      )}
+      )} */}
     </View>
   );
 };
