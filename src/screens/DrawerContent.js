@@ -36,17 +36,17 @@ export default function DrawerContent(props){
             {/* <DrawerItem 
                label="Home"
                icon={({ color, size }) => (<Icon name="home-outline" color={'white'} size={25} /> )}
-               labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:18,}}
+               labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:22,}}
                style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Home')}}
+               onPress={() => {props.navigation.navigate('Construction')}}
 			   
-            /> */}
-            {/* <DrawerItem 
+            />
+            <DrawerItem 
                label="Trending"
                icon={({ color, size }) => (<Icon name="home-outline" color={'white'} size={25} /> )}
-               labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:18,}}
+               labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:22,}}
                style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Home')}}
+               onPress={() => {props.navigation.navigate('Construction')}}
             /> */}
              <DrawerItem 
                label="Contests"
@@ -55,41 +55,20 @@ export default function DrawerContent(props){
                style={[styles.drawerItemStyle],{marginRight:-10}}
                onPress={() => {props.navigation.navigate('Contest')}}
             />
-             {/* <DrawerItem 
-               label="Profile"
-               icon={({ color, size }) => (<Icon name="person-outline" color={'white'} size={25} /> )}
-               labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:18,}}
-               style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Profile')}}
-            /> */}
-             {/* <DrawerItem 
-               label="Notifications"
-               icon={({ color, size }) => (<Icon name="notifications-outline" color={'white'} size={25} /> )}
-               labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:18,}}
-               style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Home')}}
-            /> */}
              
-             {/* <DrawerItem 
-               label="Setting"
-               icon={({ color, size }) => (<Icon name="settings-outline" color={'white'} size={25} /> )}
-               labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:18,}}
-               style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Home')}}
-            /> */}
              <DrawerItem 
                label="Support"
                icon={({ color, size }) => (<Icon name="help-circle-outline" color={'white'} size={25} /> )}
                labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:18,}}
                style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Support')}}
+               onPress={() => {props.navigation.navigate('Construction')}}
             />
              <DrawerItem 
                label="Feedback"
                icon={({ color, size }) => (<Icon name="happy-outline" color={'white'} size={25} /> )}
                labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:18,}}
                style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Home')}}
+               onPress={() => {props.navigation.navigate('Construction')}}
             />
              
 			<DrawerItem 

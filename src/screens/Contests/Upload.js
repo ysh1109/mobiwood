@@ -31,8 +31,7 @@ import CheckBox from '@react-native-community/checkbox';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import MediaMeta from 'react-native-media-meta';
-import RNFetchBlob from 'react-native-fetch-blob';
+// import MediaMeta from 'react-native-media-meta';
 import RNFS, {uploadFiles} from 'react-native-fs';
 import ImagePicker from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
@@ -152,26 +151,26 @@ export default function Upload({navigation}) {
       const maxTime = 90000;
       console.log('vidD', video);
       if (video.path || video.uri) {
-        MediaMeta.get(path)
-          .then((metadata) => {
-            console.log(metadata.duration);
-            if (metadata.duration > maxTime) {
-              Alert.alert(
-                'Sorry',
-                'Video duration must be less then 90 seconds',
-                [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-                {cancelable: false},
-              );
-            } else {
+        // MediaMeta.get(path)
+          // .then((metadata) => {
+            // // console.log(metadata.duration);
+            // if (metadata.duration > maxTime) {
+            //   Alert.alert(
+            //     'Sorry',
+            //     'Video duration must be less then 90 seconds',
+            //     [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+            //     {cancelable: false},
+            //   );
+            // } else {
               const name = path.substring(
                 path.lastIndexOf('/') + 1,
                 path.length,
               );
               setSingleFile(name);
               setVideoPath(video.path || video.uri);
-            }
-          })
-          .catch((err) => console.error(err));
+            // }
+          // })
+          // .catch((err) => console.error(err));
       }
     });
   };

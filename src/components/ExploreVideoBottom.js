@@ -15,7 +15,7 @@ const ExplorVideoBottom = props => {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item, index})=>(
                     <View key={index}  style={styles.layoutB}>
-                        <TouchableOpacity onPress={()=>props.clicked(item.videoUrl,item.thumbnail)} >
+                        <TouchableOpacity onPress={()=>props.clicked(item.videoUrl,item.thumbnail, item.likes, item.views, item.shares, item.id, item.userid)} >
                         <Image
                             source={item.thumbnail?{uri:item.thumbnail}:(require('../assets/images/loading.jpg'))}
                             style={{height:"100%",width:"100%", margin:2}}

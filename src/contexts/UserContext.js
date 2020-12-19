@@ -34,14 +34,18 @@ const UserContextProvider = ({ children }) => {
         //   const db = firestore();
           const collectionRef = firestore().collection("user").doc(uid).collection("videos");
           const vids = await collectionRef.get();
+          let vidArray = [];
           vids.forEach((vid) => {
             if (vid.data().videoUrl) {
+              console.log(`vid : ${JSON.stringify(vid.data())}`)
               // alert(`vid : ${JSON.stringify(vid)}`)
               // const temp = resp.filter(
               //   (currVid) => currVid.videoUrl === vid.data().videoUrl
               // );
-              setMyVideos(vid);
+              vidArray.push(vid.data());
+              
             }
+            setMyVideos(vidArray);
           });
         };
         // if (uid && videosFromSession) {

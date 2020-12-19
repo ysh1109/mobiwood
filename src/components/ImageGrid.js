@@ -1,6 +1,7 @@
 import React from 'react'
-import {View,Text,Image, FlatList}from 'react-native'
+import {View,Text,Image, FlatList, TouchableOpacity}from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters';
+import firestore from '@react-native-firebase/firestore';
 import Image3 from "../assets/images/image3.jpeg"
 import Image4 from "../assets/images/image4.jpeg";
 import Video from 'react-native-video-player';
@@ -10,7 +11,7 @@ import {
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-
+import { UserContext } from '../contexts/UserContext';
 
 const blogPosts = [
     {
@@ -82,6 +83,8 @@ const blogPosts = [
   let codeBlock = "@abhishekgill"
 export default function ImageGrid(props){
     let videoContext = React.useContext(VideosContext);
+    const usrCntxt = React.useContext(UserContext);
+
     return(
         <View style={styles.imageGrid}>
             <FlatList 
@@ -91,11 +94,11 @@ export default function ImageGrid(props){
               renderItem = {({item, index}) =>  (
                 <View style={styles.imgContainer}> 
                   <View style={{paddingTop:5}}>
-                  <Image source={require('../assets/images/usericon.jpg')} style={{width:40, height:40, marginLeft:10, marginTop:8, marginBottom:8, borderRadius:60, borderWidth:1, borderColor:'#bbb',}} />
+                  <Image source={require('../assets/images/usericon.png')} style={{width:40, height:40, marginLeft:10, marginTop:8, marginBottom:8, borderRadius:60, borderWidth:1, borderColor:'#bbb',}} />
                   <View style={{}}>
-                  <Text style={{marginTop:8, marginLeft:12, fontWeight:'bold', fontSize:15, position:'absolute', top:-55, left:50}}>Abhishek Gill</Text>
+                  <Text style={{marginTop:8, marginLeft:12, fontWeight:'bold', fontSize:15, position:'absolute', top:-55, left:50}}>{!item.name?"Abhishek":item.name}</Text>
                   <Text style={{position:'absolute', top:-27, left:62, fontSize:12, color:'grey'}}>{codeBlock}</Text>
-                  <Text style={{padding:10}}>Phasellus viverra ipsum dictum ipsum consectetur euismod... <Text style={{color: '#6b6b6b', fontWeight:'800'}} onPress={() => Linking.openURL('http://google.com')}> more </Text> {"\n"}{"\n"}#Mobiwood #Entertainment</Text>
+                  <Text style={{padding:10}}>{item.description}</Text>
                   </View>
                   <FeatherIcon
                     name='more-horizontal'
@@ -104,9 +107,18 @@ export default function ImageGrid(props){
                   </View>
                   <Video thumbnail={{uri:item.thumbnail}} video={{uri:item.videoUrl}} style={styles.img}/>
                   <View style={{paddingLeft:20, marginTop:12, marginBottom:20, display:'flex', flexDirection:'row'}}>
-                  <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color='black' /> 223 </Text>
-                  <Text style={{marginLeft:20, fontSize:17}} ><FeatherIcon  onPress={props.shareModal}  name='share-2' size={20} color='black' /> 5 </Text>
-                  <Text style={{marginLeft:20, fontSize:17,}}><FeatherIcon name='eye' size={20} color='black' /> 235 </Text> 
+                  <TouchableOpacity onPress={()=>{
+                    usrCntxt.updateLikes(item.id)
+                    firestore().collection("contest").doc(item.id).update({
+                      likes: item.likes+1,
+                    })
+                    .then(()=>{
+                    })
+                  }}>
+                  <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color='black' /> {item.likes?item.likes:0}</Text>
+                  </TouchableOpacity>
+                  <Text style={{marginLeft:20, fontSize:17}} ><FeatherIcon  onPress={props.shareModal}  name='share-2' size={20} color='black' /> {item.shares?item.shares:0}</Text>
+                  <Text style={{marginLeft:20, fontSize:17,}}><FeatherIcon name='eye' size={20} color='black' /> {item.views?item.views:'0'}</Text> 
                   </View> 
                 </View>
               )}

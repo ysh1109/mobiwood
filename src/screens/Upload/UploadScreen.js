@@ -1,6 +1,6 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity,Image, Dimensions,ScrollView,ToastAndroid,ActivityIndicator} from 'react-native';
 //import HeaderIcon from '../../HOC/HeaderIcon.js';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-picker';
@@ -17,12 +17,13 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
     const [filePath, setFilePath] = useState({});
-    const [talent,setTalent] = useState(" ");
+    const [talent,setTalent] = useState('Acting');
     const [title, setTitle] = useState('');
     const [socialMedia,setSocialMedia] = useState("")
     const [follower,setFollower] = useState("")
     const [desc,setDesc] = useState("");
     const [isSelected, setSelection] = useState(false);
+    const [isUploading,setIsUploading]  = useState(false);
     const [uploadPercent, setUploadPercent] = useState(0);
     const chooseFile = () => {
         let options = {
@@ -50,10 +51,6 @@ const UploadScreen = (props) => {
             alert(response.customButton);
           } else {
             let source = response;
-            // You can also display the image using data:
-            // let source = {
-            //   uri: 'data:image/jpeg;base64,' + response.data
-            // };
             setFilePath(source);
           }
         });
@@ -86,34 +83,46 @@ const UploadScreen = (props) => {
      }
 
     const validations = () => {
-      return true;
+       if(desc== "" || follower==""||socialMedia=="") {
+        ToastAndroid.show("Fill all the details before Uploading", ToastAndroid.LONG);
+        return false;
+      }
+      else {
+        return true;
+      }
+     
     }
-
+   
     const uploadVideo = () => {
-      // if(desc== "" || follower==""||socialMedia=="") {
-        
-      // }
+     
       if(validations())
       {
+        // let vid = new Date().getTime()+"_"+parseInt(Math.random()*10000);
+        // const ref = storage().ref().child("users/"+vid)
+        // let uploadBlob = null;
+        // ref.putFile(filePath.path, {contentType:"image/jpg"})
+        // .then((resp)=>{
+        //   console.log(`UPLOADED!`)
+        // })
         // if (!auth.currentUser) {
         //   alert("You need to login first");
-        //   navigate("/contest");
+        //   // navigate("/contest");
         // }
         // var vid = localStorage.getItem("");
         let vid = new Date().getTime()+"_"+parseInt(Math.random()*10000)
         let metadata = {
           contentType: "video/quicktime",
         };
-        alert(`filePath : ${filePath}`)
+        // alert(`filePath : ${filePath}`)
+        setIsUploading(true);
         let uploadTask = storage()
           .ref()
           .child("users/" + vid)
-          .put(filePath.uri, metadata);
+          .putFile(filePath.path, metadata);
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            let progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            let progress = parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
             setUploadPercent(progress);
             console.log("Upload is " + progress + "% done");
           },
@@ -122,33 +131,39 @@ const UploadScreen = (props) => {
           },
           () => {
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              var data = {
+              let uploadData = {
                 videoUrl: downloadURL,
                 talent: talent,
                 description: desc,
                 title: title,
                 socialMedia: socialMedia,
                 followerCount: follower,
-                 groupCheck: Selection?"yes":"no",
+                groupCheck: isSelected?"yes":"no",
                 otherTalent: talent === "others" ? otherTalent : "none",
                 uploadTime: new Date(),
                 thumbnail: null,
               };
               firestore()
                 .collection("user")
-                .doc(auth.currentUser.uid)
+                .doc(auth().currentUser.uid)
                 .collection("videos")
                 .doc(vid)
-                .set(data, { merge: true })
+                .set(uploadData, { merge: true })
                 .then(() => {
-                  data.userid = auth.currentUser.uid;
+                  uploadData.userid = auth().currentUser.uid;
                   firestore()
                     .collection("contest")
                     .doc(vid)
-                    .set(data)
+                    .set(uploadData)
                     .then(() => {
-                      // navigate("/");
-                      alert(`uploading done`)
+                      ToastAndroid.show("Video Uploaded Successfully!", ToastAndroid.LONG);
+                      setIsUploading(false);
+                      // setTalent('');
+                      setTitle('');
+                      setSocialMedia('');
+                      setFollower('');
+                      setFilePath('');
+                      setDesc('');
                     });
                 });
             });
@@ -161,11 +176,13 @@ const UploadScreen = (props) => {
         <ScrollView style={{flex:1}}>
             
             
-            <View style={styles.uploadView}>
+            
+            {!isUploading?<View>
+              <View style={styles.uploadView}>
             <Text style={{textAlign:'center',fontSize:24,padding:20, display:'none'}}>Upload A Video</Text>
               {filePath.uri&&
                 <>
-                <Video source={{uri: `${filePath.uri}`}}   // Can be a URL or a local file.
+                <Video source={{uri: `${filePath?filePath.uri:''}`}}   // Can be a URL or a local file.
                 shouldPlay={false}
                 controls={true}
                 resizeMode="cover"
@@ -192,14 +209,13 @@ const UploadScreen = (props) => {
                 
             </View>
 
-            <View style={{alignSelf:'center',marginTop:15, paddingLeft:10, paddingRight:10}}>
+            <View style={{alignSelf:'center',marginTop:15, paddingLeft:0}}>
 
-            <Text style={[styles.label,{marginTop:0, marginLeft:1}]}>Talent</Text>
+            <Text style={[styles.label], {marginLeft:0, marginBottom:10}}>Talent</Text>
             
               <View style={{height:50}}>
                 <DropDownPicker
                     items={[
-                      {value: ' ', label: '-Select-'},
                       {value: 'Acting', label: 'Acting'},
                       {value: 'Singing', label: 'Singing'},
                       {value: 'Dancing', label: 'Dancing'},
@@ -222,7 +238,7 @@ const UploadScreen = (props) => {
                   />
               </View>
 
-            <Text style={[styles.label,{marginTop:20, marginLeft:1}]}>Title</Text>
+            <Text style={[styles.label,{marginTop:20, marginLeft:0}]}>Title</Text>
             <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"title")}}                  //onBlur={handleBlur('email')}
@@ -230,7 +246,7 @@ const UploadScreen = (props) => {
                  containerStyles={{width:'100%'}}
             />
               
-            <Text style={[styles.label,{marginTop:20, marginLeft:1}]}>Write Something About The Video</Text>
+            <Text style={[styles.label,{marginTop:20, marginLeft:0}]}>Write Something About The Video</Text>
             <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"desc")}}                  //onBlur={handleBlur('email')}
@@ -238,14 +254,14 @@ const UploadScreen = (props) => {
                  containerStyles={{width:'100%'}}
                 />
 
-            <Text style={[styles.label,{marginTop:20, marginLeft:1}]}>Social Media With Highest Followers</Text>
+            <Text style={[styles.label,{marginTop:20, marginLeft:0}]}>Social Media With Highest Followers</Text>
              <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"social")}}                  //onBlur={handleBlur('email')}
                    value={socialMedia}
                  containerStyles={{width:'100%'}}
                 />
-             <Text style={[styles.label,{marginTop:20, marginLeft:1}]}>Follower Count On The platform</Text>
+             <Text style={[styles.label,{marginTop:20, marginLeft:0}]}>Follower Count On The platform</Text>
               <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"follower")}}                  //onBlur={handleBlur('email')}
@@ -261,7 +277,7 @@ const UploadScreen = (props) => {
               />
               <Text style={{marginTop:28}}>Are you participating as a group?</Text>
       </View>
-            <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+            <View style={{justifyContent:'space-around'}}>
             
                 <TouchableOpacity style={styles.buttons} onPress={()=>uploadVideo()}>
                 <Text style={styles.btnText}>Upload Video</Text>
@@ -270,6 +286,13 @@ const UploadScreen = (props) => {
             </View>
 
             </View>
+            </View>:
+            <View style={{justifyContent:'center',flex:1,alignSelf:'center',marginTop:windowHeight/2.5}}>
+              <ActivityIndicator color="black" size="large"/>
+                <Text style={{ fontSize: 18,alignSelf:'center' }}>{uploadPercent} %</Text>
+                </View>
+               }
+          
             
             
         </ScrollView>
@@ -314,7 +337,7 @@ const styles  = StyleSheet.create ({
      label:{
        fontSize:18,
        fontWeight:'700',
-       marginBottom:10
+       marginBottom:10,
      },
      picker:{
       backgroundColor: 'white',
@@ -327,7 +350,7 @@ const styles  = StyleSheet.create ({
     },
     checkbox: {
       alignSelf: "center",
-      marginTop:20
+      marginTop:20,
     },
     label: {
       margin: 8,

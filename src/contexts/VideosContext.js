@@ -36,6 +36,7 @@ const VideosContextProvider = ({ children }) => {
                 console.log(`data is set`)
                 resp.docs.forEach( collection => { 
                   vids.push(collection.data());
+                  vids[vids.length-1].id = collection.id;
                   ids.push(collection.id);
                 });
                 setVideos(vids);

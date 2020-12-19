@@ -15,6 +15,8 @@ import AuthContext from './contexts/AuthContext.js';
 import UserContext from './contexts/UserContext.js';
 
 import { NavigationContainer } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {UnauthorizedStack} from './navigations/UnauthorizedStack';
 // import VideosContext from './contexts/VideosContext.js';
@@ -26,10 +28,13 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 function SettingsScreen() {
   return (
     <View style={{flex: 1,  padding:50, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
+      <Text><FeatherIcon name="bell" size={20} color="black" style={{marginBottom:0}} /></Text>
+      <Text>No Nofications</Text>
     </View>
   );
 }
+
+const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +53,7 @@ const App = () => {
       <UserContext>
         <VideosContext>
           <NavigationContainer>
-          <Tab.Navigator 
+          {isSignedIn?<Tab.Navigator 
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let iconName;
@@ -95,7 +100,14 @@ const App = () => {
             <Tab.Screen name="Upload" component={!isSignedIn?UnauthorizedStack:UploadScreen} />
             <Tab.Screen name="Notification" component={!isSignedIn?UnauthorizedStack:SettingsScreen} />
             <Tab.Screen name="Profile" component={!isSignedIn?UnauthorizedStack:DrawerStack} />
+            
           </Tab.Navigator>
+          :
+          <Stack.Navigator>
+          <Stack.Screen name="Login" options={{headerShown:false}} component={UnauthorizedStack} />
+
+          </Stack.Navigator>
+          }
           </NavigationContainer>
         </VideosContext>
       </UserContext>

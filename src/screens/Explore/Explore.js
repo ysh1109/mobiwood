@@ -1,6 +1,6 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image,Dimensions,ScrollView,Modal,TouchableHighlight,Alert} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity, TextInput, Image,Dimensions,ScrollView,Modal,TouchableHighlight,Alert} from 'react-native';
 //import HeaderIcon from '../../HOC/HeaderIcon.js';
 import InputField from '../../components/InputField';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -9,12 +9,18 @@ import ExploreVideoBottom from '../../components/ExploreVideoBottom';
 import VideoPlayer from 'react-native-video-player';
 import VideosContext from '../../contexts/VideosContext.js';
 import video from '../../assets/videos/video.mp4';
+import LinearGradient from 'react-native-linear-gradient';
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
+import FeatherIcon from 'react-native-vector-icons/Feather';
+const windowHeight = Dimensions.get('window').height;
+import {UserContext} from '../../contexts/UserContext.js';
+
+import firestore from '@react-native-firebase/firestore';
 import Image3 from "../../assets/images/image3.jpeg";
 import Image4 from "../../assets/images/image4.jpeg";
 import { FlatList } from 'react-native-gesture-handler';
+import { set } from 'react-native-reanimated';
 const blogPosts = [
     {
       postId: "1",
@@ -80,64 +86,129 @@ const ExploreScreen = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
   const [thumbnail,setThumbnail] = useState('');
-  const HandleClick = (e,t) => {
+  const [likes, setLikes] = useState(0);
+  const [views, setViews] = useState(0);
+  const [vidId, setVidId] = useState('');
+  const [vidUploaderId, setVidUploaderId] = useState(null);
+  const [shares, setShares] = useState(0);
+  const [following, setFollowing] = useState(false);
+  const [vidLiked, setVidLiked] = useState(false);
+  const usrCntxt = React.useContext(UserContext);
+  const HandleClick = (e,t, l, v, s, id, uid) => {
     setVideoUrl(e);
-    setThumbnail(t)
+    setThumbnail(t);
+    setLikes(l);
+    setViews(v);
+    setShares(s);
+    setVidId(id);
+    setVidUploaderId(uid);
     setModalVisible(true);
   }
+  React.useEffect(()=>{
+    setFollowing(false);
+    // alert(`likedVideos : ${usrCntxt.likedVideos}`)
+  },[])
     return(
         <View style={{flex:1}}>
           <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
+            // style={{}}
             visible={modalVisible}
             onRequestClose={() => {
               setModalVisible(false)
               setVideoUrl('');
             }}
           >
-            <View style={{justifyContent:'center',flex:1}}>
+            <View style={{justifyContent:'center',flex:1, backgroundColor:'rgba(0,0,0,0.8)'}}>
                 <View style={styles.centeredView}>
-                <TouchableHighlight
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3", display:'none'}}
+                  <TouchableOpacity onPress={()=>{setModalVisible(false)}} style={{backgroundColor:'rgba(0,0,0,0.7)',  position:'absolute', padding:5, zIndex:10, top:20, right:8, alignSelf:'flex-end'}}>
+                  <FeatherIcon name='x' size={30} color='white' />
+                </TouchableOpacity>
+                <VideoPlayer
+                    video={{uri:videoUrl}}
+                    style={{height:windowHeight/1,width:windowWidth-0}}
+                    thumbnail={{uri: thumbnail}}
+                  />
+                {/* <TouchableHighlight
+                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                   onPress={() => {
                     setModalVisible(!modalVisible);
                   }}
                 >
                   <Text style={styles.textStyle}>Hide Modal</Text>
                 </TouchableHighlight>
-                <VideoPlayer
-                    video={{uri:videoUrl}}
-                    style={{height:windowHeight/1,width:windowWidth-0, zIndex:1}}
-                    thumbnail={{uri: thumbnail}}
-                  />
+               */}
+                <View style={{flexDirection:'row',position:'absolute', bottom:'4%', width:'100%'}}>
+                 <LinearGradient
+          colors={['rgba(52, 52, 52, 0.3)', 'rgba(52, 52, 52, 0.3)']}
+          style={styles.linearGradient}
+        >
+                  <View style={{alignSelf:'flex-start', flexDirection:'row'}}>
+                    <TouchableOpacity onPress={()=>{
+                      usrCntxt.updateLikes(vidId)
+                      firestore().collection("contest").doc(vidId).update({
+                        likes: likes+1,
+                      })
+                      .then(()=>{
+                        setVidLiked(true);
+                      })
+                    }}>
+                      <Text style={{color:!vidLiked?'white':'white', fontSize:20}}> <FeatherIcon name='thumbs-up' size={20} color='white' />  {likes?likes:0}  </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                      <Text style={{color:'white',fontSize:20}}> <FeatherIcon  name='share-2' size={20} color='white' />  {shares?shares:0}  </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{
+                      firestore().collection("contest").doc(vidId).update({
+                        views: views+1,
+                      });
+                    }}>
+                      <Text style={{fontSize:20, color:'white'}}> <FeatherIcon  name='eye' size={20} color='white' />  {views?views:0}</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{position:'absolute', right:10, top:15}}>
+                    <TouchableOpacity onPress={()=>{
+                      usrCntxt.updateFollowing("follow", vidUploaderId)
+                      .then(()=>{
+                        setFollowing(true);
+                      })
+                    }}>
+                      <Text style={{backgroundColor:following?'grey':'red', color:'white', paddingHorizontal:10, paddingVertical:5, borderRadius:2,fontSize:16}}>{following?'Following':'Follow'}</Text>
+                    </TouchableOpacity>
+                  </View>
+                  </LinearGradient>
                   
-                {
-               }
                 </View>
-
+                </View>
             </View>
+            
           </Modal>
   
           <View style={styles.searchContainer}>
-            <Icon name="search-outline" size={25} color="#1a202c" style={{position:'absolute',zIndex:9999, left:13, top:12}}/>
-            <InputField  
-                placeholder="Search"
-                placeholderTextColor = "#1a202c"
-                //  onChangeText={handleChange('username')}
-                //  onBlur={handleBlur('username')}
-                //  value={values.username}
-                  containerStyles = {styles.containerStyles}
-            />
+            <View style={{flexDirection:'row', backgroundColor:'white', borderRadius:10}}>
+              <View style={{flex:0.9}}>
+                <TextInput
+                  placeholder="Search"
+                  placeholderTextColor = "#1a202c"
+                  keyboardType={"ascii-capable"}
+                  style={{marginLeft:10}}
+                />
+              </View>
+              <View style={{flex:0.1}}>
+                <TouchableOpacity>
+                  <Icon name="search-outline" style={{marginTop:10}} size={25} color="#1a202c"/>
+                </TouchableOpacity>
+              </View>
+            </View>
+
             <TouchableOpacity style={[styles.icon], {display:'none'}}>
                 <Icon name="search-outline" size={25} color="#1a202c"/>
             </TouchableOpacity>
             </View>
 
             <View style={{flex:1,marginTop:10}}>
-                {/* <ExploreVideoTop video={blogPosts}/> */}
-                <ExploreVideoBottom  clicked={HandleClick}  video={blogPosts} style={{margin:10}} />
-                
+              <ExploreVideoBottom  clicked={HandleClick}  video={blogPosts}/>
             </View>
       
             
@@ -151,35 +222,26 @@ const styles  = StyleSheet.create ({
         marginTop:10,
         width:'95%',
         marginLeft:10,
-    },
-     
-    containerStyles:{
-        backgroundColor:"#ddd",
-        borderColor:"#fff",
-        borderRadius:6,
-        paddingLeft:40,
-        width:'100%',
+        // backgroundColor:'black'
     },
     icon:{
         justifyContent:'center'
     },
     centeredView: {
-      height:windowHeight/1.4,
-      width:windowWidth-50,
-      justifyContent:'center',
+      height:windowHeight/1,
+      width:windowWidth-0,
+      // justifyContent:'center',
       alignSelf:'center',
-      alignItems: "center",
+      // alignItems: "center",
       backgroundColor: "white",
-      borderRadius: 20,
-      padding: 35,
-      alignItems: "center",
+      // padding: 35,
+      // alignItems: "center",
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
         height: 2
       },
       shadowOpacity: 0.25,
-      shadowRadius: 3.84,
       elevation: 5
     },
     
@@ -197,7 +259,15 @@ const styles  = StyleSheet.create ({
     modalText: {
       marginBottom: 15,
       textAlign: "center"
-    }
+    },
+    linearGradient: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    width: '100%',
+    paddingLeft:15,
+    paddingTop:10
+  },
 })
 
 
