@@ -59,7 +59,7 @@ export default props => {
                 </>
                 :
                 <View>
-                    <Text>HELLO</Text>
+                    <Text>HEsLLO</Text>
                 </View>
             }
         </View>

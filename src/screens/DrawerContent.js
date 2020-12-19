@@ -82,7 +82,7 @@ export default function DrawerContent(props){
                icon={({ color, size }) => (<Icon name="help-circle-outline" color={'white'} size={25} /> )}
                labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:18,}}
                style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Home')}}
+               onPress={() => {props.navigation.navigate('Support')}}
             />
              <DrawerItem 
                label="Feedback"

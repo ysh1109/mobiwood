@@ -3,7 +3,7 @@ import {Text,Image,View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/HomeScreen';
 const Stack = createStackNavigator();
-import image from '../assets/images/logo.png';
+import image from '../assets/images/logo1.png';
 import {AppHeader} from '../components';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -91,7 +91,7 @@ function ProfileStack() {
           <TouchableOpacity
             style={[styles.menu]}
             onPress={() => navigation.openDrawer()}>
-            <FeatherIcon name="menu" size={25} color='white' />
+            <FeatherIcon name="octagon" size={32} color='white' />
 			
           </TouchableOpacity>
         ),
