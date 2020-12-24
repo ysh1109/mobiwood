@@ -12,7 +12,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { UserContext } from '../contexts/UserContext';
 
 
-  let codeBlock = "@abhishekgill"
+let codeBlock = "@abhishekgill";
 export default function ImageGrid(props){
     const videoContext = React.useContext(VideosContext);
     const usrCntxt = React.useContext(UserContext);
@@ -28,8 +28,8 @@ export default function ImageGrid(props){
                   <View style={{paddingTop:5}}>
                   <Image source={require('../assets/images/usericon.png')} style={{width:40, height:40, marginLeft:10, marginTop:8, marginBottom:8, borderRadius:60, borderWidth:1, borderColor:'#bbb',}} />
                   <View style={{}}>
-                  <Text style={{marginTop:8, marginLeft:12, fontWeight:'bold', fontSize:15, position:'absolute', top:-55, left:50}}>{!item.name?"Abhishek":item.name}</Text>
-                  <Text style={{position:'absolute', top:-27, left:62, fontSize:12, color:'grey'}}>{codeBlock}</Text>
+                  <Text style={{marginTop:8, marginLeft:12, fontWeight:'bold', fontSize:15, position:'absolute', top:-55, left:50}}>{!item.displayName?"Abhishek":item.displayName}</Text>
+                  <Text style={{position:'absolute', top:-27, left:62, fontSize:12, color:'grey'}}>@{item.username}</Text>
                   <Text style={{padding:10}}>{item.description}</Text>
                   </View>
                   <FeatherIcon
