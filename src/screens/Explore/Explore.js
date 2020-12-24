@@ -13,7 +13,9 @@ import {View,
 import Icon from 'react-native-vector-icons/Ionicons';
 import ExploreVideoBottom from '../../components/ExploreVideoBottom';
 import VideoPlayer from 'react-native-video-player';
-import {VideosContext} from '../../contexts/VideosContext.js';
+import VideosContext from '../../contexts/VideosContext.js';
+import video from '../../assets/videos/video.mp4';
+import LinearGradient from 'react-native-linear-gradient';
 const windowWidth = Dimensions.get('window').width;
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -49,28 +51,13 @@ export default props => {
           >
             <View style={{justifyContent:'center',flex:1, backgroundColor:'rgba(0,0,0,0.8)'}}>
                 <View style={styles.centeredView}>
-                  <TouchableOpacity onPress={()=>{setModalVisible(false)}} style={{backgroundColor:'white', borderRadius:1000, borderWidth:2, borderColor:'black', position:'absolute', zIndex:10, top:-10, right:-10, alignSelf:'flex-end'}}>
-                  
-                    <FeatherIcon  name='x' size={30} color='grey' />
+                  <TouchableOpacity onPress={()=>{setModalVisible(false)}} style={{backgroundColor:'rgba(0,0,0,0.7)',  position:'absolute', padding:5, zIndex:10, top:20, right:8, alignSelf:'flex-end'}}>
+                  <FeatherIcon name='x' size={30} color='white' />
                 </TouchableOpacity>
                 <VideoPlayer
-                    video={{uri:vidObj.videoUrl}}
-                    style={{height:windowHeight/1.45,width:windowWidth-50, borderTopStartRadius:20, borderTopEndRadius:20}}
-                    thumbnail={{uri: vidObj.thumbnail}}
-                    onPlayPress={()=>{
-                      firestore().collection("contest").doc(vidObj.id).update({
-                        views: vidCntxt.noOfViewsMap.get(vidObj.id)+1,
-                      })
-                      .then(resp => {
-                        let tmpViewsMap = new Map(vidCntxt.noOfViewsMap);
-                        tmpViewsMap.set(vidObj.id, tmpViewsMap.get(vidObj.id)+1);
-                        vidCntxt.setNoOfViewsMap(tmpViewsMap);
-                        console.log(`view updated!`)
-                      })
-                      .catch(err => {
-                        console.log(`error occured!`)
-                      })
-                    }}
+                    video={{uri:videoUrl}}
+                    style={{height:windowHeight/1,width:windowWidth-0}}
+                    thumbnail={{uri: thumbnail}}
                   />
                 {/* <TouchableHighlight
                   style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
@@ -81,7 +68,11 @@ export default props => {
                   <Text style={styles.textStyle}>Hide Modal</Text>
                 </TouchableHighlight>
                */}
-                <View style={{flexDirection:'row', paddingTop:10, paddingLeft:10}}>
+                <View style={{flexDirection:'row',position:'absolute', bottom:'4%', width:'100%'}}>
+                 <LinearGradient
+          colors={['rgba(52, 52, 52, 0.3)', 'rgba(52, 52, 52, 0.3)']}
+          style={styles.linearGradient}
+        >
                   <View style={{alignSelf:'flex-start', flexDirection:'row'}}>
                     <TouchableOpacity onPress={()=>{
                       usrCntxt.updateLikes(vidObj.id, vidCntxt.vidLikesMap.get(vidObj.id)).then(reslt => {
@@ -97,14 +88,21 @@ export default props => {
                       })
                       
                     }}>
-                      <Text style={{color:'black', fontSize:20}}> <FeatherIcon name='thumbs-up' size={25} color={!usrCntxt.likedVideosMap.get(vidObj.id)?'black':'red'} />  {vidCntxt.vidLikesMap.get(vidObj.id)}  </Text>
+                      <Text style={{color:!vidLiked?'white':'white', fontSize:20}}> <FeatherIcon name='thumbs-up' size={20} color='white' />  {likes?likes:0}  </Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
-                      <Text style={{color:'black',fontSize:20}}> <FeatherIcon  name='share-2' size={25} color='black' />  {vidObj.shares?vidObj.shares:0}  </Text>
+                      <Text style={{color:'white',fontSize:20}}> <FeatherIcon  name='share-2' size={20} color='white' />  {shares?shares:0}  </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{
+                      firestore().collection("contest").doc(vidId).update({
+                        views: views+1,
+                      });
+                    }}>
+                      <Text style={{fontSize:20, color:'white'}}> <FeatherIcon  name='eye' size={20} color='white' />  {views?views:0}</Text>
                     </TouchableOpacity>
                       <Text style={{fontSize:20}}> <FeatherIcon  name='eye' size={25} color='black' /> {vidCntxt.noOfViewsMap.get(vidObj.id)}</Text>
                   </View>
-                  <View style={{position:'absolute', right:10, top:8}}>
+                  <View style={{position:'absolute', right:10, top:15}}>
                     <TouchableOpacity onPress={()=>{
                       usrCntxt.updateFollowing(usrCntxt.fllwingMap.get(vidObj.userid)?"unfollow":"follow", vidObj.userid).then(resp=>{
                         if(resp === "followed"||resp === "unfollowed")
@@ -117,9 +115,11 @@ export default props => {
                         }
                       })
                     }}>
-                      <Text style={{backgroundColor:usrCntxt.fllwingMap.get(vidObj.userid)?'grey':'red', color:'white', paddingHorizontal:10, paddingVertical:5, borderRadius:10,fontSize:20}}>{usrCntxt.fllwingMap.get(vidObj.userid)?'Following':'Follow'}</Text>
+                      <Text style={{backgroundColor:following?'grey':'red', color:'white', paddingHorizontal:10, paddingVertical:5, borderRadius:2,fontSize:16}}>{following?'Following':'Follow'}</Text>
                     </TouchableOpacity>
                   </View>
+                  </LinearGradient>
+                  
                 </View>
                 </View>
             </View>
@@ -166,9 +166,8 @@ const styles  = StyleSheet.create ({
         justifyContent:'center'
     },
     centeredView: {
-      height:windowHeight/1.3,
-      width:windowWidth-50,
-      borderRadius:20,
+      height:windowHeight/1,
+      width:windowWidth-0,
       // justifyContent:'center',
       alignSelf:'center',
       // alignItems: "center",
@@ -181,7 +180,6 @@ const styles  = StyleSheet.create ({
         height: 2
       },
       shadowOpacity: 0.25,
-      shadowRadius: 3.84,
       elevation: 5
     },
     
@@ -199,5 +197,15 @@ const styles  = StyleSheet.create ({
     modalText: {
       marginBottom: 15,
       textAlign: "center"
-    }
-});
+    },
+    linearGradient: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    width: '100%',
+    paddingLeft:15,
+    paddingTop:10
+  },
+})
+
+

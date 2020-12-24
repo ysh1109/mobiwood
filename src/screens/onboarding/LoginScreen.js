@@ -155,6 +155,7 @@ const LoginScreen = ({navigation}) => {
                     <Text style={styles.error}>{errors.username}</Text>
                   )}
                   <InputField
+                  type="text"
                     placeholder="Username"
                     placeholderTextColor="#656565"
                     onChangeText={handleChange('username')}
@@ -167,6 +168,7 @@ const LoginScreen = ({navigation}) => {
                   )}
                   
                   <InputField
+                  type="password" 
                     placeholder="Password"
                     secureTextEntry
                     placeholderTextColor="#656565"
@@ -184,10 +186,13 @@ const LoginScreen = ({navigation}) => {
                     style={styles.btn}
                     onPress={handleSubmit}
                     disabled={!isValid}>
-                    <Text style={[styles.btnText, {fontSize:22}]}>
-                      Log In
-                      <ActivityIndicator animating={isLoading} color="white" />
-                    </Text>
+
+                    {isLoading ? (
+                      <ActivityIndicator animating={isLoading} color="white" style={{position:'absolute', marginTop:25,  width:200, }} />
+                 
+                    ) : (
+                      <Text style={[styles.btnText, {fontSize:22, flex: 1, justifyContent: "center", alignItems: "center", display:'flex', alignItems:'center', justifyContent:'center'}]}>Log In </Text>
+                    )}
                   </TouchableOpacity>
                 </>
               )}

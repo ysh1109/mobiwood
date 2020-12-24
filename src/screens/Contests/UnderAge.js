@@ -10,7 +10,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {  TouchableOpacity } from 'react-native-gesture-handler';
-import { InputField } from '../../components/InputField';
+import InputField from '../../components/InputField';
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -119,7 +119,7 @@ export default function UnderAge({navigation}){
                   }) => (
                   <>
                      <Text style={styles.label}>Name</Text>
-                      <InputField
+                      <InputField  type="text"
                           onChangeText={handleChange('name')}
                           onBlur={handleBlur('name')}
                           value={values.name}
@@ -130,7 +130,7 @@ export default function UnderAge({navigation}){
                           }
                      
                       <Text style={styles.label}>Parent's/Gurdian's Email</Text> 
-                      <InputField
+                      <InputField  type="text"
                         keyboardType="email-address"
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
@@ -161,7 +161,7 @@ export default function UnderAge({navigation}){
                           <Text style={styles.error}>{errors.date}</Text>
                         }
                         <Text style={styles.label}>Parent's/Gurdian's Mobile</Text>
-                        <InputField
+                        <InputField  type="text"
                             keyboardType="numeric"
                             onChangeText={handleChange('mno')}
                             onBlur={handleBlur('mno')}
