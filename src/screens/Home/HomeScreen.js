@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Text, View, Share,Modal,Dimensions,TouchableOpacity} from 'react-native'
+import {Text, View, Share,Modal,Dimensions,TouchableOpacity, ToastAndroid} from 'react-native'
 import HeaderIcon from '../../HOC/HeaderIcon.js';
 import { ScaledSheet } from 'react-native-size-matters';
 import {
@@ -58,14 +58,22 @@ const onShare = async () => {
 
 export default HeaderIcon(function HomeScreen(){
     const [modalVisible,setModalVisible] = useState(false)
+    const [reportValue,setReportValue] = useState("")
     const toggleModal = (val) =>{
         setModalVisible(val)
         //getData()
     }
+    const handleReport = () => {
+      setModalVisible(false)
+      if(reportValue != ""){
+       ToastAndroid.show("Report has been Submitted", ToastAndroid.LONG);
+
+      }
+    }
     return(
           <View style={{flex:1}}>
                <Modal
-            animationType="fade"
+            animationType="slide"
             transparent={true}
             // style={{}}
             visible={modalVisible}
@@ -73,19 +81,19 @@ export default HeaderIcon(function HomeScreen(){
               setModalVisible(false)
             }}
           >
-            <View style={{justifyContent:'center',flex:1, backgroundColor:'rgba(0,0,0,0.8)'}}>
+            <View style={{justifyContent:'flex-end',flex:1, backgroundColor:'rgba(0,0,0,0.8)'}}>
                 <View style={styles.centeredView}>
                   <Text style={{fontSize:24,textAlign:'center',margin:15,fontWeight:'700',color:'black'}}>Report Content</Text>
                 <RadioButtonRN
                     data={data}
                     style={{width:'90%',alignSelf:'center'}}
-                    selectedBtn={(e) => console.log(e)}
+                    selectedBtn={(e) => setReportValue(e)}
                   />
                 <View style={{flexDirection:'row',justifyContent:'space-evenly',marginTop:25}}>
                   <TouchableOpacity onPress={()=>setModalVisible(false)} style={{justifyContent:'center'}}>
                       <Text style={{fontSize:24,fontWeight:'700',color:'red'}}>CANCEL</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>handleReport()}>
                     <Text style={{fontSize:24,fontWeight:'700',color:'skyblue'}}>OK</Text>
                     </TouchableOpacity>
                 </View>
@@ -182,7 +190,7 @@ const styles = ScaledSheet.create({
       },
       centeredView: {
         height:windowHeight/1.3,
-        width:windowWidth-50,
+        width:windowWidth,
         borderRadius:20,
         // justifyContent:'center',
         alignSelf:'center',
