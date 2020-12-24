@@ -1,20 +1,12 @@
 import React,{useState} from 'react'
-import {Text,View,Modal,Share, FlatList} from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import InputField from '../../components/InputField';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {Text, View, Share} from 'react-native'
 import HeaderIcon from '../../HOC/HeaderIcon.js';
-import VideosContext from '../../contexts/VideosContext.js';
-
-
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { ScaledSheet } from 'react-native-size-matters';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import {Colors, Typography} from '../../constants';
-import Slider from '../../components/Slider'
 import ImageGrid from '../../components/ImageGrid'
  
 

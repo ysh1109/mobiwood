@@ -9,6 +9,7 @@ import InputField from '../../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Checkbox from '@react-native-community/checkbox';
 import auth from '@react-native-firebase/auth';
+import {AuthContext} from '../../contexts/AuthContext.js';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -17,6 +18,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
     const [filePath, setFilePath] = useState({});
+    const athCntxt = React.useContext(AuthContext);
     const [talent,setTalent] = useState('Acting');
     const [title, setTitle] = useState('');
     const [socialMedia,setSocialMedia] = useState("")
@@ -136,6 +138,9 @@ const UploadScreen = (props) => {
                 talent: talent,
                 description: desc,
                 title: title,
+                userId: athCntxt.uid,
+                displayName: athCntxt.userDetails.displayName,
+                // userName : athCntxt.userDetails
                 socialMedia: socialMedia,
                 followerCount: follower,
                 groupCheck: isSelected?"yes":"no",

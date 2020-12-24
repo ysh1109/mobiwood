@@ -10,7 +10,9 @@ const VideosContextProvider = ({ children }) => {
   const [videosLimited, setVideosLimited] = useState([]);
   const [videos, setVideos] = useState([]);
   const [id, setId] = useState([]);
-
+  const [vidLikesMap, setVidLikesMap] = useState(new Map());
+  const [noOfViewsMap, setNoOfViewsMap] = useState(new Map());
+  const [noOfFollowersMap, setNoOfFollowersMap] = useState(new Map());
   React.useEffect(() => {
     
     const fetchLimitedVideos = async () => {
@@ -25,27 +27,43 @@ const VideosContextProvider = ({ children }) => {
       let vids = [];
       let tmp = [];
       let ids = [];
+      let tempVidMap = new Map();
+      let tempNoOfFollowers = new Map();
+      let tempNoOfViewsMap = new Map();
       firestore().collection("contest").orderBy("uploadTime").get().then(async resp => {
             // console.log(resp.docs.for)
+            
             // resp.docs.forEach(data => {
-            //     console.log(data.data())
+                
+                
             // })
+            
             if (1==1 || count >= 3 || !initialCount || !timestamp || difference > 0) {
                 // console.log("Query Made from context");
                 // const activeref = await vidRef.get();
+                // console.log(resp.data())
+                // console.log(`id of Video ${data.id}`);
                 console.log(`data is set`)
-                resp.docs.forEach( collection => { 
+                resp.docs.forEach( (collection, i) => { 
                   vids.push(collection.data());
                   vids[vids.length-1].id = collection.id;
                   ids.push(collection.id);
+                  tempVidMap.set(collection.id, collection.data().likes?collection.data().likes:0);
+                  tempNoOfFollowers.set(collection.data().userid, collection.data().followerCount?collection.data().followerCount:0);
+                  // console.log(`VIEWS : ${collection.data().views}`)
+                  tempNoOfViewsMap.set(collection.data().id, collection.data().views?collection.data().views:0);
+                  if (i < 16) {
+                    tmp.push(collection.data());
+                  }
                 });
                 setVideos(vids);
                 setId(ids);
-                vids.forEach((vid, i) => {
-                  if (i < 16) {
-                    tmp.push(vid);
-                  }
-                });
+                setNoOfFollowersMap(tempNoOfFollowers);
+                setVidLikesMap(tempVidMap);
+                setNoOfViewsMap(tempNoOfViewsMap);
+                // vids.forEach((vid, i) => {
+                  
+                // });
                 setVideosLimited(tmp);
                 AsyncStorage.setItem("count", "0");
                 AsyncStorage.setItem("videosLimited", JSON.stringify(tmp));
@@ -67,7 +85,17 @@ const VideosContextProvider = ({ children }) => {
   }, []);
   
   return (
-    <VideosContext.Provider value={{ videosLimited:videosLimited, videos:videos, id:id }}>
+    <VideosContext.Provider value={{ 
+      videosLimited:videosLimited, 
+      videos:videos, 
+      id:id, 
+      vidLikesMap:vidLikesMap, 
+      noOfFollowersMap:noOfFollowersMap, 
+      noOfViewsMap:noOfViewsMap,
+      setNoOfFollowersMap:setNoOfViewsMap,
+      setNoOfFollowersMap:setNoOfFollowersMap, 
+      setVidLikesMap:setVidLikesMap 
+    }}>
       {videos.length?children
         :
         <View style={{flex:1,alignItems:'center', justifyContent:'center'}}>

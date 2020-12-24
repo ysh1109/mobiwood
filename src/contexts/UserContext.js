@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
 
 import { VideosContext } from "./VideosContext";
+import { completeHandlerIOS } from "react-native-fs";
 
 export const UserContext = createContext({});
 
@@ -13,8 +14,9 @@ const UserContextProvider = ({ children }) => {
   const [myVideos, setMyVideos] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-
+  const [likedVideosMap, setLikedVideosMap] = useState(new Map());
   const { userDetails, uid } = useContext(AuthContext);
+  const [fllwingMap, setFllwingMap] = useState(new Map());
   // const { videos } = useContext(VideosContext);
 
   useEffect(() => {
@@ -30,6 +32,26 @@ const UserContextProvider = ({ children }) => {
     // const videosFromSession = JSON.parse(sessionStorage.getItem("videos"));
     // AsyncStorage.getItem("videos").then(resp => {
       // alert(`${uid}`)
+      const getUserDetails = async () => {
+        await firestore().collection("user").doc(uid).get().then(async resp=>{
+          let userData = resp.data();
+          let likedVidMap = new Map();
+          let tmpFllwingMp = new Map();
+          setLikedVideos(userData.likedVideos);
+          // console.log(`resp :${JSON.stringify(resp.data())}`);
+          console.log(`likedVideos : ${userData["likedVideos"]}`)
+          // if(resp)
+          userData.following.forEach(data => {
+            tmpFllwingMp.set(data, true);
+          });
+          userData.likedVideos.forEach(data => {
+            likedVidMap.set(data, true);
+          })
+          setLikedVideosMap(likedVidMap);
+          setFllwingMap(tmpFllwingMp);
+          console.log(`Following data is set too`)
+        })
+      }
       const fetchMyVideos = async () => {
         //   const db = firestore();
           const collectionRef = firestore().collection("user").doc(uid).collection("videos");
@@ -37,39 +59,55 @@ const UserContextProvider = ({ children }) => {
           let vidArray = [];
           vids.forEach((vid) => {
             if (vid.data().videoUrl) {
-              console.log(`vid : ${JSON.stringify(vid.data())}`)
-              // alert(`vid : ${JSON.stringify(vid)}`)
-              // const temp = resp.filter(
-              //   (currVid) => currVid.videoUrl === vid.data().videoUrl
-              // );
               vidArray.push(vid.data());
-              
             }
-            setMyVideos(vidArray);
           });
+          setMyVideos(vidArray);
+          // getLikedVideos();
         };
+        
         // if (uid && videosFromSession) {
-          fetchMyVideos();
+          if(uid)
+          {
+            fetchMyVideos();
+            getUserDetails();
+          }
         // }
     // });
     // (sessionStorage.getItem("videos"));
 
     
   }, [uid]);
+  
+  const updateLikes = (videoId, noOfLikes) => {
 
-  const updateLikes = async (videoId, action) => {
     let newLikes;
-    if (action === "like") {
+    console.log(`videoId :${videoId}`)
+    noOfLikes= noOfLikes?noOfLikes:0;
+    if (!likedVideosMap.get(videoId)) {
       newLikes = [...likedVideos, videoId];
+      noOfLikes++;
     } else {
       newLikes = likedVideos.filter((vid) => vid !== videoId);
+      noOfLikes--;
     }
+    // console.log(`LIKED VIDEOS ARRAY : ${JSON.stringify(newLikes)}`)
     setLikedVideos(newLikes);
-    await firestore().collection("user").doc(uid).update({
+    let tempLikedMap = new Map(likedVideosMap);
+    tempLikedMap.set(videoId, !tempLikedMap.get(videoId));
+    return firestore().collection("user").doc(uid).update({
       likedVideos: newLikes,
+    }).then(resp => {
+      return firestore().collection("contest").doc(videoId).update({
+        likes: noOfLikes,
+      })
+      .then(()=>{
+        console.log(`NEW NO OF LIKES : ${noOfLikes}`);
+        setLikedVideosMap(tempLikedMap);
+        return noOfLikes;
+      })
     });
   };
-
   const updateFollowers = async (action, userId) => {
     let newFollowers = followers;
     if (action === "follow") {
@@ -90,11 +128,20 @@ const UserContextProvider = ({ children }) => {
   };
 
   const updateFollowing = async (action, userId) => {
+    let allFollowers = []; 
+    //retreiving all the followers of the video uploader
+    await firestore().collection("user").doc(uid).get().then(resp => {
+      allFollowers = [...resp.data().followers];
+    })
+    // console.log(`${action} ${userId}`);
+    let returnMesg="followed"
     let newFollowing = following;
     if (action === "follow") {
       setFollowing([...following, userId]);
       newFollowing = [...newFollowing, userId];
     } else {
+      returnMesg = "unfollowed"
+      allFollowers = allFollowers.filter(id => id != uid);
       if (following && following.length) {
         newFollowing = following.filter((follower) => follower !== userId);
         setFollowing(newFollowing);
@@ -103,9 +150,28 @@ const UserContextProvider = ({ children }) => {
         newFollowing = [];
       }
     }
+    
+    
+    console.log(`allFolowers : ${JSON.stringify(allFollowers)}`)
+    //updating user's following list
     await firestore().collection("user").doc(uid).update({
       following: newFollowing,
     });
+    console.log(`following data updated`)
+    //updating video uploader's followers list
+    return firestore().collection("user").doc(userId).update({
+      followers:[...allFollowers, uid]
+    })
+    .then(resp => {
+      // console.log(`YO`)
+      let tmpFollowingMap = new Map(fllwingMap); 
+      tmpFollowingMap.set(userId, !fllwingMap.get(userId));
+      setFllwingMap(tmpFollowingMap);
+      return returnMesg;
+    })
+    .catch(err => {
+      throw new Error(err);
+    })
   };
 
   return (
@@ -113,6 +179,8 @@ const UserContextProvider = ({ children }) => {
       value={{
         likedVideos:likedVideos,
         updateLikes:updateLikes,
+        likedVideosMap:likedVideosMap,
+        fllwingMap:fllwingMap,
         myVideos:myVideos,
         followers:followers,
         updateFollowers:updateFollowers,

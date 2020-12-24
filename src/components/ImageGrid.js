@@ -2,8 +2,6 @@ import React from 'react'
 import {View,Text,Image, FlatList, TouchableOpacity}from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters';
 import firestore from '@react-native-firebase/firestore';
-import Image3 from "../assets/images/image3.jpeg"
-import Image4 from "../assets/images/image4.jpeg";
 import Video from 'react-native-video-player';
 import {VideosContext} from '../contexts/VideosContext.js';
 import {
@@ -13,76 +11,10 @@ import {
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { UserContext } from '../contexts/UserContext';
 
-const blogPosts = [
-    {
-      postId: "1",
-      imageSrc: Image3,
-      category: "Event Tips",
-      title: "Finding Amazing Events Near You - Fast, Cheap & Free",
-      url: "https://timerse.com",
-    },
-    {
-      postId: "2",
-      imageSrc: Image4,
-      category: "Reviews",
-      title: "The Top Rated Musical Concerts Worldwide in 2019",
-      url: "https://reddit.com",
-    },
-    {
-      postId: "7",
-      imageSrc: Image3,
-      category: "Discover",
-      title: "This female band is making buzz all over the world",
-      url: "https://timerse.com",
-    },
-    {
-      postId: "8",
-      imageSrc: Image4,
-      category: "Discover",
-      title: "This female band is making buzz all over the world",
-      url: "https://timerse.com",
-    },
-    {
-      postId: "3",
-      imageSrc: Image3,
-      title: "Choosing the perfect Safaris in Africa",
-      description:
-        "Lorem ipsum dolor sit amet, consecteturious adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua now ele.",
-      authorName: "Sam Phipphen",
-      url: "/v",
-    },
-    {
-      postId: "4",
-      imageSrc: Image4,
-      title: "Hiking during the monsoon in Asia",
-      description:
-        "Lorem ipsum dolor sit amet, consecteturious adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua now ele.",
-      authorName: "Tony Hawk",
-      url: "/v",
-    },
-    {
-      postId: "5",
-      imageSrc: Image3,
-      title: "Must carry items while travelling to Thailand",
-      description:
-        "Lorem ipsum dolor sit amet, consecteturious adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua now ele.",
-      authorName: "Himali Turn",
-      url: "/v",
-    },
-    {
-      postId: "6",
-      imageSrc: Image4,
-      title: "Hiking during the monsoon in Asia",
-      description:
-        "Lorem ipsum dolor sit amet, consecteturious adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua now ele.",
-      authorName: "Tony Hawk",
-      url: "/v",
-    },
-  ];
 
   let codeBlock = "@abhishekgill"
 export default function ImageGrid(props){
-    let videoContext = React.useContext(VideosContext);
+    const videoContext = React.useContext(VideosContext);
     const usrCntxt = React.useContext(UserContext);
 
     return(
@@ -108,17 +40,22 @@ export default function ImageGrid(props){
                   <Video thumbnail={{uri:item.thumbnail}} video={{uri:item.videoUrl}} style={styles.img}/>
                   <View style={{paddingLeft:20, marginTop:12, marginBottom:20, display:'flex', flexDirection:'row'}}>
                   <TouchableOpacity onPress={()=>{
-                    usrCntxt.updateLikes(item.id)
-                    firestore().collection("contest").doc(item.id).update({
-                      likes: item.likes+1,
-                    })
-                    .then(()=>{
+                    usrCntxt.updateLikes(vidObj.id, vidCntxt.vidLikesMap.get(item.id)).then(reslt => {
+                      // console.log(`vidLiked : ${reslt}`)
+                      if(Platform.OS === "android")
+                        if(reslt>vidCntxt.vidLikesMap.get(item.id))
+                          ToastAndroid.show(`You Liked This Video`, ToastAndroid.LONG)
+                        else
+                          ToastAndroid.show(`Like Cleared!`, ToastAndroid.LONG);
+                      let tmp = new Map(vidCntxt.vidLikesMap);
+                      tmp.set(vidObj.id, reslt);
+                      vidCntxt.setVidLikesMap(tmp);
                     })
                   }}>
-                  <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color='black' /> {item.likes?item.likes:0}</Text>
+                  <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color='black' />  {videoContext.vidLikesMap.get(item.id)}</Text>
                   </TouchableOpacity>
                   <Text style={{marginLeft:20, fontSize:17}} ><FeatherIcon  onPress={props.shareModal}  name='share-2' size={20} color='black' /> {item.shares?item.shares:0}</Text>
-                  <Text style={{marginLeft:20, fontSize:17,}}><FeatherIcon name='eye' size={20} color='black' /> {item.views?item.views:'0'}</Text> 
+                  <Text style={{marginLeft:20, fontSize:17,}}><FeatherIcon name='eye' size={20} color='black' /> {videoContext.noOfViewsMap.get(item.id)}</Text> 
                   </View> 
                 </View>
               )}
