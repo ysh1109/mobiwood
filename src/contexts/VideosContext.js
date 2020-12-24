@@ -30,7 +30,7 @@ const VideosContextProvider = ({ children }) => {
       let tempVidMap = new Map();
       let tempNoOfFollowers = new Map();
       let tempNoOfViewsMap = new Map();
-      firestore().collection("contest").orderBy("uploadTime").get().then(async resp => {
+      firestore().collection("contest").orderBy("uploadTime", "desc").get().then(async resp => {
             // console.log(resp.docs.for)
             
             // resp.docs.forEach(data => {
@@ -41,10 +41,11 @@ const VideosContextProvider = ({ children }) => {
             if (1==1 || count >= 3 || !initialCount || !timestamp || difference > 0) {
                 // console.log("Query Made from context");
                 // const activeref = await vidRef.get();
-                // console.log(resp.data())
                 // console.log(`id of Video ${data.id}`);
-                console.log(`data is set`)
+                // console.log(`data is set`)
                 resp.docs.forEach( (collection, i) => { 
+                  // console.log(collection.data())
+
                   vids.push(collection.data());
                   vids[vids.length-1].id = collection.id;
                   ids.push(collection.id);

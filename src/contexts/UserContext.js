@@ -39,7 +39,7 @@ const UserContextProvider = ({ children }) => {
           let tmpFllwingMp = new Map();
           setLikedVideos(userData.likedVideos);
           // console.log(`resp :${JSON.stringify(resp.data())}`);
-          console.log(`likedVideos : ${userData["likedVideos"]}`)
+          // console.log(`likedVideos : ${userData["likedVideos"]}`)
           // if(resp)
           userData.following.forEach(data => {
             tmpFllwingMp.set(data, true);
@@ -47,9 +47,11 @@ const UserContextProvider = ({ children }) => {
           userData.likedVideos.forEach(data => {
             likedVidMap.set(data, true);
           })
+          setFollowing(userData.following);
+          setFollowers(userData.followers);
           setLikedVideosMap(likedVidMap);
           setFllwingMap(tmpFllwingMp);
-          console.log(`Following data is set too`)
+          // console.log(`Following data is set too`)
         })
       }
       const fetchMyVideos = async () => {
@@ -82,14 +84,15 @@ const UserContextProvider = ({ children }) => {
   const updateLikes = (videoId, noOfLikes) => {
 
     let newLikes;
-    console.log(`videoId :${videoId}`)
+    // console.log(`videoId :${videoId}`)
     noOfLikes= noOfLikes?noOfLikes:0;
     if (!likedVideosMap.get(videoId)) {
       newLikes = [...likedVideos, videoId];
       noOfLikes++;
     } else {
       newLikes = likedVideos.filter((vid) => vid !== videoId);
-      noOfLikes--;
+      if(noOfLikes>0)
+        noOfLikes--;
     }
     // console.log(`LIKED VIDEOS ARRAY : ${JSON.stringify(newLikes)}`)
     setLikedVideos(newLikes);
@@ -102,7 +105,7 @@ const UserContextProvider = ({ children }) => {
         likes: noOfLikes,
       })
       .then(()=>{
-        console.log(`NEW NO OF LIKES : ${noOfLikes}`);
+        // console.log(`NEW NO OF LIKES : ${noOfLikes}`);
         setLikedVideosMap(tempLikedMap);
         return noOfLikes;
       })
@@ -152,12 +155,12 @@ const UserContextProvider = ({ children }) => {
     }
     
     
-    console.log(`allFolowers : ${JSON.stringify(allFollowers)}`)
+    // console.log(`allFolowers : ${JSON.stringify(allFollowers)}`)
     //updating user's following list
     await firestore().collection("user").doc(uid).update({
       following: newFollowing,
     });
-    console.log(`following data updated`)
+    // console.log(`following data updated`)
     //updating video uploader's followers list
     return firestore().collection("user").doc(userId).update({
       followers:[...allFollowers, uid]

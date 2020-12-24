@@ -26,16 +26,15 @@ export default props => {
  
   const [modalVisible, setModalVisible] = useState(false);
   const [vidObj, setVidObj] = useState({});
+  const [searchKeyword, setSearchKeyword] = useState('');
   const vidCntxt = React.useContext(VideosContext);
   const usrCntxt = React.useContext(UserContext);
+  const [searchVid, setSearchVid] = useState(false);
   const HandleClick = (item) => {
     setVidObj(item);
     // console.log(`CURRENT VIDEO ON MODAL : ${vidCntxt.noOfViewsMap.get(item.id)} , item : ${JSON.stringify(item)}`);
     setModalVisible(true);
   }
-  React.useEffect(()=>{
-    
-  },[]);
     return(
         <View style={{flex:1}}>
           <Modal
@@ -90,15 +89,15 @@ export default props => {
                         if(Platform.OS === "android")
                           if(reslt>vidCntxt.vidLikesMap.get(vidObj.id))
                             ToastAndroid.show(`You Liked This Video`, ToastAndroid.LONG)
-                          else
-                            ToastAndroid.show(`Like Cleared!`, ToastAndroid.LONG);
+                          // else
+                          //   ToastAndroid.show(`Like Cleared!`, ToastAndroid.LONG);
                         let tmp = new Map(vidCntxt.vidLikesMap);
                         tmp.set(vidObj.id, reslt);
                         vidCntxt.setVidLikesMap(tmp);
                       })
                       
                     }}>
-                      <Text style={{color:'black', fontSize:20}}> <FeatherIcon name='thumbs-up' size={25} color={!usrCntxt.likedVideosMap.get(vidObj.id)?'black':'pink'} />  {vidCntxt.vidLikesMap.get(vidObj.id)}  </Text>
+                      <Text style={{color:'black', fontSize:20}}> <FeatherIcon name='thumbs-up' size={25} color={!usrCntxt.likedVideosMap.get(vidObj.id)?'black':'red'} />  {vidCntxt.vidLikesMap.get(vidObj.id)}  </Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
                       <Text style={{color:'black',fontSize:20}}> <FeatherIcon  name='share-2' size={25} color='black' />  {vidObj.shares?vidObj.shares:0}  </Text>
@@ -112,17 +111,15 @@ export default props => {
                         {
                           if(Platform.OS === "android")
                             if(resp === "followed")
-                            ToastAndroid.show(`Following ${vidObj.displayName}`, ToastAndroid.LONG)
+                            ToastAndroid.show(`Following `, ToastAndroid.LONG)
                             else
-                            ToastAndroid.show(`Unfollowed ${vidObj.displayName}`, ToastAndroid.LONG)
+                            ToastAndroid.show(`Unfollowed `, ToastAndroid.LONG)
                         }
                       })
                     }}>
                       <Text style={{backgroundColor:usrCntxt.fllwingMap.get(vidObj.userid)?'grey':'red', color:'white', paddingHorizontal:10, paddingVertical:5, borderRadius:10,fontSize:20}}>{usrCntxt.fllwingMap.get(vidObj.userid)?'Following':'Follow'}</Text>
                     </TouchableOpacity>
                   </View>
-                  
-                  
                 </View>
                 </View>
             </View>
@@ -137,22 +134,19 @@ export default props => {
                   placeholderTextColor = "#1a202c"
                   keyboardType={"ascii-capable"}
                   style={{marginLeft:10}}
+                  onChangeText={inpt => {console.log(`inpt : ${inpt}`); setSearchKeyword(inpt)}}
                 />
               </View>
               <View style={{flex:0.1}}>
                 <TouchableOpacity>
-                  <Icon name="search-outline" style={{marginTop:10}} size={25} color="#1a202c"/>
+                  <Icon name="search-outline" onPress={()=>setSearchVid(true)} style={{marginTop:10}} size={25} color="#1a202c"/>
                 </TouchableOpacity>
               </View>
             </View>
-
-            <TouchableOpacity style={[styles.icon], {display:'none'}}>
-                <Icon name="search-outline" size={25} color="#1a202c"/>
-            </TouchableOpacity>
             </View>
 
             <View style={{flex:1,marginTop:10}}>
-              <ExploreVideoBottom  clicked={HandleClick}/>
+              <ExploreVideoBottom searchKeyword={searchKeyword} setSearchVid={setSearchVid} searchVid={searchVid} clicked={HandleClick}/>
             </View>
       
             

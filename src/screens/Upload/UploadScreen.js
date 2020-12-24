@@ -89,6 +89,8 @@ const UploadScreen = (props) => {
         ToastAndroid.show("Fill all the details before Uploading", ToastAndroid.LONG);
         return false;
       }
+      if(!filePath.uri||!filePath.path)
+        ToastAndroid.show(`Add a Video First!`, ToastAndroid.LONG);
       else {
         return true;
       }

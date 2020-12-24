@@ -1,5 +1,5 @@
 import React from 'react'
-import {View,Text,Image, FlatList, TouchableOpacity}from 'react-native'
+import {View,Text,Image, FlatList, TouchableOpacity, ToastAndroid, Platform}from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters';
 import firestore from '@react-native-firebase/firestore';
 import Video from 'react-native-video-player';
@@ -40,19 +40,19 @@ export default function ImageGrid(props){
                   <Video thumbnail={{uri:item.thumbnail}} video={{uri:item.videoUrl}} style={styles.img}/>
                   <View style={{paddingLeft:20, marginTop:12, marginBottom:20, display:'flex', flexDirection:'row'}}>
                   <TouchableOpacity onPress={()=>{
-                    usrCntxt.updateLikes(vidObj.id, vidCntxt.vidLikesMap.get(item.id)).then(reslt => {
+                    usrCntxt.updateLikes(item.id, videoContext.vidLikesMap.get(item.id)).then(reslt => {
                       // console.log(`vidLiked : ${reslt}`)
                       if(Platform.OS === "android")
-                        if(reslt>vidCntxt.vidLikesMap.get(item.id))
-                          ToastAndroid.show(`You Liked This Video`, ToastAndroid.LONG)
-                        else
-                          ToastAndroid.show(`Like Cleared!`, ToastAndroid.LONG);
-                      let tmp = new Map(vidCntxt.vidLikesMap);
-                      tmp.set(vidObj.id, reslt);
-                      vidCntxt.setVidLikesMap(tmp);
+                        if(reslt>videoContext.vidLikesMap.get(item.id))
+                          ToastAndroid.show(`You Like This Video`, ToastAndroid.LONG)
+                        // else
+                        //   ToastAndroid.show(`Like Cleared!`, ToastAndroid.LONG);
+                      let tmp = new Map(videoContext.vidLikesMap);
+                      tmp.set(item.id, reslt);
+                      videoContext.setVidLikesMap(tmp);
                     })
                   }}>
-                  <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color='black' />  {videoContext.vidLikesMap.get(item.id)}</Text>
+                  <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color={videoContext.vidLikesMap.get(item.id)?'red':'black'} />  {videoContext.vidLikesMap.get(item.id)}</Text>
                   </TouchableOpacity>
                   <Text style={{marginLeft:20, fontSize:17}} ><FeatherIcon  onPress={props.shareModal}  name='share-2' size={20} color='black' /> {item.shares?item.shares:0}</Text>
                   <Text style={{marginLeft:20, fontSize:17,}}><FeatherIcon name='eye' size={20} color='black' /> {videoContext.noOfViewsMap.get(item.id)}</Text> 
