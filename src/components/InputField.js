@@ -35,7 +35,7 @@ const InputField = ({leftIcon, floatingInput = true, ...props}) => {
 
   return (
   
-        <View style={{width: '100%'}}>
+        <View style={{width: '100%', alignSelf:'center'}}>
             <TextInput 
               style={Styles.inputContainer}
               underlineColorAndroid="transparent"

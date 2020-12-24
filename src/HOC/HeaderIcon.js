@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, View, StyleSheet} from 'react-native';
-import image from '../assets/images/logo1.png';
+import image from '../assets/images/logo.png';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default InnerComp => {
