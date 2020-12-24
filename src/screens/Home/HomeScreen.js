@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {Text, View, Share} from 'react-native'
+import {Text, View, Share,Modal,Dimensions,TouchableOpacity} from 'react-native'
 import HeaderIcon from '../../HOC/HeaderIcon.js';
 import { ScaledSheet } from 'react-native-size-matters';
 import {
@@ -8,23 +8,34 @@ import {
   } from 'react-native-responsive-screen';
 import {Colors, Typography} from '../../constants';
 import ImageGrid from '../../components/ImageGrid'
- 
+import RadioButtonRN from 'radio-buttons-react-native';
 
-const TrendingName = ({name}) =>{
-    return(
-        <View>
-            <Text style={styles.trendingName}>{name}</Text>
-        </View>
-    )
-}
 
-const Category = ({name}) => {
-    return(
-        <View style={styles.category}>
-            <Text style={styles.catTxt}>{name}</Text>
-        </View>
-    );
-}
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+
+const data = [
+  {
+    label: 'Spam/Misleading'
+   },
+   {
+    label: 'Abusive'
+   },
+   {
+    label: 'Harmful'
+   },
+   {
+    label: 'Illegal'
+   },
+   {
+    label: 'Inappropriate'
+   },
+   {
+    label: 'Copyright Infringement'
+   }
+  ];
+
 const onShare = async () => {
     try {
       const result = await Share.share({
@@ -52,8 +63,40 @@ export default HeaderIcon(function HomeScreen(){
         //getData()
     }
     return(
+          <View style={{flex:1}}>
+               <Modal
+            animationType="fade"
+            transparent={true}
+            // style={{}}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(false)
+            }}
+          >
+            <View style={{justifyContent:'center',flex:1, backgroundColor:'rgba(0,0,0,0.8)'}}>
+                <View style={styles.centeredView}>
+                  <Text style={{fontSize:24,textAlign:'center',margin:15,fontWeight:'700',color:'black'}}>Report Content</Text>
+                <RadioButtonRN
+                    data={data}
+                    style={{width:'90%',alignSelf:'center'}}
+                    selectedBtn={(e) => console.log(e)}
+                  />
+                <View style={{flexDirection:'row',justifyContent:'space-evenly',marginTop:25}}>
+                  <TouchableOpacity onPress={()=>setModalVisible(false)} style={{justifyContent:'center'}}>
+                      <Text style={{fontSize:24,fontWeight:'700',color:'red'}}>CANCEL</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Text style={{fontSize:24,fontWeight:'700',color:'skyblue'}}>OK</Text>
+                    </TouchableOpacity>
+                </View>
+                </View>
+                
+            </View>
+            
+          </Modal>
           <View style={styles.releaseCont}>
-            <ImageGrid shareModal={onShare} />
+            <ImageGrid reportModal = {()=>toggleModal(true)} shareModal={onShare} />
+          </View>
           </View>
     )
 })
@@ -137,5 +180,25 @@ const styles = ScaledSheet.create({
       gridContainer:{
           paddingTop:"25@ms"
       },
+      centeredView: {
+        height:windowHeight/1.3,
+        width:windowWidth-50,
+        borderRadius:20,
+        // justifyContent:'center',
+        alignSelf:'center',
+        // alignItems: "center",
+        backgroundColor: "white",
+        // padding: 35,
+        // alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+      },
+      
       
 })

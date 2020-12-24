@@ -14,14 +14,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ExploreVideoBottom from '../../components/ExploreVideoBottom';
 import VideoPlayer from 'react-native-video-player';
 import {VideosContext} from '../../contexts/VideosContext.js';
-const windowWidth = Dimensions.get('window').width;
-
 import FeatherIcon from 'react-native-vector-icons/Feather';
-const windowHeight = Dimensions.get('window').height;
 import {UserContext} from '../../contexts/UserContext.js';
 
 import firestore from '@react-native-firebase/firestore';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 export default props => {
  
   const [modalVisible, setModalVisible] = useState(false);

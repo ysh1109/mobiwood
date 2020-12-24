@@ -33,8 +33,9 @@ export default function ImageGrid(props){
                   <Text style={{padding:10}}>{item.description}</Text>
                   </View>
                   <FeatherIcon
+                    onPress ={props.reportModal}
                     name='more-horizontal'
-                    size={24} color='black' 
+                    size={28} color='black' 
                     style={{position:'absolute', right:25, marginTop:20 }} />
                   </View>
                   <Video thumbnail={{uri:item.thumbnail}} video={{uri:item.videoUrl}} style={styles.img}/>
