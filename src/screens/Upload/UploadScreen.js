@@ -4,7 +4,6 @@ import {View,StyleSheet,Text,TouchableOpacity,Image, Dimensions,ScrollView,Toast
 //import HeaderIcon from '../../HOC/HeaderIcon.js';
 import Video from 'react-native-video';
 import ImagePicker from 'react-native-image-picker';
-import VideoPlayer from 'react-native-video-player';
 import InputField from '../../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Checkbox from '@react-native-community/checkbox';
@@ -76,7 +75,6 @@ const UploadScreen = (props) => {
           break;
         }
         default : {
-
         }
       }
     }
@@ -142,7 +140,7 @@ const UploadScreen = (props) => {
                 title: title,
                 userId: athCntxt.uid,
                 displayName: athCntxt.userDetails.displayName,
-                // userName : athCntxt.userDetails
+                userName : athCntxt.userDetails.username,
                 socialMedia: socialMedia,
                 followerCount: follower,
                 groupCheck: isSelected?"yes":"no",
