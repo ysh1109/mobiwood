@@ -3,8 +3,10 @@ import {View, Text, Image,StyleSheet,FlatList,Dimensions,Modal, TouchableOpacity
 import {UserContext} from '../../contexts/UserContext.js';
 import {AuthContext} from "../../contexts/AuthContext.js";
 import VideoPlayer from 'react-native-video-player';
-import ExploreVideoBottom from '../../components/ExploreVideoBottom';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+
+
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 export default props => {
@@ -108,8 +110,8 @@ export default props => {
                         />
                         <Text style={{fontSize:20,fontWeight:'700',alignSelf:'center', marginBottom:10}}>{userDetails.providerData[0].displayName}</Text>
                         <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:5}}>
-                                <Text style={{fontSize:16,fontWeight:'400'}}>Followers : {userCont.followers!=""?userCont.followers:0} </Text>
-                                <Text style={{fontSize:16,fontWeight:'400'}}>Following : {userCont.following!=""?userCont.followers:0} </Text>
+                                <Text style={{fontSize:16,fontWeight:'400'}}>Followers : {userCont.followers.length!=0?userCont.followers.length:0} </Text>
+                                <Text style={{fontSize:16,fontWeight:'400'}}>Following : {userCont.following.length!=0?userCont.following.length:0} </Text>
                         </View>
                     </View>
                     <View style={{width:'100%',height:1,backgroundColor:"black"}}></View>
@@ -132,15 +134,14 @@ export default props => {
                     </View>)
                          }
             /> : <Text style={{justifyContent:'center',alignSelf:'center',marginTop:80,fontWeight:'700',fontSize:18, textAlign:'center', color:'grey'}}>
-            <FeatherIcon name="video-off" size={50} color={'grey'} />{"\n"}{"\n"}
-            No Videos Uploaded</Text>}
+              <FeatherIcon name="video-off" size={50} color={'grey'} />{"\n"}{"\n"}No Videos Uploaded</Text>}
                 </View>
                 
                 
                 </>
                 :
                 <View>
-                    <Text>HEsLLO</Text>
+                    <Text>HELLO</Text>
                 </View>
             }
         </View>
