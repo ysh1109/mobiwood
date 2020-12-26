@@ -29,7 +29,16 @@ function SettingsScreen() {
   );
 }
 
-function Construction() {
+function support() {
+  return (
+    <View style={{flex: 1,  padding:50, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{alignSelf:'center',fontSize:24,fontWeight:'700'
+    }}>Under Construction ...</Text>
+    </View>
+  );
+}
+
+function feedback() {
   return (
     <View style={{flex: 1,  padding:50, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{alignSelf:'center',fontSize:24,fontWeight:'700'
@@ -70,7 +79,8 @@ export default function DrawerStack() {
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Contest" component={ContestStack} />
-      <Drawer.Screen name="Construction" component={SampleStack}/>
+      <Drawer.Screen name="support" component={SupportStack}/>
+      <Drawer.Screen name="feedback" component={FeedbackStack}/>
     </Drawer.Navigator>
   );
 }
@@ -79,7 +89,7 @@ function ProfileStack() {
       headerMode="screen"
       screenOptions={({navigation}) => ({					
         //title: 'hello',
-    headerTitle: (<SafeAreaView><Image source={image} style={{width:142, height:41}} /></SafeAreaView>),
+    headerTitle: (<Image source={image} style={{width:142, height:41}} />),
     headerTitleStyle: {
       fontWeight: 'bold',
       alignSelf:'center',
@@ -175,7 +185,7 @@ function ContestStack() {
 }
 
 
-function SampleStack() {
+function SupportStack() {
   return (
     <Stack.Navigator
       headerMode="screen"
@@ -198,8 +208,38 @@ function SampleStack() {
         ),
       })}>
       <Stack.Screen
-        name="Construction"
-        component={Construction}
+        name="support"
+        component={support}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function FeedbackStack() {
+  return (
+    <Stack.Navigator
+      headerMode="screen"
+      screenOptions={({navigation}) => ({
+        title: '',
+        headerStyle: {
+          backgroundColor: 'black',
+        },
+        // headerRight: () => (
+        //   <TouchableOpacity style={styles.btn} onPress={() => logout()}>
+        //     <Text style={styles.txt}>Logout</Text>
+        //   </TouchableOpacity>
+        // ),
+        headerLeft: () => (
+          <TouchableOpacity
+            style={styles.menu}
+            onPress={() => navigation.openDrawer()}>
+            <Icon name="menu" size={32} color={Colors.PRIMARY} />
+          </TouchableOpacity>
+        ),
+      })}>
+      <Stack.Screen
+        name="feedback"
+        component={feedback}
       />
     </Stack.Navigator>
   );
