@@ -2,10 +2,11 @@ import React,{useState} from 'react';
 import {View, Text, Image,StyleSheet,FlatList,Dimensions,Modal, TouchableOpacity} from 'react-native';
 import {UserContext} from '../../contexts/UserContext.js';
 import {AuthContext} from "../../contexts/AuthContext.js";
+import VideoPlayer from 'react-native-video-player';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-import VideoPlayer from 'react-native-video-player';
-import ExploreVideoBottom from '../../components/ExploreVideoBottom';
+
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 export default props => {
@@ -105,12 +106,12 @@ export default props => {
                     <View style={{marginBottom:20}}>
                         <Image
                             source={require('../../assets/images/usericon.png')}
-                            style={{height:150,width:150,alignSelf:'center'}}
+                            style={{height:50,width:50,alignSelf:'center', marginTop:20}}
                         />
-                        <Text style={{fontSize:24,fontWeight:'700',alignSelf:'center'}}>{userDetails.providerData[0].displayName}</Text>
-                        <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:10}}>
-                                <Text style={{fontSize:24,fontWeight:'700'}}>Followers : {userCont.followers.length!=0?userCont.followers.length:0} </Text>
-                                <Text style={{fontSize:24,fontWeight:'700'}}>Following : {userCont.following.length!=0?userCont.following.length:0} </Text>
+                        <Text style={{fontSize:20,fontWeight:'700',alignSelf:'center', marginBottom:10}}>{userDetails.providerData[0].displayName}</Text>
+                        <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:5}}>
+                                <Text style={{fontSize:16,fontWeight:'400'}}>Followers : {userCont.followers.length!=0?userCont.followers.length:0} </Text>
+                                <Text style={{fontSize:16,fontWeight:'400'}}>Following : {userCont.following.length!=0?userCont.following.length:0} </Text>
                         </View>
                     </View>
                     <View style={{width:'100%',height:1,backgroundColor:"black"}}></View>
@@ -125,14 +126,15 @@ export default props => {
                                 {console.log(item)}
                                 <TouchableOpacity onPress={()=>HandleClick(item.videoUrl,item.thumbnail)} >
                                 <Image
-                            source={item.thumbnail?{uri:item.thumbnail}:(require('../../assets/images/play.png'))}
+                            source={item.thumbnail?{uri:item.thumbnail}:(require('../../assets/images/loading.jpg'))}
                             style={{height:"100%",width:"100%"}}
                         />
                         </TouchableOpacity>
                         
                     </View>)
                          }
-            /> : <Text style={{justifyContent:'center',alignSelf:'center',marginTop:20,fontWeight:'700'}}>No Videos Uploaded</Text>}
+            /> : <Text style={{justifyContent:'center',alignSelf:'center',marginTop:80,fontWeight:'700',fontSize:18, textAlign:'center', color:'grey'}}>
+              <FeatherIcon name="video-off" size={50} color={'grey'} />{"\n"}{"\n"}No Videos Uploaded</Text>}
                 </View>
                 
                 

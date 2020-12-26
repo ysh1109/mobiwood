@@ -23,7 +23,7 @@ import ContestRegistration from '../screens/Contests/ContestRegistration';
 import Upload from '../screens/Contests/Upload';
 import UnderAge from '../screens/Contests/UnderAge';
 import { LoginScreen } from '../screens';
-
+import FeatherIcon from 'react-native-vector-icons/Feather';
 function SettingsScreen() {
   return (
     <View style={{flex: 1,  padding:50, justifyContent: 'center', alignItems: 'center' }}>
@@ -100,7 +100,7 @@ function ProfileStack() {
           <TouchableOpacity
             style={[styles.menu]}
             onPress={() => navigation.openDrawer()}>
-            <Icon name="ellipsis-horizontal-circle" size={32} color='grey' />
+            <FeatherIcon name="menu" size={25} color='white' />
 			
           </TouchableOpacity>
         ),

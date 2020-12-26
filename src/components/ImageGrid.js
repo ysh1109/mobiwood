@@ -33,7 +33,7 @@ export default function ImageGrid(props){
                   <Text style={{padding:10}}>{item.description}</Text>
                   </View>
                   <FeatherIcon
-                    onPress ={props.reportModal}
+                    onPress={props.reportModal}
                     name='more-horizontal'
                     size={28} color='black' 
                     style={{position:'absolute', right:25, marginTop:20 }} />

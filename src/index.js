@@ -28,7 +28,8 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 function SettingsScreen() {
   return (
     <View style={{flex: 1,  padding:50, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
+      <Text><FeatherIcon name="bell" size={20} color="black" style={{marginBottom:0}} /></Text>
+      <Text>No Nofications</Text>
     </View>
   );
 }
@@ -75,7 +76,7 @@ const App = () => {
                 iconName = focused ? 'search' : 'search';
               }
               // You can return any component that you like here!
-              return <FeatherIcon name={iconName} size={size} color={color} style={{marginBottom:-5}} />;
+              return <FeatherIcon name={iconName} size={20} color={color} style={{marginBottom:0}} />;
             },
           })}
           tabBarOptions={{
@@ -89,7 +90,8 @@ const App = () => {
             backgroundColor: 'black',
             style:{
               backgroundColor: 'black',
-              height:65
+              height:55,
+              borderTopWidth:0
             }
           }}
           >

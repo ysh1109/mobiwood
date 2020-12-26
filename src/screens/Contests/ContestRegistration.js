@@ -190,7 +190,7 @@ export default function Contestregistration({navigation}) {
             }) => (
               <>
                 <Text style={styles.label}>Name</Text>
-                <InputField
+                <InputField type="text"
                   onChangeText={handleChange('name')}
                   onBlur={handleBlur('name')}
                   value={values.name}
@@ -199,7 +199,7 @@ export default function Contestregistration({navigation}) {
                 {errors.name && <Text style={styles.error}>{errors.name}</Text>}
 
                 <Text style={styles.label}>Username</Text>
-                <InputField
+                <InputField  type="text"
                   onChangeText={handleChange('username')}
                   onBlur={handleBlur('username')}
                   value={values.username}
@@ -210,7 +210,7 @@ export default function Contestregistration({navigation}) {
                 )}
 
                 <Text style={styles.label}>Email</Text>
-                <InputField
+                <InputField  type="text"
                   placeholderTextColor="#a0aec0"
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
@@ -222,7 +222,7 @@ export default function Contestregistration({navigation}) {
                 )}
 
                 <Text style={styles.label}>Mobile</Text>
-                <InputField
+                <InputField  type="text"
                   keyboardType="numeric"
                   onChangeText={handleChange('mno')}
                   onBlur={handleBlur('mno')}
@@ -274,7 +274,7 @@ export default function Contestregistration({navigation}) {
                 )}
 
                 <Text style={styles.label}>Country</Text>
-                <InputField
+                <InputField  type="text"
                   onChangeText={handleChange('country')}
                   onBlur={handleBlur('country')}
                   value={values.country}
@@ -285,7 +285,7 @@ export default function Contestregistration({navigation}) {
                 )}
 
                 <Text style={styles.label}>City</Text>
-                <InputField
+                <InputField  type="text"
                   onChangeText={handleChange('city')}
                   onBlur={handleBlur('city')}
                   value={values.city}
@@ -294,7 +294,7 @@ export default function Contestregistration({navigation}) {
                 {errors.city && <Text style={styles.error}>{errors.city}</Text>}
 
                 <Text style={styles.label}>Pincode</Text>
-                <InputField
+                <InputField  type="text"
                   keyboardType="numeric"
                   onChangeText={handleChange('pin')}
                   onBlur={handleBlur('pin')}

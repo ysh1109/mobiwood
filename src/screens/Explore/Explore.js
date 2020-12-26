@@ -1,4 +1,3 @@
-
 import React,{useState} from 'react';
 import {View,
   StyleSheet,
@@ -199,4 +198,4 @@ const styles  = StyleSheet.create ({
       marginBottom: 15,
       textAlign: "center"
     }
-});
+  });
