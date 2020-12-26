@@ -56,7 +56,7 @@ const UserContextProvider = ({ children }) => {
         }
 
         Share.open(options)
-          .then(res => { console.log(res); analytics().logEvent('Normal_Share',{name:'normal_share_button'})})
+          .then(res => { console.log(res); })
           .catch(err => { err && console.log(err); });
     })
   };
