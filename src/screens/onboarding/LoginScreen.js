@@ -11,23 +11,14 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-community/google-signin';
-import Separator from '../../components/Separator';
 import InputField from '../../components/InputField';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import styles from './style';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {AuthContext} from '../../contexts/AuthContext';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import TNC from '../../components/TNC';
 import IconClose from 'react-native-vector-icons/Ionicons';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const loginValidationSchema = yup.object().shape({
   username: yup.string().required('Username is Required'),
@@ -155,6 +146,7 @@ const LoginScreen = ({navigation}) => {
                     <Text style={styles.error}>{errors.username}</Text>
                   )}
                   <InputField
+                  type="text"
                     placeholder="Username"
                     placeholderTextColor="#656565"
                     onChangeText={handleChange('username')}
@@ -167,6 +159,7 @@ const LoginScreen = ({navigation}) => {
                   )}
                   
                   <InputField
+                  type="password" 
                     placeholder="Password"
                     secureTextEntry
                     placeholderTextColor="#656565"
@@ -184,10 +177,13 @@ const LoginScreen = ({navigation}) => {
                     style={styles.btn}
                     onPress={handleSubmit}
                     disabled={!isValid}>
-                    <Text style={[styles.btnText, {fontSize:22}]}>
-                      Log In
-                      <ActivityIndicator animating={isLoading} color="white" />
-                    </Text>
+
+                    {isLoading ? (
+                      <ActivityIndicator animating={isLoading} color="white" style={{position:'absolute', marginTop:25,  width:200, }} />
+                 
+                    ) : (
+                      <Text style={[styles.btnText, {fontSize:22, flex: 1, justifyContent: "center", alignItems: "center", display:'flex', alignItems:'center', justifyContent:'center'}]}>Log In </Text>
+                    )}
                   </TouchableOpacity>
                 </>
               )}

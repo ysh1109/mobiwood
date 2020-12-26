@@ -196,6 +196,7 @@ const SignupScreen = ({navigation}) => {
                     <Text style={styles.error}>{errors.name}</Text>
             }
           <InputField
+          type="text" 
               placeholder="Name"
               placeholderTextColor = "#a0aec0"
               onChangeText={handleChange('name')}
@@ -207,6 +208,7 @@ const SignupScreen = ({navigation}) => {
                           <Text style={styles.error}>{errors.email}</Text>
                   }
                  <InputField
+                 type="email"
                     placeholder="Email"
                     keyboardType="email-address"
                     placeholderTextColor = "#a0aec0"
@@ -230,6 +232,7 @@ const SignupScreen = ({navigation}) => {
                     <Text style={styles.error}>{errors.password}</Text>
             }
            <InputField
+           type="text"
                 placeholder="Password"
                 secureTextEntry
                 placeholderTextColor = "#a0aec0"
