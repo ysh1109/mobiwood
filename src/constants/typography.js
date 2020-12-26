@@ -1,7 +1,9 @@
-export const FONT_FAMILY_LIGHT = 'Nunito-Light';
-export const FONT_FAMILY_REGULAR = 'Nunito-Regular';
-export const FONT_FAMILY_SEMIBOLD = 'Nunito-SemiBold';
-export const FONT_FAMILY_BOLD = 'Nunito-Bold';
+import {Platform} from 'react-native';
+
+export const FONT_FAMILY_LIGHT = Platform.OS==="android"?'Nunito-Light':'Cochin';
+export const FONT_FAMILY_REGULAR = Platform.OS==="android"?'Nunito-Regular':'Cochin';
+export const FONT_FAMILY_SEMIBOLD = Platform.OS==="android"?'Nunito-SemiBold':'Cochin';
+export const FONT_FAMILY_BOLD = Platform.OS==="android"?'Nunito-Bold':'Cochin';
 
 export const FONT_WEIGHT_LIGHT = '300';
 export const FONT_WEIGHT_REGULAR = '400';

@@ -320,7 +320,6 @@ export default function Upload({navigation}) {
                 onBlur={handleBlur('about')}
                 value={values.about}
                 multiline={true}
-                containerStyles={styles.containerStyles}
               />
               {errors.about && <Text style={styles.error}>{errors.about}</Text>}
 

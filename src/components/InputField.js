@@ -1,7 +1,6 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {LayoutAnimation, View, Image, TextInput, Text} from 'react-native';
-import FloatingLabelInput from 'react-native-floating-label-input';
-import {s, ScaledSheet} from 'react-native-size-matters';
+import {LayoutAnimation, View, Image, TextInput, Text, Platform} from 'react-native';
+import {ScaledSheet} from 'react-native-size-matters';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -37,7 +36,7 @@ const InputField = ({leftIcon, floatingInput = true, ...props}) => {
   
         <View style={{width: '100%', alignSelf:'center'}}>
             <TextInput 
-              style={Styles.inputContainer}
+              style={[Styles.inputContainer,{padding:Platform.OS==="ios"?15:0}]}
               underlineColorAndroid="transparent"
               {...props}/>
         </View>
@@ -51,6 +50,8 @@ const Styles= ScaledSheet.create({
     borderWidth: 1,
     borderRadius:"3@ms",
     paddingLeft:10,
+    marginBottom:20,
+    // padding:15,
     width:wp('90%'),
     backgroundColor:"white",
   },

@@ -2,12 +2,8 @@ import 'react-native-gesture-handler';
 import HomeScreen from './screens/Home/HomeScreen'
 import UploadScreen from './screens/Upload/UploadScreen.js';
 import ExploreScreen from './screens/Explore/Explore.js';
-import style from './screens/onboarding/style';
-import React, {useEffect, Fragment} from 'react';
-import {StatusBar} from 'react-native';
-import {AuthProvider} from './contexts/AuthContext';
-import {AppNavigator} from './navigations';
-import { Text, View } from 'react-native';
+import React from 'react';
+import { Text, View, Platform } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 import VideosContext from './contexts/VideosContext.js';
@@ -76,7 +72,7 @@ const App = () => {
                 iconName = focused ? 'search' : 'search';
               }
               // You can return any component that you like here!
-              return <FeatherIcon name={iconName} size={20} color={color} style={{marginBottom:0}} />;
+              return <FeatherIcon name={iconName} size={25} color={color} style={{marginBottom:0}} />;
             },
           })}
           tabBarOptions={{
@@ -90,7 +86,6 @@ const App = () => {
             backgroundColor: 'black',
             style:{
               backgroundColor: 'black',
-              height:55,
               borderTopWidth:0
             }
           }}
