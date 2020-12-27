@@ -50,11 +50,13 @@ const ResetPasswordScreen = ({navigation}) => {
                     onBlur={handleBlur('email')}
                     value={values.email}
                     containerStyles = {styles.containerStyles}
-                  />   
+                  />
+                  
                    {errors.email &&
                           <Text style={styles.error}>{errors.email}</Text>
                   }
-           <TouchableOpacity style={styles.btn} onPress={handleSubmit} disabled={!isValid}>
+                  <Text></Text>
+           <TouchableOpacity style={styles.resetbtn} onPress={handleSubmit} disabled={!isValid}>
              <Text style={styles.btnText}>Reset Password</Text>
            </TouchableOpacity>
            </>

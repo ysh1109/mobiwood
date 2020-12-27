@@ -81,7 +81,7 @@ export default HeaderIcon(function HomeScreen(){
               setModalVisible(false)
             }}
           >
-            <View style={{justifyContent:'flex-end',flex:1, backgroundColor:'rgba(0,0,0,0.8)'}}>
+            <View style={{justifyContent:'flex-end',flex:1, backgroundColor:'white'}}>
                 <View style={styles.centeredView}>
                   <Text style={{fontSize:24,textAlign:'center',margin:15,fontWeight:'700',color:'black'}}>Report Content</Text>
                 <RadioButtonRN
@@ -89,12 +89,12 @@ export default HeaderIcon(function HomeScreen(){
                     style={{width:'90%',alignSelf:'center'}}
                     selectedBtn={(e) => setReportValue(e)}
                   />
-                <View style={{flexDirection:'row',justifyContent:'space-evenly',marginTop:25}}>
+                <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:25}}>
                   <TouchableOpacity onPress={()=>setModalVisible(false)} style={{justifyContent:'center'}}>
-                      <Text style={{fontSize:24,fontWeight:'700',color:'red'}}>CANCEL</Text>
+                      <Text style={{fontSize:18,fontWeight:'700',color:'red', borderColor:'red', borderWidth:1, padding:10}}>CANCEL</Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={()=>handleReport()}>
-                    <Text style={{fontSize:24,fontWeight:'700',color:'skyblue'}}>OK</Text>
+                    <Text style={{fontSize:18,fontWeight:'700',color:'skyblue'}}>OK</Text>
                     </TouchableOpacity>
                 </View>
                 </View>

@@ -161,8 +161,9 @@ const LoginScreen = ({navigation}) => {
                     onChangeText={handleChange('username')}
                     onBlur={handleBlur('username')}
                     value={values.username}
-                    containerStyles={styles.containerStyles}
+                    containerStyles={[styles.containerStyles],{marginBottom:30,textTransform: 'lowercase'}}
                   />
+                  <Text style={{marginBottom:0}}></Text>
                   {errors.password && (
                     <Text style={styles.error}>{errors.password}</Text>
                   )}
@@ -175,11 +176,11 @@ const LoginScreen = ({navigation}) => {
                     onChangeText={handleChange('password')}
                     onBlur={handleBlur('password')}
                     value={values.password}
-                    containerStyles={styles.containerStyles}
+                    containerStyles={[styles.containerStyles], {marginBottom:10}}
                   />
                   <Text
               onPress={() => navigation.navigate('ResetPassword')}
-              style={[styles.txt, {marginTop: 0, textAlign: "right", marginBottom: 20, color:'grey'}]}>
+              style={[styles.txt, {marginTop: 10, textAlign: "right", marginBottom: 20, color:'grey'}]}>
               Forgot Password?
             </Text>
                   <TouchableOpacity
@@ -188,10 +189,10 @@ const LoginScreen = ({navigation}) => {
                     disabled={!isValid}>
 
                     {isLoading ? (
-                      <ActivityIndicator animating={isLoading} color="white" style={{position:'absolute', marginTop:25,  width:200, }} />
+                      <ActivityIndicator animating={isLoading} color="white" style={{position:'absolute', marginTop:22,  width:200, }} />
                  
                     ) : (
-                      <Text style={[styles.btnText, {fontSize:22, flex: 1, justifyContent: "center", alignItems: "center", display:'flex', alignItems:'center', justifyContent:'center'}]}>Log In </Text>
+                      <Text style={[styles.btnText, {fontSize:20, flex: 1, justifyContent: "center", alignItems: "center", display:'flex', alignItems:'center', justifyContent:'center'}]}>Log In </Text>
                     )}
                   </TouchableOpacity>
                 </>
@@ -237,10 +238,10 @@ const LoginScreen = ({navigation}) => {
 
           <View style={[styles.altText, {marginTop:-20}]}>
           
-            <Text style={[styles.test], { fontSize:20, marginTop:-10, marginBottom:10, marginLeft:'auto', marginRight:'auto'}}>OR</Text>
+            <Text style={[styles.test], { fontSize:15, marginTop:-10, marginBottom:10, marginLeft:'auto', marginRight:'auto'}}>OR</Text>
             <Text
               onPress={() => navigation.navigate('Signup')}
-              style={[styles.txt, {fontWeight: 'bold', fontSize:22, backgroundColor:'#333', padding:18, color:'white', borderRadius:6}]}>
+              style={[styles.txt, {fontWeight: 'bold', fontSize:20, backgroundColor:'#333', padding:18, color:'white', borderRadius:6}]}>
               {' '}
               Create an account
             </Text>

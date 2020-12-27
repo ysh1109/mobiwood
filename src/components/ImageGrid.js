@@ -25,18 +25,18 @@ export default function ImageGrid(props){
               keyExtractor={(item, index) => index.toString()}
               renderItem = {({item, index}) =>  (
                 <View style={styles.imgContainer}> 
-                  <View style={{paddingTop:5}}>
-                  <Image source={require('../assets/images/usericon.png')} style={{width:40, height:40, marginLeft:10, marginTop:8, marginBottom:8, borderRadius:60, borderWidth:1, borderColor:'#bbb',}} />
+                  <View style={{paddingTop:10}}>
+                  <Image source={require('../assets/images/usericon.png')} style={{width:30, height:30, marginLeft:10, marginTop:0, marginBottom:0, borderRadius:60, borderWidth:1, borderColor:'#bbb',}} />
                   <View style={{}}>
-                  <Text style={{marginTop:8, marginLeft:12, fontWeight:'bold', fontSize:15, position:'absolute', top:-55, left:50}}>{!item.displayName?"Abhishek":item.displayName}</Text>
-                  <Text style={{position:'absolute', top:-27, left:62, fontSize:12, color:'grey'}}>@{item.username}</Text>
-                  <Text style={{padding:10}}>{item.description}</Text>
+                  <Text style={{marginTop:8, marginLeft:12, fontWeight:'bold', fontSize:15, position:'absolute', top:-35, left:40}}>{!item.displayName?"Mobiwood User":item.username}</Text>
+                  
+                  <Text style={{padding:10, paddingTop:15}}>{item.description}</Text>
                   </View>
                   <FeatherIcon
                     onPress={props.reportModal}
                     name='more-horizontal'
                     size={28} color='black' 
-                    style={{position:'absolute', right:25, marginTop:20 }} />
+                    style={{position:'absolute', right:25, marginTop:10 }} />
                   </View>
                   <Video thumbnail={{uri:item.thumbnail}} video={{uri:item.videoUrl}} style={styles.img}/>
                   <View style={{paddingLeft:20, marginTop:12, marginBottom:20, display:'flex', flexDirection:'row'}}>
@@ -53,7 +53,7 @@ export default function ImageGrid(props){
                       videoContext.setVidLikesMap(tmp);
                     })
                   }}>
-                  <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color={videoContext.vidLikesMap.get(item.id)?'red':'black'} />  {videoContext.vidLikesMap.get(item.id)}</Text>
+                  <Text style={{fontSize:17}}><FeatherIcon name='thumbs-up' size={20} color={videoContext.vidLikesMap.get(item.id)?'#2078f4':'black'} />  {videoContext.vidLikesMap.get(item.id)}</Text>
                   </TouchableOpacity>
                   <Text style={{marginLeft:20, fontSize:17}} ><FeatherIcon  onPress={props.shareModal}  name='share-2' size={20} color='black' /> {item.shares?item.shares:0}</Text>
                   <Text style={{marginLeft:20, fontSize:17,}}><FeatherIcon name='eye' size={20} color='black' /> {videoContext.noOfViewsMap.get(item.id)}</Text> 

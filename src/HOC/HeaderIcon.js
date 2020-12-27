@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     headerStyle: {
-        backgroundColor: 'black',
+        backgroundColor: 'white',
         alignItems:'center',
         justifyContent:'center',
         height:57,

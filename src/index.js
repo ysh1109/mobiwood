@@ -70,7 +70,7 @@ const App = () => {
                 iconName = focused ? 'user' : 'user';
               }
               else if (route.name === 'Upload') {
-                iconName = focused ? 'upload' : 'upload';
+                iconName = focused ? 'plus-circle' : 'plus-circle';
               }
               else if (route.name === 'Search') {
                 iconName = focused ? 'search' : 'search';
