@@ -197,25 +197,31 @@ const UserContextProvider = ({ children }) => {
     }
     
     
-    // console.log(`allFolowers : ${JSON.stringify(allFollowers)}`)
+    console.log(`allFolowers : ${JSON.stringify(allFollowers)}`)
     //updating user's following list
-    await firestore().collection("user").doc(uid).update({
+    return firestore().collection("user").doc(uid).update({
       following: newFollowing,
-    });
-    // console.log(`following data updated`)
-    //updating video uploader's followers list
-    return firestore().collection("user").doc(userId).update({
-      followers:[...allFollowers, uid]
     })
-    .then(resp => {
-      // console.log(`YO`)
-      let tmpFollowingMap = new Map(fllwingMap); 
-      tmpFollowingMap.set(userId, !fllwingMap.get(userId));
-      setFllwingMap(tmpFollowingMap);
-      return returnMesg;
+    .then(() => {
+      console.log(`following data updated, userId : ${userId}`)
+      // updating video uploader's followers list
+      return firestore().collection("user").doc(userId).update({
+        followers:[...allFollowers, uid+'']
+      })
+      .then(resp => {
+        console.log(``)
+        let tmpFollowingMap = new Map(fllwingMap); 
+        tmpFollowingMap.set(userId, !fllwingMap.get(userId));
+        setFllwingMap(tmpFollowingMap);
+        return returnMesg;
+      })
+      .catch(err => {
+        throw new Error(err);
+      })
     })
     .catch(err => {
-      throw new Error(err);
+      console.log(`${err}`);
+
     })
   };
 
