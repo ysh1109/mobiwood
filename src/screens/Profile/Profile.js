@@ -101,12 +101,15 @@ export default props => {
 
                 <View style={{flex:1}}>
                     <View style={{marginBottom:20}}>
-                      <View style={{backgroundColor:'red',height:windowHeight/5.5,width:windowWidth/3,alignSelf:'center',marginTop:20,borderRadius:1000}}>
+                      <View style={{backgroundColor:'red',height:windowHeight/5.5,
+                      width:windowWidth/3,alignSelf:'center',
+                      elevation:10,
+                      marginTop:20,borderRadius:1000}}>
 
                       
                         <Image
                             source={{uri: filePath.uri}}
-                            style={{height:windowHeight/5.5,width:windowWidth/3,alignSelf:'center',borderRadius:1000,resizeMode:'cover'}}
+                            style={{height:windowHeight/5.5,width:windowWidth/3,alignSelf:'center',borderRadius:1000,resizeMode:'cover',borderWidth:1}}
 
                         />
 
