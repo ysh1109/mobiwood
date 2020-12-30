@@ -36,6 +36,7 @@ const UserContextProvider = ({ children }) => {
   const [myVideos, setMyVideos] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [profilePhoto, setProfilePhoto] = useState('');
   const [vidShared, setVidShared] = useState('');
   const [likedVideosMap, setLikedVideosMap] = useState(new Map());
   const { userDetails, uid } = useContext(AuthContext);
@@ -56,7 +57,7 @@ const UserContextProvider = ({ children }) => {
         }
 
         Share.open(options)
-          .then(res => { console.log(res); })
+          .then(res => { console.log(res); analytics().logEvent('Normal_Share',{name:'normal_share_button'})})
           .catch(err => { err && console.log(err); });
     })
   };
@@ -79,6 +80,7 @@ const UserContextProvider = ({ children }) => {
           let likedVidMap = new Map();
           let tmpFllwingMp = new Map();
           setLikedVideos(userData.likedVideos);
+          setProfilePhoto(resp.photoURL)
           // console.log(`resp :${JSON.stringify(resp.data())}`);
           // console.log(`likedVideos : ${userData["likedVideos"]}`)
           // if(resp)
@@ -197,31 +199,25 @@ const UserContextProvider = ({ children }) => {
     }
     
     
-    console.log(`allFolowers : ${JSON.stringify(allFollowers)}`)
+    // console.log(`allFolowers : ${JSON.stringify(allFollowers)}`)
     //updating user's following list
-    return firestore().collection("user").doc(uid).update({
+    await firestore().collection("user").doc(uid).update({
       following: newFollowing,
+    });
+    // console.log(`following data updated`)
+    //updating video uploader's followers list
+    return firestore().collection("user").doc(userId).update({
+      followers:[...allFollowers, uid]
     })
-    .then(() => {
-      console.log(`following data updated, userId : ${userId}`)
-      // updating video uploader's followers list
-      return firestore().collection("user").doc(userId).update({
-        followers:[...allFollowers, uid+'']
-      })
-      .then(resp => {
-        console.log(``)
-        let tmpFollowingMap = new Map(fllwingMap); 
-        tmpFollowingMap.set(userId, !fllwingMap.get(userId));
-        setFllwingMap(tmpFollowingMap);
-        return returnMesg;
-      })
-      .catch(err => {
-        throw new Error(err);
-      })
+    .then(resp => {
+      // console.log(`YO`)
+      let tmpFollowingMap = new Map(fllwingMap); 
+      tmpFollowingMap.set(userId, !fllwingMap.get(userId));
+      setFllwingMap(tmpFollowingMap);
+      return returnMesg;
     })
     .catch(err => {
-      console.log(`${err}`);
-
+      throw new Error(err);
     })
   };
 
@@ -235,6 +231,8 @@ const UserContextProvider = ({ children }) => {
         myVideos:myVideos,
         following:following,
         followers:followers,
+        profilePhoto:profilePhoto,
+        setProfilePhoto:setProfilePhoto,
         updateFollowers:updateFollowers,
         handleShare:handleShare,
         setVidShared:setVidShared,
