@@ -77,7 +77,7 @@ export default props => {
               firestore()
                 .collection("user")
                 .doc(uid)
-                .update({photoURL:downloadURL})
+                .update({profile:downloadURL})
                 .then(() => {
                   console.log(`Profile photo has been linked!`)
                   if(Platform.OS==="android")
@@ -119,7 +119,7 @@ export default props => {
             </View>
             
           </Modal>
-            {alert(`userCont :  ${JSON.stringify(userDetails)}`)}
+            {console.log(`userCont :  ${JSON.stringify(userCont.profilePhoto)}`)}
             {userCont?
                 <>
                 
@@ -132,7 +132,7 @@ export default props => {
 
                       
                         <Image
-                            source={{uri: userCont.photoURL?userCont.photoURL:filePath.uri}}
+                            source={{uri: userCont.profilePhoto?userCont.profilePhoto:filePath.uri}}
                             style={{height:windowHeight/5.5,width:windowWidth/3,alignSelf:'center',borderRadius:1000,resizeMode:'cover',borderWidth:1}}
 
                         />
