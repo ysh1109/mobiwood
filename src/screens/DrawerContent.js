@@ -38,15 +38,15 @@ export default function DrawerContent(props){
                icon={({ color, size }) => (<Icon name="home-outline" color={'white'} size={25} /> )}
                labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:22,}}
                style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Construction')}}
+               onPress={() => {props.navigation.navigate('Home')}}
 			   
             />
             <DrawerItem 
-               label="Trending"
+               label="Profile"
                icon={({ color, size }) => (<Icon name="home-outline" color={'white'} size={25} /> )}
                labelStyle={[styles.labelStyle],{marginLeft:-20, color:'white', fontSize:22,}}
                style={[styles.drawerItemStyle],{marginRight:-10}}
-               onPress={() => {props.navigation.navigate('Construction')}}
+               onPress={() => {props.navigation.navigate('Profile')}}
             /> */}
              <DrawerItem 
                label="Contests"

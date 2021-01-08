@@ -39,7 +39,7 @@ const LoginScreen = ({navigation}) => {
                 source={require('../../assets/images/logo.png')}
                 style={styles.logo} 
                 />
-          <Text style={styles.heading}>Log In to Your Account</Text>
+          <Text style={[styles.heading]}>Log In to Your Account</Text>
           {/* <View style={styles.socialBtnContainer}>
            <Icon.Button
             name="google"
@@ -228,14 +228,18 @@ const LoginScreen = ({navigation}) => {
 
           <View style={[styles.altText, {marginTop:-20}]}>
           
-            <Text style={[styles.test], { fontSize:20, marginTop:-10, marginBottom:10, marginLeft:'auto', marginRight:'auto'}}>OR</Text>
-            <Text
-              onPress={() => navigation.navigate('Signup')}
-              style={[styles.txt, {fontWeight: 'bold', fontSize:22, backgroundColor:'#333', padding:18, color:'white', borderRadius:6}]}>
-              {' '}
-              Create an account
-            </Text>
+            <Text style={[styles.test], { fontSize:20, marginTop:-10, marginBottom:10, marginLeft:'auto', marginRight:'auto', fontWeight:'bold'}}>OR</Text>
             
+            
+            <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => navigation.navigate('Signup')}>
+
+              <Text style={{color:'white', fontSize:22, fontWeight:'bold', paddingTop:3}}>
+              Create an account
+              </Text> 
+              </TouchableOpacity>
+
           </View>
           
         </ScrollView>

@@ -11,14 +11,14 @@ export default ScaledSheet.create({
         fontSize: '20@s',
         color: Colors.SECONDARY,
         marginBottom:"15@ms",
-        ...Typography.FONT_BOLD,
+        fontWeight:'bold'
       },
     backgroundVideo:{ 
         width:wp('90%'),
         height:hp('30%'),
     },
     txt:{
-         ...Typography.FONT_BOLD,
+         
          marginBottom:"25@ms",
          marginTop:"10@ms",
          textAlign:"center",
@@ -27,10 +27,10 @@ export default ScaledSheet.create({
     label:{
         marginBottom:"10@ms",
         fontSize:"15@s",  
-        ...Typography.FONT_BOLD,
+        
     },
     containerStyles:{
-        marginBottom:"8@ms"
+        marginBottom:"8@ms",
     },
     error:{
         color:"#FF0000",
@@ -47,7 +47,7 @@ export default ScaledSheet.create({
         marginBottom:"15@ms"
       },
       btnText:{
-        ...Typography.FONT_BOLD,
+        
         fontSize: '15@s',
         color: "#f7fafc",
         alignSelf: 'center',

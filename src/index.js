@@ -66,7 +66,7 @@ const App = () => {
                 iconName = focused ? 'user' : 'user';
               }
               else if (route.name === 'Upload') {
-                iconName = focused ? 'upload' : 'upload';
+                iconName = focused ? 'plus-circle' : 'plus-circle';
               }
               else if (route.name === 'Search') {
                 iconName = focused ? 'search' : 'search';
@@ -86,7 +86,8 @@ const App = () => {
             backgroundColor: 'black',
             style:{
               backgroundColor: 'black',
-              borderTopWidth:0
+              borderTopWidth:0,
+              paddingTop:15
             }
           }}
           >
@@ -94,7 +95,7 @@ const App = () => {
             <Tab.Screen name="Search" component={!isSignedIn?UnauthorizedStack:ExploreScreen} />
             <Tab.Screen name="Upload" component={!isSignedIn?UnauthorizedStack:UploadScreen} />
             <Tab.Screen name="Notification" component={!isSignedIn?UnauthorizedStack:SettingsScreen} />
-            <Tab.Screen name="Profile" component={!isSignedIn?UnauthorizedStack:DrawerStack} />
+            <Tab.Screen options={{"unmountOnBlur":true}} name="Profile" component={!isSignedIn?UnauthorizedStack:DrawerStack} />
             
           </Tab.Navigator>
           :

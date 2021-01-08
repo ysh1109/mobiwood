@@ -83,7 +83,7 @@ export default function TNC(){
 
 const styles = ScaledSheet.create({
     listHeading:{
-        ...Typography.FONT_BOLD,
+       fontWeight:'bold',
         fontSize:"18@ms",
         color:"gray",
         marginTop:"10@ms",

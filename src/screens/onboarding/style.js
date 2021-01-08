@@ -33,12 +33,13 @@ export default ScaledSheet.create({
       color:Colors.PRIMARY
     },
     heading: {
-      ...Typography.FONT_BOLD,
+      
       fontSize: '20@s',
       color: Colors.SECONDARY,
       alignSelf: 'center',
       marginTop: '18@s',
       marginBottom: '10@s',
+      fontWeight:'bold'
     },
     formContainer:{
       paddingBottom:"30@ms",
@@ -57,13 +58,15 @@ export default ScaledSheet.create({
       padding:"18@ms",
       backgroundColor:"black",
       borderRadius:"7@ms",
-      alignItems:"center"
+      alignItems:"center",
+      height:70
     },
     btnText:{
-      ...Typography.FONT_BOLD,
+      
       fontSize: '15@s',
       color: "#f7fafc",
       alignSelf: 'center',
+      fontWeight:'bold'
     },
     terms:{
       fontSize:'15@s',
@@ -71,7 +74,8 @@ export default ScaledSheet.create({
     },
     txt:{
       fontSize:"15@s",
-      textAlign:"center"
+      textAlign:"center",
+      borderRadius:"7@ms",
     },
     altText:{
       paddingTop:"15@ms"
@@ -94,7 +98,7 @@ export default ScaledSheet.create({
       alignSelf:"center",
       borderRadius: "7@ms",
       padding:"15@ms",
-      flex:1
+      flex:1, paddingTop:50
     },
     modalContainer:{
         padding:"10@ms",

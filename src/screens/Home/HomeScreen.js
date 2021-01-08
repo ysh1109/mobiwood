@@ -103,7 +103,7 @@ export default HeaderIcon(function HomeScreen(){
       }
     }
     return(
-      <SafeAreaView style={{flex:1}}>
+      <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
         <Modal
         animationType="slide"
         transparent={true}
@@ -114,18 +114,18 @@ export default HeaderIcon(function HomeScreen(){
       >
         <View style={{justifyContent:'flex-end',flex:1, backgroundColor:'rgba(0,0,0,0.8)'}}>
             <View style={styles.centeredView}>
-              <Text style={{fontSize:24,textAlign:'center',margin:15,fontWeight:'700',color:'black'}}>Report Content</Text>
+              <Text style={{fontSize:24,textAlign:'center',margin:15,fontWeight:'700',color:'black', marginTop:30}}>Report Content</Text>
             <RadioButtonRN
                 data={data}
                 style={{width:'90%',alignSelf:'center'}}
                 selectedBtn={(e) => setReportValue(e)}
               />
-            <View style={{flexDirection:'row',justifyContent:'space-evenly',marginTop:25}}>
-              <TouchableOpacity onPress={()=>setModalVisible(false)} style={{justifyContent:'center'}}>
-                <Text style={{fontSize:24,fontWeight:'700',color:'red'}}>CANCEL</Text>
+            <View style={{flexDirection:'row',justifyContent:'space-evenly',marginTop:25, width:'90%', alignSelf:'center'}}>
+              <TouchableOpacity onPress={()=>setModalVisible(false)} style={{justifyContent:'center', width:'49%', borderRadius:10, backgroundColor:'black'}}>
+                <Text style={{fontSize:18,fontWeight:'700',color:'white', padding:10, width:'100%', textAlign:'center'}}>CANCEL</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={()=>handleReport()}>
-                <Text style={{fontSize:24,fontWeight:'700',color:'skyblue'}}>OK</Text>
+              <TouchableOpacity onPress={()=>handleReport()} style={{width:'49%',  color:'white', borderRadius:10, backgroundColor:'black'}}>
+                <Text style={{fontSize:18,fontWeight:'700',padding:20, textAlign:'center', color:'white', width:'100%'}}>OK</Text>
               </TouchableOpacity>
             </View>
             </View>

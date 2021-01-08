@@ -1,14 +1,15 @@
 
 import React,{useState} from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Image, SafeAreaView, Dimensions,ScrollView,ToastAndroid,ActivityIndicator, Platform} from 'react-native';
+import {View,StyleSheet,Text,TouchableOpacity,Image, SafeAreaView, Dimensions,ScrollView,ToastAndroid,ActivityIndicator, Platform, Alert} from 'react-native';
 //import HeaderIcon from '../../HOC/HeaderIcon.js';
 import Video from 'react-native-video';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker, {launchImageLibrary} from 'react-native-image-picker';
 import InputField from '../../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Checkbox from '@react-native-community/checkbox';
 import auth from '@react-native-firebase/auth';
 import {AuthContext} from '../../contexts/AuthContext.js';
+import {UserContext} from '../../contexts/UserContext.js';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -18,6 +19,7 @@ const windowHeight = Dimensions.get('window').height;
 const UploadScreen = (props) => {
     const [filePath, setFilePath] = useState({});
     const athCntxt = React.useContext(AuthContext);
+    const usrCntxt = React.useContext(UserContext);
     const [talent,setTalent] = useState('Acting');
     const [title, setTitle] = useState('');
     const [socialMedia,setSocialMedia] = useState("")
@@ -37,7 +39,7 @@ const UploadScreen = (props) => {
             },
             
         };
-        ImagePicker.showImagePicker(options, (response) => {
+        ImagePicker.launchImageLibrary(options, (response) => {
           console.log('Response = ', response);
     
           if (response.didCancel) {
@@ -139,6 +141,7 @@ const UploadScreen = (props) => {
                 description: desc,
                 title: title,
                 userId: athCntxt.uid,
+                profile: usrCntxt.profilePhoto,
                 displayName: athCntxt.userDetails.displayName,
                 userName : athCntxt.userDetails.username,
                 socialMedia: socialMedia,
@@ -161,7 +164,10 @@ const UploadScreen = (props) => {
                     .doc(vid)
                     .set(uploadData)
                     .then(() => {
+                      if(Platform.OS==="android")
                       ToastAndroid.show("Video Uploaded Successfully!", ToastAndroid.LONG);
+                      else
+                      Alert.alert(`Video Uploaded Successfully`);
                       setIsUploading(false);
                       // setTalent('');
                       setTitle('');
@@ -212,7 +218,7 @@ const UploadScreen = (props) => {
                 
             </View>
 
-            <View style={{alignSelf:'center',marginTop:15, paddingLeft:0}}>
+            <View style={{alignSelf:'center',marginTop:25, paddingLeft:0}}>
 
             <Text style={[styles.label], {marginLeft:0, marginBottom:10}}>Talent</Text>
             
@@ -249,7 +255,7 @@ const UploadScreen = (props) => {
                  containerStyles={{width:'100%'}}
             />
               
-            <Text style={[styles.label,{marginTop:20, marginLeft:0}]}>Write Something About The Video</Text>
+            <Text style={[styles.label,{marginTop:10, marginLeft:0}]}>Write Something About The Video</Text>
             <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"desc")}}                  //onBlur={handleBlur('email')}
@@ -257,14 +263,14 @@ const UploadScreen = (props) => {
                  containerStyles={{width:'100%'}}
                 />
 
-            <Text style={[styles.label,{marginTop:20, marginLeft:0}]}>Social Media With Highest Followers</Text>
+            <Text style={[styles.label,{marginTop:10, marginLeft:0}]}>Social Media With Highest Followers</Text>
              <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"social")}}                  //onBlur={handleBlur('email')}
                    value={socialMedia}
                  containerStyles={{width:'100%'}}
                 />
-             <Text style={[styles.label,{marginTop:20, marginLeft:0}]}>Follower Count On The platform</Text>
+             <Text style={[styles.label,{marginTop:10, marginLeft:0}]}>Follower Count On The platform</Text>
               <InputField
                   placeholderTextColor="#a0aec0"
                   onChangeText= {e=>{handleTextChange(e,"follower")}}                  //onBlur={handleBlur('email')}
@@ -276,12 +282,12 @@ const UploadScreen = (props) => {
               <Checkbox
                 value={isSelected}
                 onValueChange={setSelection}
-                checkboxSize={30}
-                CheckboxIconSize={30}     
-                style={styles.checkbox}
+                checkboxSize={20}
+                CheckboxIconSize={20}     
+                style={[styles.checkbox],{marginTop:0}}
                 // lineWidth={10}
               />
-              <Text style={{marginTop:28}}>Are you participating as a group?</Text>
+              <Text style={{marginTop:5, marginRight:10}}> Are you participating as a group?</Text>
       </View>
             <View style={{justifyContent:'space-around'}}>
             

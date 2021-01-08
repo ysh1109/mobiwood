@@ -43,7 +43,7 @@ export default function Contestregistration({navigation}) {
   const [selGender, setSelGender] = useState('');
   const [user, setUser] = useState('');
   const [uuid, setUuid] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const contestValidationSchema = yup.object().shape({
     name: yup.string().required('Name is Required'),
@@ -190,27 +190,27 @@ export default function Contestregistration({navigation}) {
             }) => (
               <>
                 <Text style={styles.label}>Name</Text>
-                <InputField
+                <InputField type="text"
                   onChangeText={handleChange('name')}
                   onBlur={handleBlur('name')}
                   value={values.name}
                   containerStyles={styles.containerStyles}
                 />
-                {errors.name && <Text style={styles.error}>{errors.name}</Text>}
+                {errors.name && <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.name}</Text>}
 
                 <Text style={styles.label}>Username</Text>
-                <InputField
+                <InputField  type="text"
                   onChangeText={handleChange('username')}
                   onBlur={handleBlur('username')}
                   value={values.username}
                   containerStyles={styles.containerStyles}
                 />
                 {errors.username && (
-                  <Text style={styles.error}>{errors.username}</Text>
+                  <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.username}</Text>
                 )}
 
                 <Text style={styles.label}>Email</Text>
-                <InputField
+                <InputField  type="text"
                   placeholderTextColor="#a0aec0"
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
@@ -218,11 +218,11 @@ export default function Contestregistration({navigation}) {
                   containerStyles={styles.containerStyles}
                 />
                 {errors.email && (
-                  <Text style={styles.error}>{errors.email}</Text>
+                  <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.email}</Text>
                 )}
 
                 <Text style={styles.label}>Mobile</Text>
-                <InputField
+                <InputField  type="text"
                   keyboardType="numeric"
                   onChangeText={handleChange('mno')}
                   onBlur={handleBlur('mno')}
@@ -230,7 +230,7 @@ export default function Contestregistration({navigation}) {
                   containerStyles={styles.containerStyles}
                 />
 
-                {errors.mno && <Text style={styles.error}>{errors.mno}</Text>}
+                {errors.mno && <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.mno}</Text>}
 
                 <Text style={styles.label}>Date of Birth</Text>
                 <TouchableOpacity
@@ -249,9 +249,9 @@ export default function Contestregistration({navigation}) {
                     onChange={onChange}
                   />
                 )}
-                {errors.dob && <Text style={styles.error}>{errors.dob}</Text>}
+                {errors.dob && <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.dob}</Text>}
 
-                <Text style={styles.label}>Gender</Text>
+                <Text style={[styles.label],{marginTop:10, fontSize:18, marginBottom:10}}>Gender</Text>
                 <DropDownPicker
                   items={[
                     {value: 'F', label: 'Female'},
@@ -270,38 +270,38 @@ export default function Contestregistration({navigation}) {
                   }}
                 />
                 {selGender === '' && (
-                  <Text style={styles.error}>{errors.selGender}</Text>
+                  <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.selGender}</Text>
                 )}
 
                 <Text style={styles.label}>Country</Text>
-                <InputField
+                <InputField  type="text"
                   onChangeText={handleChange('country')}
                   onBlur={handleBlur('country')}
                   value={values.country}
                   containerStyles={styles.containerStyles}
                 />
                 {errors.country && (
-                  <Text style={styles.error}>{errors.country}</Text>
+                  <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.country}</Text>
                 )}
 
                 <Text style={styles.label}>City</Text>
-                <InputField
+                <InputField  type="text"
                   onChangeText={handleChange('city')}
                   onBlur={handleBlur('city')}
                   value={values.city}
                   containerStyles={styles.containerStyles}
                 />
-                {errors.city && <Text style={styles.error}>{errors.city}</Text>}
+                {errors.city && <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.city}</Text>}
 
                 <Text style={styles.label}>Pincode</Text>
-                <InputField
+                <InputField  type="text"
                   keyboardType="numeric"
                   onChangeText={handleChange('pin')}
                   onBlur={handleBlur('pin')}
                   value={values.pin}
                   containerStyles={styles.containerStyles}
                 />
-                {errors.pin && <Text style={styles.error}>{errors.pin}</Text>}
+                {errors.pin && <Text style={[styles.error],{marginTop:-10, marginBottom:15, color:'red'}}>{errors.pin}</Text>}
 
                 {radio.map((res) => {
                   return (
@@ -341,6 +341,7 @@ export default function Contestregistration({navigation}) {
                       style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
+                        marginTop:50
                       }}>
                       <Text style={styles.heading}>Terms & Conditions</Text>
                       <Icon.Button
@@ -359,9 +360,10 @@ export default function Contestregistration({navigation}) {
 
                 <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
                   <Text style={styles.btnText}>
-                    Next
-                    <ActivityIndicator animating={isLoading} color="white" />
-                  </Text>
+                  Next <ActivityIndicator animating={isLoading} color="white" style={{position:'absolute', marginTop:25,  width:200, }} />
+                  
+                </Text>
+                 
                 </TouchableOpacity>
               </>
             )}
