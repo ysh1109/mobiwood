@@ -11,8 +11,8 @@ import {
   } from 'react-native-responsive-screen';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { UserContext } from '../contexts/UserContext';
-
-
+import CircleTop from './CircleTop.js';
+ 
 let codeBlock = "@abhishekgill";
 export default function ImageGrid(props){
     let flatListRef = null;
@@ -38,6 +38,10 @@ export default function ImageGrid(props){
               keyExtractor={(item, index) => index.toString()}
               renderItem = {({item, index}) =>  (
                 <View style={styles.imgContainer}> 
+                {index==0 ?
+                <CircleTop />
+                :null
+                }
                   <View style={{paddingTop:5}}>
                     {
                       !item.profile?

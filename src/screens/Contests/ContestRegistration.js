@@ -112,7 +112,7 @@ export default function Contestregistration({navigation}) {
       <View style={styles.formContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.heading}>Register for Contest</Text>
-
+ 
           <VideoPlayer
             video={video}
             thumbnail={{uri: 'https://i.picsum.photos/id/866/1600/900.jpg'}}
