@@ -72,7 +72,14 @@ const App = () => {
                 iconName = focused ? 'search' : 'search';
               }
               // You can return any component that you like here!
-              return <FeatherIcon name={iconName} size={25} color={color} style={{marginBottom:0}} />;
+              if(Platform.OS==='ios'){
+              return <FeatherIcon name={iconName} size={25} color={color} style={{marginBottom:0}} />
+              } 
+              if(Platform.OS==='android'){
+                return <FeatherIcon name={iconName} size={22} color={color} style={{marginBottom:18}} />
+                } 
+
+              ;
             },
           })}
           tabBarOptions={{

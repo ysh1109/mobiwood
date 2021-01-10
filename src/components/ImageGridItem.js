@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScaledSheet } from 'react-native-size-matters';
+import {Text}from 'react-native'
 import Video from 'react-native-video-player';
 import {
     widthPercentageToDP as wp,
@@ -12,8 +13,11 @@ export default props => {
             vidRef.pause();
     },[props.currentlyPlaying]);
     return (
-        <Video ref={inpt => vidRef = inpt} onStart={()=>{props.setPlaying(props.myIndex)}} onPlayPress={()=>{props.setPlaying(props.myIndex)}}  thumbnail={{uri:props.item.thumbnail}} video={{uri:props.item.videoUrl}} style={styles.img}/>
-    )
+        <>
+        <Video ref={inpt => vidRef = inpt} onStart={()=>{props.setPlaying(props.myIndex)}} onPlayPress={()=>{props.setPlaying(props.myIndex)}}  thumbnail={{uri:props.item.thumbnail}} video={{uri:props.item.videoUrl}}  resizeMode={"cover"}  style={styles.img}/>
+
+    </>
+        )
 }
 const styles = ScaledSheet.create({
     imageGrid:{
@@ -27,6 +31,6 @@ const styles = ScaledSheet.create({
     },
     img:{
         width:wp('100%'),
-        borderRadius:"0@ms"
+        borderRadius:"0@ms",
     }
 })
