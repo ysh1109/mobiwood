@@ -4,37 +4,38 @@ import Unorderedlist from 'react-native-unordered-list';
 import {Colors, Typography} from '../constants';
 import {ScaledSheet} from 'react-native-size-matters';
 import Bgimage from '../assets/images/circle.png';
-export default function Circles(navigation){
-    return(
-<ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                <View style={styles.circlewrapper}>
-                <TouchableOpacity style={styles.circlewrap}>
-                <ImageBackground source={Bgimage} style={styles.imgbackground}>
-                <Text style={styles.circles}>Contests</Text>
-                </ImageBackground> 
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.circlewrap}>
-                <ImageBackground source={Bgimage} style={styles.imgbackground}>
-                <Text style={styles.circles}>Jobs</Text>
-                </ImageBackground>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.circlewrap}>
-                <ImageBackground source={Bgimage} style={styles.imgbackground}>
-                <Text style={styles.circles}>News</Text>
-                </ImageBackground>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.circlewrap}>
-                <ImageBackground source={Bgimage} style={styles.imgbackground}>
-                <Text style={styles.circles}>Business</Text>
-                </ImageBackground>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.circlewrap}>
-                <ImageBackground source={Bgimage} style={styles.imgbackground}>
-                <Text style={styles.circles}>Learn</Text>
-                </ImageBackground>
-                </TouchableOpacity>
-                </View>
-                </ScrollView>
+import { useLinkProps } from '@react-navigation/native';
+export default function Circles(props){
+  return (
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <View style={styles.circlewrapper}>
+          <TouchableOpacity onPress={()=>{props.navigation.navigate("contestScreen")}} style={styles.circlewrap}>
+            <ImageBackground source={Bgimage} style={styles.imgbackground}>
+              <Text style={styles.circles}>Contests</Text>
+            </ImageBackground> 
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{props.navigation.navigate("underConstruction")}} style={styles.circlewrap}>
+            <ImageBackground source={Bgimage} style={styles.imgbackground}>
+              <Text style={styles.circles}>Jobs</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.circlewrap}>
+            <ImageBackground source={Bgimage} style={styles.imgbackground}>
+              <Text style={styles.circles}>News</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.circlewrap}>
+            <ImageBackground source={Bgimage} style={styles.imgbackground}>
+              <Text style={styles.circles}>Business</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.circlewrap}>
+            <ImageBackground source={Bgimage} style={styles.imgbackground}>
+              <Text style={styles.circles}>Learn</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
                 
 )
 } 
@@ -67,7 +68,8 @@ const styles = ScaledSheet.create({
     },
     circlewrap:
     {
-      marginLeft:10
+      margin:5,
+      // backgroundColor:'red',
     },
     circlewrapper:
     {

@@ -122,7 +122,7 @@ const UploadScreen = (props) => {
         let uploadTask = storage()
           .ref()
           .child("users/" + vid)
-          .putFile(filePath.path, metadata);
+          .putFile(filePath.uri, metadata);
         uploadTask.on(
           "state_changed",
           (snapshot) => {

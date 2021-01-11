@@ -13,11 +13,10 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { UserContext } from '../contexts/UserContext';
 import CircleTop from './CircleTop.js';
  
-let codeBlock = "@abhishekgill";
 export default function ImageGrid(props){
     let flatListRef = null;
     const [currentVisibleVideo, setCurrentVisibleVideo] = React.useState(0);
-    const [currentlyPlaying, setCurrentlyPlaying] = React.useState(null);
+    const [currentlyPlaying, setCurrentlyPlaying] = React.useState(0);
     const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 70});
     const videoContext = React.useContext(VideosContext);
     const usrCntxt = React.useContext(UserContext);
@@ -39,7 +38,7 @@ export default function ImageGrid(props){
               renderItem = {({item, index}) =>  (
                 <View style={styles.imgContainer}> 
                 {index==0 ?
-                <CircleTop />
+                <CircleTop navigation={props.navigation} />
                 :null
                 }
                   <View style={{paddingTop:5}}>
@@ -61,7 +60,7 @@ export default function ImageGrid(props){
                       />
                     </TouchableOpacity>
                   </View>
-                  <ImageGridItem item={item} myIndex={index} setPlaying={setCurrentlyPlaying} currentlyPlaying={currentlyPlaying} />
+                  <ImageGridItem item={item} currentVisibleVideo={currentVisibleVideo} myIndex={index} setPlaying={setCurrentlyPlaying} currentlyPlaying={currentlyPlaying} />
                   <View style={{paddingLeft:20, marginTop:12, marginBottom:20, display:'flex', flexDirection:'row'}}>
                     <TouchableOpacity onPress={()=>{
                       usrCntxt.updateLikes(item.id, videoContext.vidLikesMap.get(item.id)).then(reslt => {
