@@ -3,35 +3,35 @@ import {View,Text,ScrollView,TouchableOpacity,ImageBackground, Platform} from 'r
 import Unorderedlist from 'react-native-unordered-list';
 import {Colors, Typography} from '../constants';
 import {ScaledSheet} from 'react-native-size-matters';
-import Bgimage from '../assets/images/circle.png';
+import ContestsImage from '../assets/images/contests.png';
+import JobsImage from '../assets/images/jobs.png';
+import NewsImage from '../assets/images/news.png';
+import BusinessImage from '../assets/images/business.png';
+import LearnImage from '../assets/images/learn.png';
+
 import { useLinkProps } from '@react-navigation/native';
 export default function Circles(props){
   return (
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View style={styles.circlewrapper}>
-          <TouchableOpacity onPress={()=>{props.navigation.navigate("contestScreen")}} style={styles.circlewrap}>
-            <ImageBackground source={Bgimage} style={styles.imgbackground}>
-              <Text style={styles.circles}>Contests</Text>
+          <TouchableOpacity onPress={()=>{props.navigation.navigate("contestScreenHome")}} style={styles.circlewrap}>
+            <ImageBackground source={ContestsImage} style={styles.imgbackground}>
             </ImageBackground> 
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>{props.navigation.navigate("underConstruction")}} style={styles.circlewrap}>
-            <ImageBackground source={Bgimage} style={styles.imgbackground}>
-              <Text style={styles.circles}>Jobs</Text>
+            <ImageBackground source={JobsImage} style={styles.imgbackground}>
             </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.circlewrap}>
-            <ImageBackground source={Bgimage} style={styles.imgbackground}>
-              <Text style={styles.circles}>News</Text>
+          <TouchableOpacity onPress={()=>{props.navigation.navigate("underConstruction")}} style={styles.circlewrap}>
+            <ImageBackground source={NewsImage} style={styles.imgbackground}>
             </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.circlewrap}>
-            <ImageBackground source={Bgimage} style={styles.imgbackground}>
-              <Text style={styles.circles}>Business</Text>
+          <TouchableOpacity onPress={()=>{props.navigation.navigate("underConstruction")}} style={styles.circlewrap}>
+            <ImageBackground source={BusinessImage} style={styles.imgbackground}>
             </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.circlewrap}>
-            <ImageBackground source={Bgimage} style={styles.imgbackground}>
-              <Text style={styles.circles}>Learn</Text>
+          <TouchableOpacity onPress={()=>{props.navigation.navigate("underConstruction")}} style={styles.circlewrap}>
+            <ImageBackground source={LearnImage} style={styles.imgbackground}>
             </ImageBackground>
           </TouchableOpacity>
         </View>

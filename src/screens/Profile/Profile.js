@@ -58,7 +58,7 @@ export default props => {
         let uploadTask = storage()
         .ref()
         .child("profile/" + imgName)
-        .putFile(Platform.OS==="ios"?source.path:source.uri, metadata);
+        .putFile(Platform.OS==="ios"?source.uri.substr(7):source.uri, metadata);
         setFilePath(source);
         uploadTask.on(
           "state_changed",
@@ -131,7 +131,6 @@ export default props => {
                         <Image
                             source={{uri: userCont.profilePhoto?userCont.profilePhoto:filePath.uri}}
                             style={{width:150, height:150,alignSelf:'center',borderRadius:1000,resizeMode:'cover',borderWidth:1}}
-
                         />
 
                     <TouchableOpacity

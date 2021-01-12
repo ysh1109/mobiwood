@@ -11,7 +11,7 @@ export default ScaledSheet.create({
         fontSize: '20@s',
         color: Colors.SECONDARY,
         marginBottom:"15@ms",
-        fontWeight:'bold'
+        fontWeight:'bold',
       },
     backgroundVideo:{ 
         width:wp('90%'),

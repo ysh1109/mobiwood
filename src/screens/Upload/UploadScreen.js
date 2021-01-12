@@ -86,11 +86,20 @@ const UploadScreen = (props) => {
 
     const validations = () => {
        if(desc== "" || follower==""||socialMedia=="") {
-        ToastAndroid.show("Fill all the details before Uploading", ToastAndroid.LONG);
+         if(Platform.OS==="android")
+            ToastAndroid.show("Fill all the details before Uploading", ToastAndroid.LONG);
+          else 
+            Alert.alert(`Fill all the details before uploading`)
         return false;
       }
-      if(!filePath.uri||!filePath.path)
-        ToastAndroid.show(`Add a Video First!`, ToastAndroid.LONG);
+      if(!filePath.uri&&!filePath.path)
+      {
+        if(Platform.OS==="android")
+          ToastAndroid.show(`Add a Video First!`, ToastAndroid.LONG);
+        else
+          Alert.alert(`No Video Added!`);
+
+      }
       else {
         return true;
       }
@@ -114,15 +123,13 @@ const UploadScreen = (props) => {
         // }
         // var vid = localStorage.getItem("");
         let vid = new Date().getTime()+"_"+parseInt(Math.random()*10000)
-        let metadata = {
-          contentType: "video/quicktime",
-        };
-        // alert(`filePath : ${filePath}`)
+        
+        // console.log(`filePath.path : ${filePath.path} filePath.uri : ${filePath.uri.substr(7)}`)
         setIsUploading(true);
         let uploadTask = storage()
           .ref()
           .child("users/" + vid)
-          .putFile(filePath.uri, metadata);
+          .putFile(Platform.OS==="android"?filePath.uri:filePath.uri.substr(7));
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -185,7 +192,9 @@ const UploadScreen = (props) => {
 
     return(
       <SafeAreaView style={{flex:1}}>
-        <ScrollView style={{flex:1}}>
+        <ScrollView style={{flex:1}}
+          showsVerticalScrollIndicator={false}
+        >
           {!isUploading?<View>
               <View style={styles.uploadView}>
             <Text style={{textAlign:'center',fontSize:24,padding:20, display:'none'}}>Upload A Video</Text>
@@ -222,7 +231,7 @@ const UploadScreen = (props) => {
 
             <Text style={[styles.label], {marginLeft:0, marginBottom:10}}>Talent</Text>
             
-              <View style={{height:50}}>
+              <View style={{height:50, zIndex:2}}>
                 <DropDownPicker
                     items={[
                       {value: 'Acting', label: 'Acting'},
@@ -298,15 +307,13 @@ const UploadScreen = (props) => {
             </View>
 
             </View>
-            </View>:
+            </View>
+            :
             <View style={{justifyContent:'center',flex:1,alignSelf:'center',marginTop:windowHeight/2.5}}>
               <ActivityIndicator color="black" size="large"/>
                 <Text style={{ fontSize: 18,alignSelf:'center' }}>{uploadPercent} %</Text>
                 </View>
-               }
-          
-            
-            
+            } 
         </ScrollView>
       </SafeAreaView>
     )
@@ -364,7 +371,7 @@ const styles  = StyleSheet.create ({
     checkbox: {
       alignSelf: "center",
       marginTop:Platform.OS==="ios"?25:20,
-      height:Platform.OS==="ios"?20:30,
+      height:Platform.OS==="ios"?10:30,
     },
     label: {
       margin: 8,
