@@ -1,9 +1,13 @@
 import React,{useState} from 'react';
-import {View, Text, Image, SafeAreaView, StyleSheet, ToastAndroid, FlatList, Dimensions, Modal, TouchableOpacity, Platform, Alert} from 'react-native';
+import {View, Text, Image, ActivityIndicator, SafeAreaView, StyleSheet, ToastAndroid, FlatList, Dimensions, Modal, TouchableOpacity, Platform, Alert} from 'react-native';
 import {UserContext} from '../../contexts/UserContext.js';
 import {AuthContext} from "../../contexts/AuthContext.js";
 import {VideosContext} from '../../contexts/VideosContext.js';
+
 import VideoPlayer from 'react-native-video-player';
+
+import VideoDisplayModal from '../../components/VideoDisplayModal.js';
+
 import ImagePicker from 'react-native-image-picker';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import firestore from '@react-native-firebase/firestore';
@@ -12,60 +16,52 @@ import storage from '@react-native-firebase/storage';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 export default props => {
-    let userCont = React.useContext(UserContext);
+    const [userCont, setUserCont] = useState(null);
+    const usrCntxt = React.useContext(UserContext);
+    const [vidObj, setVidObj] = useState(vidObj);
     const vidCntxt = React.useContext(VideosContext);
+    const [followProcessing, setFollowProcessing] = useState(false);
+    const [currentUserID, setCurrentUserID] = useState(null);
     const { userDetails, uid } = React.useContext(AuthContext);
-
-    const showVideos = () => {
-      // console.log(`videodata received from context is : ${JSON.stringify(vidCntxt.videos)}`)
-      // firestore().collection("user").doc(uid).collection("videos").get().then(resp => {
-      //   resp.forEach(item => {
-      //     console.log(`resp from Profile.js : ${JSON.stringify(item.data())}`);
-      //     console.log(`********************************`)
-      //     console.log(`ID of the video is : ${item.id}`);
-      //     console.log(`********************************`)
-
-      //   })
-      // })
-    }
-
-    const deleteVideo = (vidId) => {
-      Alert.alert("Are you Sure?", "Delete This Video?", [{text:'NO', onPress:()=>{}}, {text:'YES', onPress:()=>{
-        firestore().collection("user").doc(uid).collection("videos").doc(vidId).delete().then(resp => {
-          firestore().collection("contest").doc(vidId).delete().then(resp => {
-            if(Platform.OS === "android")
-              ToastAndroid.show(`Video Removed Successfully!`, ToastAndroid.LONG);
-            else
-              Alert.alert(`Video Removed Successfully`);
-            vidCntxt.fetchLimitedVideos();
-          });
-        });
-      }}])
-      
-    }
-
     React.useEffect(()=>{
         // userCont.updateFollowers();
-        showVideos();
+        async function getData(){
+            let tmp = {};
+            await firestore().collection("user").doc(vidCntxt.viewProfile).get().then(resp => {
+                tmp.followers = resp.data().followers;
+                tmp.following = resp.data().following;
+                tmp.profilePhoto = resp.data().profile;
+            });
+            let vidArray = [];
+            let vidObj = await firestore().collection("user").doc(vidCntxt.viewProfile).collection("videos")
+            let vids = await vidObj.get();
+            vids.forEach(vid => {
+
+                let y = vid.data();
+                y.id = vid.id;
+                y.userid = vidCntxt.viewProfile;
+                vidArray.push(vid.data());
+                console.log(`vid from vids array : ${JSON.stringify(vid.data())}`)
+            })
+            tmp.myVideos = vidArray;
+            setUserCont(tmp);
+
+        }
+        getData();
     },[])
 
-    
+    const HandleClick = (item) => {
+        setVidObj(item)
+        setModalVisible(true);
+      }
       
  
   const [modalVisible, setModalVisible] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
   const [thumbnail,setThumbnail] = useState('');
-  const [activeVidID, setActiveVidID] = useState(null);
   const [filePath, setFilePath] = useState({});
   const [uploadPercent, setUploadPercent] = useState(0);
 
-  const HandleClick = (e,t, id) => {
-    // console.log(`videoUrl : ${e}`)
-    setVideoUrl(e);
-    setThumbnail(t);
-    setActiveVidID(id);
-    setModalVisible(true);
-  }
 
   const chooseFile = () => {
     let options = {
@@ -128,7 +124,6 @@ export default props => {
 
     return (
         <SafeAreaView style={{flex:1}}>
-        
         <Modal
             animationType="fade"
             transparent={true}
@@ -139,50 +134,64 @@ export default props => {
               setVideoUrl('');
             }}
           >
-            <View style={{justifyContent:'center',flex:1, backgroundColor:'rgba(0,0,0,0.8)'}}>
-                <View style={styles.centeredView}>
-                  <TouchableOpacity onPress={()=>{setModalVisible(false)}} style={{backgroundColor:'white', borderRadius:1000, borderWidth:2, borderColor:'black', position:'absolute', zIndex:10, top:-10, right:-10, alignSelf:'flex-end'}}>
-                  
-                    <FeatherIcon  name='x' size={30} color='grey' />
-                  </TouchableOpacity>
-                  <VideoPlayer
-                    video={{uri:videoUrl}}
-                    style={{height:windowHeight/1.45,width:windowWidth-50, borderTopStartRadius:20, borderTopEndRadius:20}}
-                    thumbnail={{uri: thumbnail}}
-                  />
-                  <TouchableOpacity onPress={()=>{
-                    deleteVideo(activeVidID);
-                  }} style={{padding:10, backgroundColor:'red', borderRadius:5, marginTop:3}}>
-                    <Text style={{color:'white'}}>Delete Video</Text>
-                  </TouchableOpacity>
-                </View>
-            </View>
-            
+            <VideoDisplayModal vidObj={vidObj} setModalVisible={setModalVisible} followProcessing={followProcessing} setFollowProcessing={setFollowProcessing} />
+
           </Modal>
             {/* {console.log(`userCont :  ${JSON.stringify(userCont.profilePhoto)}`)} */}
+            <View style={{flex:0.05}}>
+                <TouchableOpacity onPress={()=>props.navigation.goBack()} style={{marginTop:10, alignSelf:'flex-start', marginLeft:10}}>
+                    <FeatherIcon  name='chevron-left' size={30} color='black' />
+                </TouchableOpacity>
+            </View>
             {userCont?
                 <>
                 
-                <View style={{flex:1}}>
+                <View style={{flex:0.95}}>
                     <View style={{marginBottom:20}}>
                       <View style={{backgroundColor:'black',borderRadius:1000, width:150, height:150,alignSelf:'center', marginTop:20}}>
 
                       
-                        <Image
+                        {userCont.profilePhoto?<Image
                             source={{uri: userCont.profilePhoto?userCont.profilePhoto:filePath.uri}}
                             style={{width:150, height:150,alignSelf:'center',borderRadius:1000,resizeMode:'cover',borderWidth:1}}
                         />
+                        :
+                            <Image
+                            source={require('../../assets/images/user-placeholder.png')}
+                            style={{width:150, height:150,alignSelf:'center',borderRadius:1000,resizeMode:'cover',borderWidth:1}}
+                        />
+                        }
 
-                    <TouchableOpacity
-                          activeOpacity={0.5}
-                          style={{backgroundColor:'black',width:30, height:30, padding:5.5, alignSelf:'flex-end',top:-windowHeight/20,borderRadius:200}}
-                          onPress={chooseFile}>
-                               <FeatherIcon name="plus" size={20} color={'white'} />
-                            
-                        </TouchableOpacity>
                       </View>
-                
-                        <Text style={{fontSize:20,fontWeight:'700',alignSelf:'center', marginBottom:10,marginTop:20}}>{userDetails.providerData[0].displayName}</Text>
+
+
+
+                            <TouchableOpacity style={[styles.followBtnContainer, {backgroundColor:usrCntxt.fllwingMap.get(vidCntxt.viewProfile)?'grey':'#a70624', }]} onPress={()=>{
+                            setFollowProcessing(true);
+                            usrCntxt.updateFollowing(usrCntxt.fllwingMap.get(vidCntxt.viewProfile)?"unfollow":"follow", vidCntxt.viewProfile).then(resp=>{
+                              if(resp === "followed"||resp === "unfollowed")
+                              {
+                                setFollowProcessing(false);
+                                if(Platform.OS === "android")
+                                {  
+                                  if(resp === "followed")
+                                    ToastAndroid.show("Following", ToastAndroid.LONG)
+                                  else
+                                    ToastAndroid.show("Unfollowed", ToastAndroid.LONG)
+                                }
+                              }
+                            })
+                          }}>
+                            <Text style={[styles.followBtn]}>
+                              {followProcessing?<ActivityIndicator size={34} color="white" />
+                              :
+                              usrCntxt.fllwingMap.get(vidCntxt.viewProfile)?'Following':'Follow'}
+                            </Text>
+                          </TouchableOpacity>
+
+
+
+                        <Text style={{fontSize:20,fontWeight:'700',alignSelf:'center', marginBottom:10,marginTop:20}}>{vidCntxt.viewDisplayName}</Text>
                         <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:5}}>
                                 <Text style={{fontSize:16,fontWeight:'600'}}>Followers : {userCont.followers&&userCont.followers.length!=0?userCont.followers.length:0} </Text>
                                 <Text style={{fontSize:16,fontWeight:'600'}}>Following : {userCont.following&&userCont.following.length!=0?userCont.following.length:0} </Text>
@@ -192,13 +201,12 @@ export default props => {
                     {/* {console.log(`MYVIDEOS : ${JSON.stringify(userCont.myVideos)}`)} */}
                     {userCont.myVideos!=""? 
                     <FlatList 
-                        data={vidCntxt.videos.filter(item=>item.userid === uid)}
+                        data={userCont.myVideos}
                         numColumns={3}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({item, index})=>(
                             <View key={index}  style={styles.layoutA}>
-                                {console.log(item)}
-                                <TouchableOpacity onPress={()=>HandleClick(item.videoUrl,item.thumbnail, item.id)} >
+                                <TouchableOpacity onPress={()=>HandleClick(item)} >
                                 <Image
                             source={item.thumbnail?{uri:item.thumbnail}:(require('../../assets/images/loading.jpg'))}
                             style={{height:"100%",width:"100%"}}
@@ -214,8 +222,9 @@ export default props => {
                 
                 </>
                 :
-                <View>
-                    <Text>HELLO</Text>
+                <View style={{justifyContent:"center", flex:1,}}>
+                  <ActivityIndicator  animating={true} color="black" />
+                  <Text style={{alignItems:'center', alignSelf:'center', marginTop:10}}>Fetching Profile Details..</Text>
                 </View>
             }
         </SafeAreaView>
@@ -226,8 +235,25 @@ export default props => {
 const styles = StyleSheet.create({
     layoutA :{height:150,width:windowWidth/3,backgroundColor:'black'},
     layoutB:{height:150,width:windowWidth/3,backgroundColor:'white'} ,
+    followBtnContainer:{
+      paddingHorizontal:10,
+      height:33,
+      alignSelf:'center',
+      marginTop:20,
+      width:95,
+      textAlign:'center',
+      display:'flex',
+      alignItems:'center',
+      borderRadius:6,
+      paddingVertical:5, 
+    },
+    followBtn:{
+      color:'white', 
+      fontSize:17, 
+      fontWeight:'600',
+    },
     centeredView: {
-        height:windowHeight/1.35,
+        height:windowHeight/1.4,
         width:windowWidth-50,
         justifyContent:'center',
         alignSelf:'center',
